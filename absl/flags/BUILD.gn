@@ -58,6 +58,7 @@ source_set("marshalling") {
 
 # absl/flags/BUILD.bazel:107
 source_set("commandlineflag_internal") {
+  visibility = ["$abseil/:*"]
   sources = ["internal/commandlineflag.cc"]
   public = ["internal/commandlineflag.h"]
   deps = [
@@ -112,6 +113,7 @@ source_set("reflection") {
 
 # absl/flags/BUILD.bazel:187
 source_set("flag_internal") {
+  visibility = ["$abseil/:*"]
   sources = ["internal/flag.cc"]
   public = ["internal/flag.h"]
   deps = [
@@ -151,6 +153,7 @@ source_set("flag") {
 
 # absl/flags/BUILD.bazel:237
 source_set("usage_internal") {
+  visibility = ["$abseil/:*"]
   sources = ["internal/usage.cc"]
   public = ["internal/usage.h"]
   deps = [

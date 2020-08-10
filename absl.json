@@ -16,5 +16,11 @@
     "linkopts": {
       "ABSL_DEFAULT_LINKOPTS": null
     }
-  }
+  },
+  "hidden_targets": [
+    "*/internal/*:*",
+    "*/internal:*",
+    "*:internal",
+    "*:*_internal"
+  ]
 }

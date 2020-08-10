@@ -110,6 +110,7 @@ executable("failure_signal_handler_test") {
 
 # absl/debugging/BUILD.bazel:165
 source_set("debugging_internal") {
+  visibility = ["$abseil/:*"]
   sources = [
     "internal/address_is_readable.cc",
     "internal/elf_mem_image.cc",
@@ -131,6 +132,7 @@ source_set("debugging_internal") {
 
 # absl/debugging/BUILD.bazel:188
 source_set("demangle_internal") {
+  visibility = ["$abseil/:*"]
   sources = ["internal/demangle.cc"]
   public = ["internal/demangle.h"]
   deps = [

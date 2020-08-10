@@ -31,6 +31,7 @@ source_set("log_severity") {
 
 # absl/base/BUILD.bazel:66
 source_set("raw_logging_internal") {
+  visibility = ["$abseil/:*"]
   sources = ["internal/raw_logging.cc"]
   public = ["internal/raw_logging.h"]
   deps = [
@@ -93,6 +94,7 @@ source_set("core_headers") {
 
 # absl/base/BUILD.bazel:152
 source_set("malloc_internal") {
+  visibility = ["$abseil/:*"]
   sources = ["internal/low_level_alloc.cc"]
   public = [
     "internal/direct_mmap.h",
@@ -110,6 +112,7 @@ source_set("malloc_internal") {
 
 # absl/base/BUILD.bazel:180
 source_set("base_internal") {
+  visibility = ["$abseil/:*"]
   public = [
     "internal/hide_ptr.h",
     "internal/identity.h",

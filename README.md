@@ -15,8 +15,10 @@ This project generates Abseil build files so that Abseil can serve as a
 library embedded in another GN-managed project. Therefore, it does not transpile
 Bazel build settings stored in `WORKSPACE` and `*.bzl` files etc.
 
-:warning: Note the Abseil sources are not checked into this repository, so you
-need to update the repository first (see below).
+## Before using
+
+:warning: The Abseil source code was not checked in, so you should update this
+repository first (see below).
 
 ## Prerequisites
 
@@ -28,8 +30,8 @@ need to update the repository first (see below).
 Working directory: at root of this repository.
 
 ```bash
-# Fetch Abseil and update *.gn files.
-$ ./update.sh # add "-r" to skip re-cloning the upstream repository.
+# Fetch Abseil source and update *.gn files
+$ ./update.sh # add "-r" to skip fetching the Abseil source.
 ```
 
 ## Explore alternative actions

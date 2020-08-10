@@ -6,6 +6,7 @@
 
 # absl/synchronization/BUILD.bazel:30
 source_set("graphcycles_internal") {
+  visibility = ["$abseil/:*"]
   sources = ["internal/graphcycles.cc"]
   public = ["internal/graphcycles.h"]
   deps = [
@@ -20,6 +21,7 @@ source_set("graphcycles_internal") {
 
 # absl/synchronization/BUILD.bazel:53
 source_set("kernel_timeout_internal") {
+  visibility = ["$abseil/:*"]
   public = ["internal/kernel_timeout.h"]
   deps = [
     "$abseil/absl/base:core_headers",

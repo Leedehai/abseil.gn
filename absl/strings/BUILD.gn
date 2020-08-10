@@ -58,6 +58,7 @@ source_set("strings") {
 
 # absl/strings/BUILD.bazel:83
 source_set("internal") {
+  visibility = ["$abseil/:*"]
   sources = [
     "internal/escaping.cc",
     "internal/ostringstream.cc",
@@ -196,6 +197,7 @@ executable("string_view_test") {
 
 # absl/strings/BUILD.bazel:254
 source_set("cord_internal") {
+  visibility = ["$abseil/:*"]
   public = ["internal/cord_internal.h"]
   deps = [
     ":strings",
@@ -486,6 +488,7 @@ source_set("str_format") {
 
 # absl/strings/BUILD.bazel:619
 source_set("str_format_internal") {
+  visibility = ["$abseil/:*"]
   sources = [
     "internal/str_format/arg.cc",
     "internal/str_format/bind.cc",

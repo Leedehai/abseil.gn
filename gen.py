@@ -27,6 +27,7 @@ import argparse
 import ast
 import contextlib
 import datetime
+import fnmatch
 import io
 import json
 import os
@@ -53,6 +54,7 @@ BAZEL_BASENAMES = [
 PROFILE_TARGET_MAPPING = "target_mapping"
 PROFILE_ROOT_REPLACERS = "root_replacers"
 PROFILE_VARIABLES = "variable_expansions"
+PROFILE_HIDDEN_TARGETS = "hidden_targets"
 
 INTERESTED_ATTRS = {
     "name": None,
@@ -62,6 +64,10 @@ INTERESTED_ATTRS = {
     "deps": "deps",
     "copts": "cflags",
     "linkopts": "ldflags",
+    # NOTE No "visibility" here, as Bazel has a more complicated visibility
+    # syntax than GN's "visibility" and it is hard to translate. In the
+    # generated GN, the default visibility is ["*"] (no restriction), unless
+    # the target appears in profile's "hidden_targets" glob pattern list.
 }
 
 
@@ -110,14 +116,17 @@ def maybe_get_repo_info(dir_path: Path) -> Optional[str]:
     with open(info_txt, 'r') as f:
         return f.read().strip().replace("\n", " ")
 
+
 def is_constant_node(node) -> bool:
     # ast.Num, ast.Str, ast.NameConstant are deprecated since Python 3.8 (though
     # still available for a while), and all constants are classified as
     # ast.Constant since then.
     try:
-        return isinstance(node, (ast.Constant, ast.Num, ast.Str, ast.NameConstant))
-    except AttributeError: # ast.Num, ast.Str, ast.NameConstant are unavailable.
+        return isinstance(node,
+                          (ast.Constant, ast.Num, ast.Str, ast.NameConstant))
+    except AttributeError:  # ast.Num, ast.Str, ast.NameConstant are unavailable.
         return isinstance(node, ast.Constant)
+
 
 def extract_constant_node(node) -> Any:
     # ast.Num, ast.Str, ast.NameConstant are deprecated since Python 3.8 (though
@@ -132,7 +141,7 @@ def extract_constant_node(node) -> Any:
             return cast(ast.Str, node).s
         if isinstance(node, ast.NameConstant):
             return cast(ast.NameConstant, node).value
-    except AttributeError: # ast.Num, ast.Str, ast.NameConstant are unavailable.
+    except AttributeError:  # ast.Num, ast.Str, ast.NameConstant are unavailable.
         raise NotImplementedError("unhandled constant node: %s" % type(node))
 
 
@@ -153,17 +162,16 @@ def read_bazel_build(source: io.TextIOWrapper,
             continue
         kwargs = {}
         for kwarg in call.keywords:
-            attr: str = kwarg.arg
-            if attr not in INTERESTED_ATTRS:
+            attr: Optional[str] = kwarg.arg
+            if attr == None or attr not in INTERESTED_ATTRS:
                 continue
             value = kwarg.value
             if is_constant_node(value):
                 kwargs[attr] = extract_constant_node(value)
             elif isinstance(value, ast.List):
                 kwargs[attr] = [
-                    rectify_label_str(
-                        extract_constant_node(e),
-                        profile.get(PROFILE_ROOT_REPLACERS, {}))
+                    rectify_label_str(extract_constant_node(e),
+                                      profile.get(PROFILE_ROOT_REPLACERS, {}))
                     for e in value.elts
                 ]
             elif isinstance(value, ast.Name):
@@ -186,25 +194,32 @@ def read_bazel_build(source: io.TextIOWrapper,
     return calls, has_printout
 
 
-def make_gn_build(source_path: Path, repo_info: Optional[str],
-                  data_list: List[dict], target_type_mapping: dict,
-                  verbose: bool) -> str:
+def make_gn_build(source_relpath: Path, repo_info: Optional[str],
+                  data_list: List[dict], profile: dict, verbose: bool) -> str:
     ss = io.StringIO()
-    source_path_prettified = prettify_path_str(source_path)
     ss.write("# Copyright (c) %d Leedehai. All rights reserved.\n" % GEN_YEAR)
     ss.write("# Use of this source code is governed under the MIT license.\n")
     ss.write("# Generated file. Do not modify manually.\n")
     if repo_info:
         ss.write("# upstream: %s\n" % repo_info)
-    ss.write("# file: %s\n\n" % source_path_prettified)
+    ss.write("# file: %s\n\n" % source_relpath)
     num_targets = len(data_list)
     if num_targets == 0:
         ss.write("# (empty)\n")
         return ss.getvalue()
 
+    target_type_mapping = profile.get(PROFILE_TARGET_MAPPING, {})
+    hidden_target_globs = profile.get(PROFILE_HIDDEN_TARGETS, [])
+    proj_root_replacer = profile.get(PROFILE_ROOT_REPLACERS, {"//": "//"})["//"]
     for i, item_dict in enumerate(data_list):
         gn_target_type = target_type_mapping[item_dict["type"]]
         gn_target_name = item_dict["name"]
+        gn_target_label = str(source_relpath.parent) + ":" + gn_target_name
+        private_visibility_cause = None
+        for glob_s in hidden_target_globs:
+            if fnmatch.fnmatch(gn_target_label, glob_s):
+                private_visibility_cause = glob_s
+                break
         gn_attrs = {}
         for in_attr, value in item_dict.items():
             if in_attr in ["type", "name", "lineno"]:
@@ -212,8 +227,10 @@ def make_gn_build(source_path: Path, repo_info: Optional[str],
             if value == None:
                 continue
             gn_attrs[INTERESTED_ATTRS[in_attr]] = value
-        ss.write("# %s:%d\n" % (source_path_prettified, item_dict["lineno"]))
+        ss.write("# %s:%d\n" % (source_relpath, item_dict["lineno"]))
         ss.write("%s(\"%s\") {\n" % (gn_target_type, gn_target_name))
+        if private_visibility_cause:
+            ss.write("  visibility = [\"%s:*\"]\n" % (proj_root_replacer))
         for k, v in gn_attrs.items():
             if isinstance(v, list):
                 ss.write("  %s = %s\n" % (k, stringify_list(sorted(v))))
@@ -230,15 +247,26 @@ def make_gn_build(source_path: Path, repo_info: Optional[str],
     return gn_content
 
 
-def gen_file(source_path: Path, repo_info: Optional[str], profile: dict,
+def gen_file(source_path: Path, repo_path: Optional[Path],
+             repo_info: Optional[str], profile: dict,
              verbose: bool) -> Tuple[Optional[str], bool]:
     with open(source_path, 'r') as f:
         data_list, has_printout = read_bazel_build(f, profile)
     if data_list == None:
         return None, has_printout
-    target_type_mapping = profile.get(PROFILE_TARGET_MAPPING, {})
-    return make_gn_build(source_path, repo_info, data_list, target_type_mapping,
-                         verbose), has_printout
+    if repo_path:
+        # NOTE Do not use Path.relative_to(), which cannot handle some cases
+        # that can be handled by os.path.relpath():
+        #   Path("a/b").relative_to(Path("c/d"))
+        #     => ValueError: 'a/b' does not start with 'c/d'
+        #   os.path.relpath("a/b", "c/d")
+        #     => "../../a/b"
+        source_relpath = Path(os.path.relpath(source_path, repo_path))
+    else:
+        source_relpath = Path(os.path.relpath(source_path))
+    gn_content = make_gn_build(source_relpath, repo_info, data_list, profile,
+                               verbose)
+    return gn_content, has_printout
 
 
 def work(args: argparse.Namespace) -> int:
@@ -250,7 +278,7 @@ def work(args: argparse.Namespace) -> int:
 
     input_path = Path(args.path)
     if input_path.is_file():
-        gn_content, _ = gen_file(input_path, None, profile, args.verbose)
+        gn_content, _ = gen_file(input_path, None, None, profile, args.verbose)
         if gn_content != None:
             print(gn_content)
             return 0
@@ -284,8 +312,8 @@ def work(args: argparse.Namespace) -> int:
             sys.stderr.write(status_str + "\n")
         else:
             sys.stderr.write("\x1b[1A\x1b[2K" + status_str + "\n")
-        gn_content, has_printout = gen_file(bazel_path, repo_info, profile,
-                                            args.verbose)
+        gn_content, has_printout = gen_file(bazel_path, input_path, repo_info,
+                                            profile, args.verbose)
         if has_printout and not args.verbose:
             sys.stderr.write("\n")  # Avoid being elided by "\x1b[1A\x1b[2K"
         if gn_content != None:

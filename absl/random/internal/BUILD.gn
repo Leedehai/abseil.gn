@@ -6,12 +6,14 @@
 
 # absl/random/internal/BUILD.bazel:35
 source_set("traits") {
+  visibility = ["$abseil/:*"]
   public = ["traits.h"]
   deps = ["$abseil/absl/base:config"]
 }
 
 # absl/random/internal/BUILD.bazel:43
 source_set("distribution_caller") {
+  visibility = ["$abseil/:*"]
   public = ["distribution_caller.h"]
   deps = [
     "$abseil/absl/base:config",
@@ -22,6 +24,7 @@ source_set("distribution_caller") {
 
 # absl/random/internal/BUILD.bazel:55
 source_set("fast_uniform_bits") {
+  visibility = ["$abseil/:*"]
   public = ["fast_uniform_bits.h"]
   deps = [
     "$abseil/absl/base:config",
@@ -31,6 +34,7 @@ source_set("fast_uniform_bits") {
 
 # absl/random/internal/BUILD.bazel:68
 source_set("seed_material") {
+  visibility = ["$abseil/:*"]
   sources = ["seed_material.cc"]
   public = ["seed_material.h"]
   deps = [
@@ -45,6 +49,7 @@ source_set("seed_material") {
 
 # absl/random/internal/BUILD.bazel:91
 source_set("pool_urbg") {
+  visibility = ["$abseil/:*"]
   sources = ["pool_urbg.cc"]
   public = ["pool_urbg.h"]
   deps = [
@@ -63,6 +68,7 @@ source_set("pool_urbg") {
 
 # absl/random/internal/BUILD.bazel:119
 source_set("explicit_seed_seq") {
+  visibility = ["$abseil/:*"]
   testonly = true
   public = ["explicit_seed_seq.h"]
   deps = ["$abseil/absl/base:config"]
@@ -70,6 +76,7 @@ source_set("explicit_seed_seq") {
 
 # absl/random/internal/BUILD.bazel:130
 source_set("sequence_urbg") {
+  visibility = ["$abseil/:*"]
   testonly = true
   public = ["sequence_urbg.h"]
   deps = ["$abseil/absl/base:config"]
@@ -77,6 +84,7 @@ source_set("sequence_urbg") {
 
 # absl/random/internal/BUILD.bazel:141
 source_set("salted_seed_seq") {
+  visibility = ["$abseil/:*"]
   public = ["salted_seed_seq.h"]
   deps = [
     ":seed_material",
@@ -89,6 +97,7 @@ source_set("salted_seed_seq") {
 
 # absl/random/internal/BUILD.bazel:157
 source_set("iostream_state_saver") {
+  visibility = ["$abseil/:*"]
   public = ["iostream_state_saver.h"]
   deps = [
     "$abseil/absl/meta:type_traits",
@@ -98,6 +107,7 @@ source_set("iostream_state_saver") {
 
 # absl/random/internal/BUILD.bazel:168
 source_set("generate_real") {
+  visibility = ["$abseil/:*"]
   public = ["generate_real.h"]
   deps = [
     ":fastmath",
@@ -109,12 +119,14 @@ source_set("generate_real") {
 
 # absl/random/internal/BUILD.bazel:183
 source_set("fastmath") {
+  visibility = ["$abseil/:*"]
   public = ["fastmath.h"]
   deps = ["$abseil/absl/base:bits"]
 }
 
 # absl/random/internal/BUILD.bazel:193
 source_set("wide_multiply") {
+  visibility = ["$abseil/:*"]
   public = ["wide_multiply.h"]
   deps = [
     ":traits",
@@ -126,6 +138,7 @@ source_set("wide_multiply") {
 
 # absl/random/internal/BUILD.bazel:206
 source_set("nonsecure_base") {
+  visibility = ["$abseil/:*"]
   public = ["nonsecure_base.h"]
   deps = [
     ":pool_urbg",
@@ -140,6 +153,7 @@ source_set("nonsecure_base") {
 
 # absl/random/internal/BUILD.bazel:222
 source_set("pcg_engine") {
+  visibility = ["$abseil/:*"]
   public = ["pcg_engine.h"]
   deps = [
     ":fastmath",
@@ -152,6 +166,7 @@ source_set("pcg_engine") {
 
 # absl/random/internal/BUILD.bazel:236
 source_set("randen_engine") {
+  visibility = ["$abseil/:*"]
   public = ["randen_engine.h"]
   deps = [
     ":iostream_state_saver",
@@ -162,6 +177,7 @@ source_set("randen_engine") {
 
 # absl/random/internal/BUILD.bazel:248
 source_set("platform") {
+  visibility = ["$abseil/:*"]
   sources = ["randen_round_keys.cc"]
   public = ["randen_traits.h"]
   deps = ["$abseil/absl/base:config"]
@@ -169,6 +185,7 @@ source_set("platform") {
 
 # absl/random/internal/BUILD.bazel:264
 source_set("randen") {
+  visibility = ["$abseil/:*"]
   sources = ["randen.cc"]
   public = ["randen.h"]
   deps = [
@@ -181,6 +198,7 @@ source_set("randen") {
 
 # absl/random/internal/BUILD.bazel:282
 source_set("randen_slow") {
+  visibility = ["$abseil/:*"]
   sources = ["randen_slow.cc"]
   public = ["randen_slow.h"]
   deps = [
@@ -192,6 +210,7 @@ source_set("randen_slow") {
 
 # absl/random/internal/BUILD.bazel:297
 source_set("randen_hwaes") {
+  visibility = ["$abseil/:*"]
   sources = ["randen_detect.cc"]
   public = [
     "randen_detect.h",
@@ -206,6 +225,7 @@ source_set("randen_hwaes") {
 
 # absl/random/internal/BUILD.bazel:316
 source_set("randen_hwaes_impl") {
+  visibility = ["$abseil/:*"]
   sources = [
     "randen_hwaes.cc",
     "randen_hwaes.h",
@@ -219,6 +239,7 @@ source_set("randen_hwaes_impl") {
 
 # absl/random/internal/BUILD.bazel:346
 source_set("distribution_test_util") {
+  visibility = ["$abseil/:*"]
   testonly = true
   sources = [
     "chi_square.cc",
@@ -240,6 +261,7 @@ source_set("distribution_test_util") {
 
 # absl/random/internal/BUILD.bazel:381
 executable("traits_test") {
+  visibility = ["$abseil/:*"]
   sources = ["traits_test.cc"]
   deps = [
     ":traits",
@@ -249,6 +271,7 @@ executable("traits_test") {
 
 # absl/random/internal/BUILD.bazel:393
 executable("generate_real_test") {
+  visibility = ["$abseil/:*"]
   sources = ["generate_real_test.cc"]
   deps = [
     ":generate_real",
@@ -260,6 +283,7 @@ executable("generate_real_test") {
 
 # absl/random/internal/BUILD.bazel:409
 executable("distribution_test_util_test") {
+  visibility = ["$abseil/:*"]
   sources = ["distribution_test_util_test.cc"]
   deps = [
     ":distribution_test_util",
@@ -269,6 +293,7 @@ executable("distribution_test_util_test") {
 
 # absl/random/internal/BUILD.bazel:421
 executable("fastmath_test") {
+  visibility = ["$abseil/:*"]
   sources = ["fastmath_test.cc"]
   deps = [
     ":fastmath",
@@ -278,6 +303,7 @@ executable("fastmath_test") {
 
 # absl/random/internal/BUILD.bazel:433
 executable("explicit_seed_seq_test") {
+  visibility = ["$abseil/:*"]
   sources = ["explicit_seed_seq_test.cc"]
   deps = [
     ":explicit_seed_seq",
@@ -288,6 +314,7 @@ executable("explicit_seed_seq_test") {
 
 # absl/random/internal/BUILD.bazel:446
 executable("salted_seed_seq_test") {
+  visibility = ["$abseil/:*"]
   sources = ["salted_seed_seq_test.cc"]
   deps = [
     ":salted_seed_seq",
@@ -297,6 +324,7 @@ executable("salted_seed_seq_test") {
 
 # absl/random/internal/BUILD.bazel:458
 executable("chi_square_test") {
+  visibility = ["$abseil/:*"]
   sources = ["chi_square_test.cc"]
   deps = [
     ":distribution_test_util",
@@ -307,6 +335,7 @@ executable("chi_square_test") {
 
 # absl/random/internal/BUILD.bazel:473
 executable("fast_uniform_bits_test") {
+  visibility = ["$abseil/:*"]
   sources = ["fast_uniform_bits_test.cc"]
   deps = [
     ":fast_uniform_bits",
@@ -316,6 +345,7 @@ executable("fast_uniform_bits_test") {
 
 # absl/random/internal/BUILD.bazel:487
 source_set("mock_helpers") {
+  visibility = ["$abseil/:*"]
   public = ["mock_helpers.h"]
   deps = [
     "$abseil/absl/base:fast_type_id",
@@ -325,6 +355,7 @@ source_set("mock_helpers") {
 
 # absl/random/internal/BUILD.bazel:496
 source_set("mock_overload_set") {
+  visibility = ["$abseil/:*"]
   testonly = true
   public = ["mock_overload_set.h"]
   deps = [
@@ -336,6 +367,7 @@ source_set("mock_overload_set") {
 
 # absl/random/internal/BUILD.bazel:507
 executable("nonsecure_base_test") {
+  visibility = ["$abseil/:*"]
   sources = ["nonsecure_base_test.cc"]
   deps = [
     ":nonsecure_base",
@@ -349,6 +381,7 @@ executable("nonsecure_base_test") {
 
 # absl/random/internal/BUILD.bazel:525
 executable("seed_material_test") {
+  visibility = ["$abseil/:*"]
   sources = ["seed_material_test.cc"]
   deps = [
     ":seed_material",
@@ -358,6 +391,7 @@ executable("seed_material_test") {
 
 # absl/random/internal/BUILD.bazel:537
 executable("pool_urbg_test") {
+  visibility = ["$abseil/:*"]
   sources = ["pool_urbg_test.cc"]
   deps = [
     ":pool_urbg",
@@ -369,6 +403,7 @@ executable("pool_urbg_test") {
 
 # absl/random/internal/BUILD.bazel:553
 executable("pcg_engine_test") {
+  visibility = ["$abseil/:*"]
   sources = ["pcg_engine_test.cc"]
   deps = [
     ":explicit_seed_seq",
@@ -380,6 +415,7 @@ executable("pcg_engine_test") {
 
 # absl/random/internal/BUILD.bazel:568
 executable("randen_engine_test") {
+  visibility = ["$abseil/:*"]
   sources = ["randen_engine_test.cc"]
   deps = [
     ":explicit_seed_seq",
@@ -393,6 +429,7 @@ executable("randen_engine_test") {
 
 # absl/random/internal/BUILD.bazel:586
 executable("randen_test") {
+  visibility = ["$abseil/:*"]
   sources = ["randen_test.cc"]
   deps = [
     ":randen",
@@ -403,6 +440,7 @@ executable("randen_test") {
 
 # absl/random/internal/BUILD.bazel:599
 executable("randen_slow_test") {
+  visibility = ["$abseil/:*"]
   sources = ["randen_slow_test.cc"]
   deps = [
     ":platform",
@@ -413,6 +451,7 @@ executable("randen_slow_test") {
 
 # absl/random/internal/BUILD.bazel:612
 executable("randen_hwaes_test") {
+  visibility = ["$abseil/:*"]
   sources = ["randen_hwaes_test.cc"]
   deps = [
     ":platform",
@@ -426,6 +465,7 @@ executable("randen_hwaes_test") {
 
 # absl/random/internal/BUILD.bazel:629
 executable("wide_multiply_test") {
+  visibility = ["$abseil/:*"]
   sources = ["wide_multiply_test.cc"]
   deps = [
     ":wide_multiply",
@@ -437,6 +477,7 @@ executable("wide_multiply_test") {
 
 # absl/random/internal/BUILD.bazel:643
 source_set("nanobenchmark") {
+  visibility = ["$abseil/:*"]
   sources = ["nanobenchmark.cc"]
   deps = [
     ":platform",
@@ -449,6 +490,7 @@ source_set("nanobenchmark") {
 
 # absl/random/internal/BUILD.bazel:657
 source_set("uniform_helper") {
+  visibility = ["$abseil/:*"]
   public = ["uniform_helper.h"]
   deps = [
     ":traits",
@@ -459,6 +501,7 @@ source_set("uniform_helper") {
 
 # absl/random/internal/BUILD.bazel:669
 executable("nanobenchmark_test") {
+  visibility = ["$abseil/:*"]
   sources = ["nanobenchmark_test.cc"]
   deps = [
     ":nanobenchmark",
@@ -469,6 +512,7 @@ executable("nanobenchmark_test") {
 
 # absl/random/internal/BUILD.bazel:687
 executable("randen_benchmarks") {
+  visibility = ["$abseil/:*"]
   sources = ["randen_benchmarks.cc"]
   deps = [
     ":nanobenchmark",
@@ -485,6 +529,7 @@ executable("randen_benchmarks") {
 
 # absl/random/internal/BUILD.bazel:709
 executable("iostream_state_saver_test") {
+  visibility = ["$abseil/:*"]
   sources = ["iostream_state_saver_test.cc"]
   deps = [
     ":iostream_state_saver",
@@ -494,6 +539,7 @@ executable("iostream_state_saver_test") {
 
 # absl/random/internal/BUILD.bazel:720
 executable("uniform_helper_test") {
+  visibility = ["$abseil/:*"]
   sources = ["uniform_helper_test.cc"]
   deps = [
     ":uniform_helper",

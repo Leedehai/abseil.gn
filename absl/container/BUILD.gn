@@ -74,6 +74,7 @@ executable("fixed_array_benchmark") {
 
 # absl/container/BUILD.bazel:112
 source_set("inlined_vector_internal") {
+  visibility = ["$abseil/:*"]
   public = ["internal/inlined_vector.h"]
   deps = [
     ":compressed_tuple",
