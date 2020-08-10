@@ -1,0 +1,352 @@
+# Copyright (c) 2020 Leedehai. All rights reserved.
+# Use of this source code is governed under the MIT license.
+# Generated file. Do not modify manually.
+# upstream: 2020-08-07T17:37:02-04:00 ce4bc927755fdf0ed03d679d9c7fa041175bb3cb
+# file: absl/random/BUILD.bazel
+
+# absl/random/BUILD.bazel:31
+source_set("random") {
+  public = ["random.h"]
+  deps = [
+    ":distributions",
+    ":seed_sequences",
+    "$abseil/absl/random/internal:nonsecure_base",
+    "$abseil/absl/random/internal:pcg_engine",
+    "$abseil/absl/random/internal:pool_urbg",
+    "$abseil/absl/random/internal:randen_engine",
+  ]
+}
+
+# absl/random/BUILD.bazel:46
+source_set("distributions") {
+  sources = [
+    "discrete_distribution.cc",
+    "gaussian_distribution.cc",
+  ]
+  public = [
+    "bernoulli_distribution.h",
+    "beta_distribution.h",
+    "discrete_distribution.h",
+    "distributions.h",
+    "exponential_distribution.h",
+    "gaussian_distribution.h",
+    "log_uniform_int_distribution.h",
+    "poisson_distribution.h",
+    "uniform_int_distribution.h",
+    "uniform_real_distribution.h",
+    "zipf_distribution.h",
+  ]
+  deps = [
+    "$abseil/absl/base:base_internal",
+    "$abseil/absl/base:config",
+    "$abseil/absl/base:core_headers",
+    "$abseil/absl/meta:type_traits",
+    "$abseil/absl/random/internal:distribution_caller",
+    "$abseil/absl/random/internal:fast_uniform_bits",
+    "$abseil/absl/random/internal:fastmath",
+    "$abseil/absl/random/internal:generate_real",
+    "$abseil/absl/random/internal:iostream_state_saver",
+    "$abseil/absl/random/internal:traits",
+    "$abseil/absl/random/internal:uniform_helper",
+    "$abseil/absl/random/internal:wide_multiply",
+    "$abseil/absl/strings",
+  ]
+}
+
+# absl/random/BUILD.bazel:84
+source_set("seed_gen_exception") {
+  sources = ["seed_gen_exception.cc"]
+  public = ["seed_gen_exception.h"]
+  deps = ["$abseil/absl/base:config"]
+}
+
+# absl/random/BUILD.bazel:93
+source_set("seed_sequences") {
+  sources = ["seed_sequences.cc"]
+  public = ["seed_sequences.h"]
+  deps = [
+    ":seed_gen_exception",
+    "$abseil/absl/container:inlined_vector",
+    "$abseil/absl/random/internal:nonsecure_base",
+    "$abseil/absl/random/internal:pool_urbg",
+    "$abseil/absl/random/internal:salted_seed_seq",
+    "$abseil/absl/random/internal:seed_material",
+    "$abseil/absl/types:span",
+  ]
+}
+
+# absl/random/BUILD.bazel:112
+source_set("bit_gen_ref") {
+  public = ["bit_gen_ref.h"]
+  deps = [
+    ":random",
+    "$abseil/absl/base:core_headers",
+    "$abseil/absl/base:fast_type_id",
+    "$abseil/absl/meta:type_traits",
+    "$abseil/absl/random/internal:distribution_caller",
+    "$abseil/absl/random/internal:fast_uniform_bits",
+  ]
+}
+
+# absl/random/BUILD.bazel:127
+source_set("mock_distributions") {
+  testonly = true
+  public = ["mock_distributions.h"]
+  deps = [
+    ":distributions",
+    ":mocking_bit_gen",
+    "$abseil/absl/meta:type_traits",
+    "$abseil/absl/random/internal:mock_overload_set",
+    "$googletest:gtest",
+  ]
+}
+
+# absl/random/BUILD.bazel:140
+source_set("mocking_bit_gen") {
+  testonly = true
+  public = ["mocking_bit_gen.h"]
+  deps = [
+    ":distributions",
+    ":random",
+    "$abseil/absl/base:fast_type_id",
+    "$abseil/absl/container:flat_hash_map",
+    "$abseil/absl/meta:type_traits",
+    "$abseil/absl/random/internal:distribution_caller",
+    "$abseil/absl/strings",
+    "$abseil/absl/types:span",
+    "$abseil/absl/types:variant",
+    "$abseil/absl/utility",
+    "$googletest:gtest",
+  ]
+}
+
+# absl/random/BUILD.bazel:162
+executable("bernoulli_distribution_test") {
+  sources = ["bernoulli_distribution_test.cc"]
+  deps = [
+    ":distributions",
+    ":random",
+    "$abseil/absl/random/internal:pcg_engine",
+    "$abseil/absl/random/internal:sequence_urbg",
+    "$googletest:gtest_main",
+  ]
+}
+
+# absl/random/BUILD.bazel:178
+executable("beta_distribution_test") {
+  sources = ["beta_distribution_test.cc"]
+  deps = [
+    ":distributions",
+    ":random",
+    "$abseil/absl/base:raw_logging_internal",
+    "$abseil/absl/random/internal:distribution_test_util",
+    "$abseil/absl/random/internal:pcg_engine",
+    "$abseil/absl/random/internal:sequence_urbg",
+    "$abseil/absl/strings",
+    "$abseil/absl/strings:str_format",
+    "$googletest:gtest_main",
+  ]
+}
+
+# absl/random/BUILD.bazel:199
+executable("distributions_test") {
+  sources = ["distributions_test.cc"]
+  deps = [
+    ":distributions",
+    ":random",
+    "$abseil/absl/random/internal:distribution_test_util",
+    "$googletest:gtest_main",
+  ]
+}
+
+# absl/random/BUILD.bazel:216
+executable("generators_test") {
+  sources = ["generators_test.cc"]
+  deps = [
+    ":distributions",
+    ":random",
+    "$googletest:gtest_main",
+  ]
+}
+
+# absl/random/BUILD.bazel:229
+executable("log_uniform_int_distribution_test") {
+  sources = ["log_uniform_int_distribution_test.cc"]
+  deps = [
+    ":distributions",
+    ":random",
+    "$abseil/absl/base:raw_logging_internal",
+    "$abseil/absl/random/internal:distribution_test_util",
+    "$abseil/absl/random/internal:pcg_engine",
+    "$abseil/absl/random/internal:sequence_urbg",
+    "$abseil/absl/strings",
+    "$abseil/absl/strings:str_format",
+    "$googletest:gtest_main",
+  ]
+}
+
+# absl/random/BUILD.bazel:250
+executable("discrete_distribution_test") {
+  sources = ["discrete_distribution_test.cc"]
+  deps = [
+    ":distributions",
+    ":random",
+    "$abseil/absl/base:raw_logging_internal",
+    "$abseil/absl/random/internal:distribution_test_util",
+    "$abseil/absl/random/internal:pcg_engine",
+    "$abseil/absl/random/internal:sequence_urbg",
+    "$abseil/absl/strings",
+    "$googletest:gtest_main",
+  ]
+}
+
+# absl/random/BUILD.bazel:270
+executable("poisson_distribution_test") {
+  sources = ["poisson_distribution_test.cc"]
+  deps = [
+    ":distributions",
+    ":random",
+    "$abseil/absl/base:core_headers",
+    "$abseil/absl/base:raw_logging_internal",
+    "$abseil/absl/container:flat_hash_map",
+    "$abseil/absl/random/internal:distribution_test_util",
+    "$abseil/absl/random/internal:pcg_engine",
+    "$abseil/absl/random/internal:sequence_urbg",
+    "$abseil/absl/strings",
+    "$abseil/absl/strings:str_format",
+    "$googletest:gtest_main",
+  ]
+}
+
+# absl/random/BUILD.bazel:299
+executable("exponential_distribution_test") {
+  sources = ["exponential_distribution_test.cc"]
+  deps = [
+    ":distributions",
+    ":random",
+    "$abseil/absl/base:core_headers",
+    "$abseil/absl/base:raw_logging_internal",
+    "$abseil/absl/random/internal:distribution_test_util",
+    "$abseil/absl/random/internal:pcg_engine",
+    "$abseil/absl/random/internal:sequence_urbg",
+    "$abseil/absl/strings",
+    "$abseil/absl/strings:str_format",
+    "$googletest:gtest_main",
+  ]
+}
+
+# absl/random/BUILD.bazel:319
+executable("gaussian_distribution_test") {
+  sources = ["gaussian_distribution_test.cc"]
+  deps = [
+    ":distributions",
+    ":random",
+    "$abseil/absl/base:core_headers",
+    "$abseil/absl/base:raw_logging_internal",
+    "$abseil/absl/random/internal:distribution_test_util",
+    "$abseil/absl/random/internal:sequence_urbg",
+    "$abseil/absl/strings",
+    "$abseil/absl/strings:str_format",
+    "$googletest:gtest_main",
+  ]
+}
+
+# absl/random/BUILD.bazel:341
+executable("uniform_int_distribution_test") {
+  sources = ["uniform_int_distribution_test.cc"]
+  deps = [
+    ":distributions",
+    ":random",
+    "$abseil/absl/base:raw_logging_internal",
+    "$abseil/absl/random/internal:distribution_test_util",
+    "$abseil/absl/random/internal:pcg_engine",
+    "$abseil/absl/random/internal:sequence_urbg",
+    "$abseil/absl/strings",
+    "$googletest:gtest_main",
+  ]
+}
+
+# absl/random/BUILD.bazel:362
+executable("uniform_real_distribution_test") {
+  sources = ["uniform_real_distribution_test.cc"]
+  deps = [
+    ":distributions",
+    ":random",
+    "$abseil/absl/base:raw_logging_internal",
+    "$abseil/absl/random/internal:distribution_test_util",
+    "$abseil/absl/random/internal:pcg_engine",
+    "$abseil/absl/random/internal:sequence_urbg",
+    "$abseil/absl/strings",
+    "$googletest:gtest_main",
+  ]
+}
+
+# absl/random/BUILD.bazel:387
+executable("zipf_distribution_test") {
+  sources = ["zipf_distribution_test.cc"]
+  deps = [
+    ":distributions",
+    ":random",
+    "$abseil/absl/base:raw_logging_internal",
+    "$abseil/absl/random/internal:distribution_test_util",
+    "$abseil/absl/random/internal:pcg_engine",
+    "$abseil/absl/random/internal:sequence_urbg",
+    "$abseil/absl/strings",
+    "$googletest:gtest_main",
+  ]
+}
+
+# absl/random/BUILD.bazel:407
+executable("bit_gen_ref_test") {
+  sources = ["bit_gen_ref_test.cc"]
+  deps = [
+    ":bit_gen_ref",
+    ":random",
+    "$abseil/absl/base:fast_type_id",
+    "$abseil/absl/random/internal:sequence_urbg",
+    "$googletest:gtest_main",
+  ]
+}
+
+# absl/random/BUILD.bazel:422
+executable("mocking_bit_gen_test") {
+  sources = ["mocking_bit_gen_test.cc"]
+  deps = [
+    ":bit_gen_ref",
+    ":mock_distributions",
+    ":mocking_bit_gen",
+    ":random",
+    "$googletest:gtest_main",
+  ]
+}
+
+# absl/random/BUILD.bazel:437
+executable("mock_distributions_test") {
+  sources = ["mock_distributions_test.cc"]
+  deps = [
+    ":mock_distributions",
+    ":mocking_bit_gen",
+    ":random",
+    "$googletest:gtest_main",
+  ]
+}
+
+# absl/random/BUILD.bazel:451
+executable("examples_test") {
+  sources = ["examples_test.cc"]
+  deps = [
+    ":random",
+    "$googletest:gtest_main",
+  ]
+}
+
+# absl/random/BUILD.bazel:463
+executable("seed_sequences_test") {
+  sources = ["seed_sequences_test.cc"]
+  deps = [
+    ":random",
+    ":seed_sequences",
+    "$abseil/absl/random/internal:nonsecure_base",
+    "$googletest:gtest_main",
+  ]
+}

@@ -1,0 +1,91 @@
+# Copyright (c) 2020 Leedehai. All rights reserved.
+# Use of this source code is governed under the MIT license.
+# Generated file. Do not modify manually.
+# upstream: 2020-08-07T17:37:02-04:00 ce4bc927755fdf0ed03d679d9c7fa041175bb3cb
+# file: absl/time/internal/cctz/BUILD.bazel
+
+# absl/time/internal/cctz/BUILD.bazel:42
+source_set("civil_time") {
+  sources = ["src/civil_time_detail.cc"]
+  public = ["include/cctz/civil_time.h"]
+  deps = ["$abseil/absl/base:config"]
+}
+
+# absl/time/internal/cctz/BUILD.bazel:53
+source_set("time_zone") {
+  sources = [
+    "src/time_zone_fixed.cc",
+    "src/time_zone_fixed.h",
+    "src/time_zone_format.cc",
+    "src/time_zone_if.cc",
+    "src/time_zone_if.h",
+    "src/time_zone_impl.cc",
+    "src/time_zone_impl.h",
+    "src/time_zone_info.cc",
+    "src/time_zone_info.h",
+    "src/time_zone_libc.cc",
+    "src/time_zone_libc.h",
+    "src/time_zone_lookup.cc",
+    "src/time_zone_posix.cc",
+    "src/time_zone_posix.h",
+    "src/tzfile.h",
+    "src/zone_info_source.cc",
+  ]
+  public = [
+    "include/cctz/time_zone.h",
+    "include/cctz/zone_info_source.h",
+  ]
+  deps = [
+    ":civil_time",
+    "$abseil/absl/base:config",
+  ]
+}
+
+# absl/time/internal/cctz/BUILD.bazel:95
+executable("civil_time_test") {
+  sources = ["src/civil_time_test.cc"]
+  deps = [
+    ":civil_time",
+    "$abseil/absl/base:config",
+    "$googletest:gtest_main",
+  ]
+}
+
+# absl/time/internal/cctz/BUILD.bazel:106
+executable("time_zone_format_test") {
+  sources = ["src/time_zone_format_test.cc"]
+  deps = [
+    ":civil_time",
+    ":time_zone",
+    "$abseil/absl/base:config",
+    "$googletest:gtest_main",
+  ]
+}
+
+# absl/time/internal/cctz/BUILD.bazel:124
+executable("time_zone_lookup_test") {
+  sources = ["src/time_zone_lookup_test.cc"]
+  deps = [
+    ":civil_time",
+    ":time_zone",
+    "$abseil/absl/base:config",
+    "$googletest:gtest_main",
+  ]
+}
+
+# absl/time/internal/cctz/BUILD.bazel:145
+executable("cctz_benchmark") {
+  sources = [
+    "src/cctz_benchmark.cc",
+    "src/time_zone_if.h",
+    "src/time_zone_impl.h",
+    "src/time_zone_info.h",
+    "src/tzfile.h",
+  ]
+  deps = [
+    ":civil_time",
+    ":time_zone",
+    "$abseil/absl/base:config",
+    "$google_benchmark:benchmark_main",
+  ]
+}

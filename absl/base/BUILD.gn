@@ -1,0 +1,565 @@
+# Copyright (c) 2020 Leedehai. All rights reserved.
+# Use of this source code is governed under the MIT license.
+# Generated file. Do not modify manually.
+# upstream: 2020-08-07T17:37:02-04:00 ce4bc927755fdf0ed03d679d9c7fa041175bb3cb
+# file: absl/base/BUILD.bazel
+
+# absl/base/BUILD.bazel:29
+source_set("atomic_hook") {
+  public = ["internal/atomic_hook.h"]
+  deps = [
+    ":config",
+    ":core_headers",
+  ]
+}
+
+# absl/base/BUILD.bazel:43
+source_set("errno_saver") {
+  public = ["internal/errno_saver.h"]
+  deps = [":config"]
+}
+
+# absl/base/BUILD.bazel:54
+source_set("log_severity") {
+  sources = ["log_severity.cc"]
+  public = ["log_severity.h"]
+  deps = [
+    ":config",
+    ":core_headers",
+  ]
+}
+
+# absl/base/BUILD.bazel:66
+source_set("raw_logging_internal") {
+  sources = ["internal/raw_logging.cc"]
+  public = ["internal/raw_logging.h"]
+  deps = [
+    ":atomic_hook",
+    ":config",
+    ":core_headers",
+    ":log_severity",
+  ]
+}
+
+# absl/base/BUILD.bazel:83
+source_set("spinlock_wait") {
+  sources = [
+    "internal/spinlock_akaros.inc",
+    "internal/spinlock_linux.inc",
+    "internal/spinlock_posix.inc",
+    "internal/spinlock_wait.cc",
+    "internal/spinlock_win32.inc",
+  ]
+  public = ["internal/spinlock_wait.h"]
+  deps = [
+    ":base_internal",
+    ":core_headers",
+    ":errno_saver",
+  ]
+}
+
+# absl/base/BUILD.bazel:105
+source_set("config") {
+  public = [
+    "config.h",
+    "options.h",
+    "policy_checks.h",
+  ]
+}
+
+# absl/base/BUILD.bazel:116
+source_set("dynamic_annotations") {
+  sources = ["internal/dynamic_annotations.h"]
+  public = ["dynamic_annotations.h"]
+  deps = [
+    ":config",
+    ":core_headers",
+  ]
+}
+
+# absl/base/BUILD.bazel:132
+source_set("core_headers") {
+  sources = ["internal/thread_annotations.h"]
+  public = [
+    "attributes.h",
+    "const_init.h",
+    "macros.h",
+    "optimization.h",
+    "port.h",
+    "thread_annotations.h",
+  ]
+  deps = [":config"]
+}
+
+# absl/base/BUILD.bazel:152
+source_set("malloc_internal") {
+  sources = ["internal/low_level_alloc.cc"]
+  public = [
+    "internal/direct_mmap.h",
+    "internal/low_level_alloc.h",
+  ]
+  deps = [
+    ":base",
+    ":base_internal",
+    ":config",
+    ":core_headers",
+    ":dynamic_annotations",
+    ":raw_logging_internal",
+  ]
+}
+
+# absl/base/BUILD.bazel:180
+source_set("base_internal") {
+  public = [
+    "internal/hide_ptr.h",
+    "internal/identity.h",
+    "internal/inline_variable.h",
+    "internal/invoke.h",
+    "internal/scheduling_mode.h",
+  ]
+  deps = [
+    ":config",
+    "$abseil/absl/meta:type_traits",
+  ]
+}
+
+# absl/base/BUILD.bazel:200
+source_set("base") {
+  sources = [
+    "internal/cycleclock.cc",
+    "internal/spinlock.cc",
+    "internal/sysinfo.cc",
+    "internal/thread_identity.cc",
+    "internal/unscaledcycleclock.cc",
+  ]
+  public = [
+    "call_once.h",
+    "casts.h",
+    "internal/cycleclock.h",
+    "internal/low_level_scheduling.h",
+    "internal/per_thread_tls.h",
+    "internal/spinlock.h",
+    "internal/sysinfo.h",
+    "internal/thread_identity.h",
+    "internal/tsan_mutex_interface.h",
+    "internal/unscaledcycleclock.h",
+  ]
+  deps = [
+    ":atomic_hook",
+    ":base_internal",
+    ":config",
+    ":core_headers",
+    ":dynamic_annotations",
+    ":log_severity",
+    ":raw_logging_internal",
+    ":spinlock_wait",
+    "$abseil/absl/meta:type_traits",
+  ]
+}
+
+# absl/base/BUILD.bazel:242
+source_set("atomic_hook_test_helper") {
+  testonly = true
+  sources = ["internal/atomic_hook_test_helper.cc"]
+  public = ["internal/atomic_hook_test_helper.h"]
+  deps = [
+    ":atomic_hook",
+    ":core_headers",
+  ]
+}
+
+# absl/base/BUILD.bazel:255
+executable("atomic_hook_test") {
+  sources = ["internal/atomic_hook_test.cc"]
+  deps = [
+    ":atomic_hook",
+    ":atomic_hook_test_helper",
+    ":core_headers",
+    "$googletest:gtest_main",
+  ]
+}
+
+# absl/base/BUILD.bazel:269
+executable("bit_cast_test") {
+  sources = ["bit_cast_test.cc"]
+  deps = [
+    ":base",
+    ":core_headers",
+    "$googletest:gtest_main",
+  ]
+}
+
+# absl/base/BUILD.bazel:284
+source_set("throw_delegate") {
+  sources = ["internal/throw_delegate.cc"]
+  public = ["internal/throw_delegate.h"]
+  deps = [
+    ":config",
+    ":raw_logging_internal",
+  ]
+}
+
+# absl/base/BUILD.bazel:299
+executable("throw_delegate_test") {
+  sources = ["throw_delegate_test.cc"]
+  deps = [
+    ":config",
+    ":throw_delegate",
+    "$googletest:gtest_main",
+  ]
+}
+
+# absl/base/BUILD.bazel:311
+executable("errno_saver_test") {
+  sources = ["internal/errno_saver_test.cc"]
+  deps = [
+    ":errno_saver",
+    ":strerror",
+    "$googletest:gtest_main",
+  ]
+}
+
+# absl/base/BUILD.bazel:324
+source_set("exception_testing") {
+  testonly = true
+  public = ["internal/exception_testing.h"]
+  deps = [
+    ":config",
+    "$googletest:gtest",
+  ]
+}
+
+# absl/base/BUILD.bazel:339
+source_set("pretty_function") {
+  public = ["internal/pretty_function.h"]
+}
+
+# absl/base/BUILD.bazel:346
+source_set("exception_safety_testing") {
+  testonly = true
+  sources = ["internal/exception_safety_testing.cc"]
+  public = ["internal/exception_safety_testing.h"]
+  deps = [
+    ":config",
+    ":pretty_function",
+    "$abseil/absl/memory",
+    "$abseil/absl/meta:type_traits",
+    "$abseil/absl/strings",
+    "$abseil/absl/utility",
+    "$googletest:gtest",
+  ]
+}
+
+# absl/base/BUILD.bazel:364
+executable("exception_safety_testing_test") {
+  sources = ["exception_safety_testing_test.cc"]
+  deps = [
+    ":exception_safety_testing",
+    "$abseil/absl/memory",
+    "$googletest:gtest_main",
+  ]
+}
+
+# absl/base/BUILD.bazel:376
+executable("inline_variable_test") {
+  sources = [
+    "inline_variable_test.cc",
+    "inline_variable_test_a.cc",
+    "inline_variable_test_b.cc",
+    "internal/inline_variable_testing.h",
+  ]
+  deps = [
+    ":base_internal",
+    "$googletest:gtest_main",
+  ]
+}
+
+# absl/base/BUILD.bazel:393
+executable("invoke_test") {
+  sources = ["invoke_test.cc"]
+  deps = [
+    ":base_internal",
+    "$abseil/absl/memory",
+    "$abseil/absl/strings",
+    "$googletest:gtest_main",
+  ]
+}
+
+# absl/base/BUILD.bazel:409
+source_set("spinlock_test_common") {
+  testonly = true
+  sources = ["spinlock_test_common.cc"]
+  deps = [
+    ":base",
+    ":base_internal",
+    ":config",
+    ":core_headers",
+    "$abseil/absl/synchronization",
+    "$googletest:gtest",
+  ]
+}
+
+# absl/base/BUILD.bazel:426
+executable("spinlock_test") {
+  sources = ["spinlock_test_common.cc"]
+  deps = [
+    ":base",
+    ":base_internal",
+    ":config",
+    ":core_headers",
+    "$abseil/absl/synchronization",
+    "$googletest:gtest_main",
+  ]
+}
+
+# absl/base/BUILD.bazel:442
+source_set("spinlock_benchmark_common") {
+  testonly = true
+  sources = ["internal/spinlock_benchmark.cc"]
+  deps = [
+    ":base",
+    ":base_internal",
+    ":raw_logging_internal",
+    "$abseil/absl/synchronization",
+    "$google_benchmark:benchmark_main",
+  ]
+}
+
+# absl/base/BUILD.bazel:473
+source_set("endian") {
+  public = [
+    "internal/endian.h",
+    "internal/unaligned_access.h",
+  ]
+  deps = [
+    ":config",
+    ":core_headers",
+  ]
+}
+
+# absl/base/BUILD.bazel:487
+executable("endian_test") {
+  sources = ["internal/endian_test.cc"]
+  deps = [
+    ":config",
+    ":endian",
+    "$googletest:gtest_main",
+  ]
+}
+
+# absl/base/BUILD.bazel:498
+executable("config_test") {
+  sources = ["config_test.cc"]
+  deps = [
+    ":config",
+    "$abseil/absl/synchronization:thread_pool",
+    "$googletest:gtest_main",
+  ]
+}
+
+# absl/base/BUILD.bazel:510
+executable("call_once_test") {
+  sources = ["call_once_test.cc"]
+  deps = [
+    ":base",
+    ":core_headers",
+    "$abseil/absl/synchronization",
+    "$googletest:gtest_main",
+  ]
+}
+
+# absl/base/BUILD.bazel:523
+executable("raw_logging_test") {
+  sources = ["raw_logging_test.cc"]
+  deps = [
+    ":raw_logging_internal",
+    "$abseil/absl/strings",
+    "$googletest:gtest_main",
+  ]
+}
+
+# absl/base/BUILD.bazel:535
+executable("sysinfo_test") {
+  sources = ["internal/sysinfo_test.cc"]
+  deps = [
+    ":base",
+    "$abseil/absl/synchronization",
+    "$googletest:gtest_main",
+  ]
+}
+
+# absl/base/BUILD.bazel:548
+executable("low_level_alloc_test") {
+  sources = ["internal/low_level_alloc_test.cc"]
+  deps = [
+    ":malloc_internal",
+    "$abseil/absl/container:node_hash_map",
+  ]
+}
+
+# absl/base/BUILD.bazel:561
+executable("thread_identity_test") {
+  sources = ["internal/thread_identity_test.cc"]
+  deps = [
+    ":base",
+    ":core_headers",
+    "$abseil/absl/synchronization",
+    "$googletest:gtest_main",
+  ]
+}
+
+# absl/base/BUILD.bazel:575
+executable("thread_identity_benchmark") {
+  sources = ["internal/thread_identity_benchmark.cc"]
+  deps = [
+    ":base",
+    "$abseil/absl/synchronization",
+    "$google_benchmark:benchmark_main",
+  ]
+}
+
+# absl/base/BUILD.bazel:589
+source_set("bits") {
+  public = ["internal/bits.h"]
+  deps = [
+    ":config",
+    ":core_headers",
+  ]
+}
+
+# absl/base/BUILD.bazel:602
+executable("bits_test") {
+  sources = ["internal/bits_test.cc"]
+  deps = [
+    ":bits",
+    "$googletest:gtest_main",
+  ]
+}
+
+# absl/base/BUILD.bazel:614
+source_set("exponential_biased") {
+  sources = ["internal/exponential_biased.cc"]
+  public = ["internal/exponential_biased.h"]
+  deps = [
+    ":config",
+    ":core_headers",
+  ]
+}
+
+# absl/base/BUILD.bazel:628
+executable("exponential_biased_test") {
+  sources = ["internal/exponential_biased_test.cc"]
+  deps = [
+    ":exponential_biased",
+    "$abseil/absl/strings",
+    "$googletest:gtest_main",
+  ]
+}
+
+# absl/base/BUILD.bazel:642
+source_set("periodic_sampler") {
+  sources = ["internal/periodic_sampler.cc"]
+  public = ["internal/periodic_sampler.h"]
+  deps = [
+    ":core_headers",
+    ":exponential_biased",
+  ]
+}
+
+# absl/base/BUILD.bazel:654
+executable("periodic_sampler_test") {
+  sources = ["internal/periodic_sampler_test.cc"]
+  deps = [
+    ":core_headers",
+    ":periodic_sampler",
+    "$googletest:gtest_main",
+  ]
+}
+
+# absl/base/BUILD.bazel:683
+source_set("scoped_set_env") {
+  testonly = true
+  sources = ["internal/scoped_set_env.cc"]
+  public = ["internal/scoped_set_env.h"]
+  deps = [
+    ":config",
+    ":raw_logging_internal",
+  ]
+}
+
+# absl/base/BUILD.bazel:698
+executable("scoped_set_env_test") {
+  sources = ["internal/scoped_set_env_test.cc"]
+  deps = [
+    ":scoped_set_env",
+    "$googletest:gtest_main",
+  ]
+}
+
+# absl/base/BUILD.bazel:710
+executable("log_severity_test") {
+  sources = ["log_severity_test.cc"]
+  deps = [
+    ":log_severity",
+    "$abseil/absl/flags:flag_internal",
+    "$abseil/absl/flags:marshalling",
+    "$abseil/absl/strings",
+    "$googletest:gtest_main",
+  ]
+}
+
+# absl/base/BUILD.bazel:725
+source_set("strerror") {
+  sources = ["internal/strerror.cc"]
+  public = ["internal/strerror.h"]
+  deps = [
+    ":config",
+    ":core_headers",
+    ":errno_saver",
+  ]
+}
+
+# absl/base/BUILD.bazel:741
+executable("strerror_test") {
+  sources = ["internal/strerror_test.cc"]
+  deps = [
+    ":strerror",
+    "$abseil/absl/strings",
+    "$googletest:gtest_main",
+  ]
+}
+
+# absl/base/BUILD.bazel:768
+source_set("fast_type_id") {
+  public = ["internal/fast_type_id.h"]
+  deps = [":config"]
+}
+
+# absl/base/BUILD.bazel:781
+executable("fast_type_id_test") {
+  sources = ["internal/fast_type_id_test.cc"]
+  deps = [
+    ":fast_type_id",
+    "$googletest:gtest_main",
+  ]
+}
+
+# absl/base/BUILD.bazel:793
+executable("unique_small_name_test") {
+  sources = ["internal/unique_small_name_test.cc"]
+  deps = [
+    ":core_headers",
+    "$abseil/absl/strings",
+    "$googletest:gtest_main",
+  ]
+}
+
+# absl/base/BUILD.bazel:807
+executable("optimization_test") {
+  sources = ["optimization_test.cc"]
+  deps = [
+    ":core_headers",
+    "$abseil/absl/types:optional",
+    "$googletest:gtest_main",
+  ]
+}

@@ -1,0 +1,250 @@
+# Copyright (c) 2020 Leedehai. All rights reserved.
+# Use of this source code is governed under the MIT license.
+# Generated file. Do not modify manually.
+# upstream: 2020-08-07T17:37:02-04:00 ce4bc927755fdf0ed03d679d9c7fa041175bb3cb
+# file: absl/types/BUILD.bazel
+
+# absl/types/BUILD.bazel:28
+source_set("any") {
+  public = ["any.h"]
+  deps = [
+    ":bad_any_cast",
+    "$abseil/absl/base:config",
+    "$abseil/absl/base:core_headers",
+    "$abseil/absl/base:fast_type_id",
+    "$abseil/absl/meta:type_traits",
+    "$abseil/absl/utility",
+  ]
+}
+
+# absl/types/BUILD.bazel:43
+source_set("bad_any_cast") {
+  public = ["bad_any_cast.h"]
+  deps = [
+    ":bad_any_cast_impl",
+    "$abseil/absl/base:config",
+  ]
+}
+
+# absl/types/BUILD.bazel:54
+source_set("bad_any_cast_impl") {
+  sources = [
+    "bad_any_cast.cc",
+    "bad_any_cast.h",
+  ]
+  deps = [
+    "$abseil/absl/base:config",
+    "$abseil/absl/base:raw_logging_internal",
+  ]
+}
+
+# absl/types/BUILD.bazel:69
+executable("any_test") {
+  sources = ["any_test.cc"]
+  deps = [
+    ":any",
+    "$abseil/absl/base:config",
+    "$abseil/absl/base:exception_testing",
+    "$abseil/absl/base:raw_logging_internal",
+    "$abseil/absl/container:test_instance_tracker",
+    "$googletest:gtest_main",
+  ]
+}
+
+# absl/types/BUILD.bazel:87
+executable("any_exception_safety_test") {
+  sources = ["any_exception_safety_test.cc"]
+  deps = [
+    ":any",
+    "$abseil/absl/base:config",
+    "$abseil/absl/base:exception_safety_testing",
+    "$googletest:gtest_main",
+  ]
+}
+
+# absl/types/BUILD.bazel:100
+source_set("span") {
+  sources = ["internal/span.h"]
+  public = ["span.h"]
+  deps = [
+    "$abseil/absl/algorithm",
+    "$abseil/absl/base:core_headers",
+    "$abseil/absl/base:throw_delegate",
+    "$abseil/absl/meta:type_traits",
+  ]
+}
+
+# absl/types/BUILD.bazel:118
+executable("span_test") {
+  sources = ["span_test.cc"]
+  deps = [
+    ":span",
+    "$abseil/absl/base:config",
+    "$abseil/absl/base:core_headers",
+    "$abseil/absl/base:exception_testing",
+    "$abseil/absl/container:fixed_array",
+    "$abseil/absl/container:inlined_vector",
+    "$abseil/absl/hash:hash_testing",
+    "$abseil/absl/strings",
+    "$googletest:gtest_main",
+  ]
+}
+
+# absl/types/BUILD.bazel:137
+source_set("optional") {
+  sources = ["internal/optional.h"]
+  public = ["optional.h"]
+  deps = [
+    ":bad_optional_access",
+    "$abseil/absl/base:base_internal",
+    "$abseil/absl/base:config",
+    "$abseil/absl/base:core_headers",
+    "$abseil/absl/memory",
+    "$abseil/absl/meta:type_traits",
+    "$abseil/absl/utility",
+  ]
+}
+
+# absl/types/BUILD.bazel:154
+source_set("bad_optional_access") {
+  sources = ["bad_optional_access.cc"]
+  public = ["bad_optional_access.h"]
+  deps = [
+    "$abseil/absl/base:config",
+    "$abseil/absl/base:raw_logging_internal",
+  ]
+}
+
+# absl/types/BUILD.bazel:166
+source_set("bad_variant_access") {
+  sources = ["bad_variant_access.cc"]
+  public = ["bad_variant_access.h"]
+  deps = [
+    "$abseil/absl/base:config",
+    "$abseil/absl/base:raw_logging_internal",
+  ]
+}
+
+# absl/types/BUILD.bazel:178
+executable("optional_test") {
+  sources = ["optional_test.cc"]
+  deps = [
+    ":optional",
+    "$abseil/absl/base:config",
+    "$abseil/absl/base:raw_logging_internal",
+    "$abseil/absl/meta:type_traits",
+    "$abseil/absl/strings",
+    "$googletest:gtest_main",
+  ]
+}
+
+# absl/types/BUILD.bazel:196
+executable("optional_exception_safety_test") {
+  sources = ["optional_exception_safety_test.cc"]
+  deps = [
+    ":optional",
+    "$abseil/absl/base:config",
+    "$abseil/absl/base:exception_safety_testing",
+    "$googletest:gtest_main",
+  ]
+}
+
+# absl/types/BUILD.bazel:211
+source_set("conformance_testing") {
+  testonly = true
+  public = [
+    "internal/conformance_aliases.h",
+    "internal/conformance_archetype.h",
+    "internal/conformance_profile.h",
+    "internal/conformance_testing.h",
+    "internal/conformance_testing_helpers.h",
+    "internal/parentheses.h",
+    "internal/transform_args.h",
+  ]
+  deps = [
+    "$abseil/absl/algorithm:container",
+    "$abseil/absl/meta:type_traits",
+    "$abseil/absl/strings",
+    "$abseil/absl/utility",
+    "$googletest:gtest",
+  ]
+}
+
+# absl/types/BUILD.bazel:234
+executable("conformance_testing_test") {
+  sources = ["internal/conformance_testing_test.cc"]
+  deps = [
+    ":conformance_testing",
+    "$abseil/absl/meta:type_traits",
+    "$googletest:gtest_main",
+  ]
+}
+
+# absl/types/BUILD.bazel:249
+source_set("variant") {
+  sources = ["internal/variant.h"]
+  public = ["variant.h"]
+  deps = [
+    ":bad_variant_access",
+    "$abseil/absl/base:base_internal",
+    "$abseil/absl/base:config",
+    "$abseil/absl/base:core_headers",
+    "$abseil/absl/meta:type_traits",
+    "$abseil/absl/utility",
+  ]
+}
+
+# absl/types/BUILD.bazel:265
+executable("variant_test") {
+  sources = ["variant_test.cc"]
+  deps = [
+    ":variant",
+    "$abseil/absl/base:config",
+    "$abseil/absl/base:core_headers",
+    "$abseil/absl/memory",
+    "$abseil/absl/meta:type_traits",
+    "$abseil/absl/strings",
+    "$googletest:gtest_main",
+  ]
+}
+
+# absl/types/BUILD.bazel:282
+executable("variant_benchmark") {
+  sources = ["variant_benchmark.cc"]
+  deps = [
+    ":variant",
+    "$abseil/absl/utility",
+    "$google_benchmark:benchmark_main",
+  ]
+}
+
+# absl/types/BUILD.bazel:297
+executable("variant_exception_safety_test") {
+  sources = ["variant_exception_safety_test.cc"]
+  deps = [
+    ":variant",
+    "$abseil/absl/base:config",
+    "$abseil/absl/base:exception_safety_testing",
+    "$abseil/absl/memory",
+    "$googletest:gtest_main",
+  ]
+}
+
+# absl/types/BUILD.bazel:314
+source_set("compare") {
+  public = ["compare.h"]
+  deps = [
+    "$abseil/absl/base:core_headers",
+    "$abseil/absl/meta:type_traits",
+  ]
+}
+
+# absl/types/BUILD.bazel:324
+executable("compare_test") {
+  sources = ["compare_test.cc"]
+  deps = [
+    ":compare",
+    "$abseil/absl/base",
+    "$googletest:gtest_main",
+  ]
+}

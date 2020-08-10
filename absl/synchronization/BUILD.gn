@@ -1,0 +1,183 @@
+# Copyright (c) 2020 Leedehai. All rights reserved.
+# Use of this source code is governed under the MIT license.
+# Generated file. Do not modify manually.
+# upstream: 2020-08-07T17:37:02-04:00 ce4bc927755fdf0ed03d679d9c7fa041175bb3cb
+# file: absl/synchronization/BUILD.bazel
+
+# absl/synchronization/BUILD.bazel:30
+source_set("graphcycles_internal") {
+  sources = ["internal/graphcycles.cc"]
+  public = ["internal/graphcycles.h"]
+  deps = [
+    "$abseil/absl/base",
+    "$abseil/absl/base:base_internal",
+    "$abseil/absl/base:config",
+    "$abseil/absl/base:core_headers",
+    "$abseil/absl/base:malloc_internal",
+    "$abseil/absl/base:raw_logging_internal",
+  ]
+}
+
+# absl/synchronization/BUILD.bazel:53
+source_set("kernel_timeout_internal") {
+  public = ["internal/kernel_timeout.h"]
+  deps = [
+    "$abseil/absl/base:core_headers",
+    "$abseil/absl/base:raw_logging_internal",
+    "$abseil/absl/time",
+  ]
+}
+
+# absl/synchronization/BUILD.bazel:68
+source_set("synchronization") {
+  public = [
+    "barrier.h",
+    "blocking_counter.h",
+    "internal/create_thread_identity.h",
+    "internal/mutex_nonprod.inc",
+    "internal/per_thread_sem.h",
+    "internal/waiter.h",
+    "mutex.h",
+    "notification.h",
+  ]
+  deps = [
+    ":graphcycles_internal",
+    ":kernel_timeout_internal",
+    "$abseil/absl/base",
+    "$abseil/absl/base:atomic_hook",
+    "$abseil/absl/base:base_internal",
+    "$abseil/absl/base:config",
+    "$abseil/absl/base:core_headers",
+    "$abseil/absl/base:dynamic_annotations",
+    "$abseil/absl/base:malloc_internal",
+    "$abseil/absl/base:raw_logging_internal",
+    "$abseil/absl/debugging:stacktrace",
+    "$abseil/absl/debugging:symbolize",
+    "$abseil/absl/time",
+  ]
+}
+
+# absl/synchronization/BUILD.bazel:113
+executable("barrier_test") {
+  sources = ["barrier_test.cc"]
+  deps = [
+    ":synchronization",
+    "$abseil/absl/time",
+    "$googletest:gtest_main",
+  ]
+}
+
+# absl/synchronization/BUILD.bazel:126
+executable("blocking_counter_test") {
+  sources = ["blocking_counter_test.cc"]
+  deps = [
+    ":synchronization",
+    "$abseil/absl/time",
+    "$googletest:gtest_main",
+  ]
+}
+
+# absl/synchronization/BUILD.bazel:139
+executable("graphcycles_test") {
+  sources = ["internal/graphcycles_test.cc"]
+  deps = [
+    ":graphcycles_internal",
+    "$abseil/absl/base:core_headers",
+    "$abseil/absl/base:raw_logging_internal",
+    "$googletest:gtest_main",
+  ]
+}
+
+# absl/synchronization/BUILD.bazel:153
+executable("graphcycles_benchmark") {
+  sources = ["internal/graphcycles_benchmark.cc"]
+  deps = [
+    ":graphcycles_internal",
+    "$abseil/absl/base:raw_logging_internal",
+    "$google_benchmark:benchmark_main",
+  ]
+}
+
+# absl/synchronization/BUILD.bazel:168
+source_set("thread_pool") {
+  testonly = true
+  public = ["internal/thread_pool.h"]
+  deps = [
+    ":synchronization",
+    "$abseil/absl/base:core_headers",
+  ]
+}
+
+# absl/synchronization/BUILD.bazel:182
+executable("mutex_test") {
+  sources = ["mutex_test.cc"]
+  deps = [
+    ":synchronization",
+    ":thread_pool",
+    "$abseil/absl/base",
+    "$abseil/absl/base:config",
+    "$abseil/absl/base:core_headers",
+    "$abseil/absl/base:raw_logging_internal",
+    "$abseil/absl/memory",
+    "$abseil/absl/time",
+    "$googletest:gtest_main",
+  ]
+}
+
+# absl/synchronization/BUILD.bazel:202
+source_set("mutex_benchmark_common") {
+  testonly = true
+  sources = ["mutex_benchmark.cc"]
+  deps = [
+    ":synchronization",
+    ":thread_pool",
+    "$abseil/absl/base",
+    "$abseil/absl/base:config",
+    "$google_benchmark:benchmark_main",
+  ]
+}
+
+# absl/synchronization/BUILD.bazel:232
+executable("notification_test") {
+  sources = ["notification_test.cc"]
+  deps = [
+    ":synchronization",
+    "$abseil/absl/time",
+    "$googletest:gtest_main",
+  ]
+}
+
+# absl/synchronization/BUILD.bazel:245
+source_set("per_thread_sem_test_common") {
+  testonly = true
+  sources = ["internal/per_thread_sem_test.cc"]
+  deps = [
+    ":synchronization",
+    "$abseil/absl/base",
+    "$abseil/absl/base:config",
+    "$abseil/absl/strings",
+    "$abseil/absl/time",
+    "$googletest:gtest",
+  ]
+}
+
+# absl/synchronization/BUILD.bazel:262
+executable("per_thread_sem_test") {
+  deps = [
+    ":per_thread_sem_test_common",
+    ":synchronization",
+    "$abseil/absl/strings",
+    "$abseil/absl/time",
+    "$googletest:gtest_main",
+  ]
+}
+
+# absl/synchronization/BUILD.bazel:276
+executable("lifetime_test") {
+  sources = ["lifetime_test.cc"]
+  deps = [
+    ":synchronization",
+    "$abseil/absl/base:core_headers",
+    "$abseil/absl/base:raw_logging_internal",
+  ]
+}

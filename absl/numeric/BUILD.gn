@@ -1,0 +1,46 @@
+# Copyright (c) 2020 Leedehai. All rights reserved.
+# Use of this source code is governed under the MIT license.
+# Generated file. Do not modify manually.
+# upstream: 2020-08-07T17:37:02-04:00 ce4bc927755fdf0ed03d679d9c7fa041175bb3cb
+# file: absl/numeric/BUILD.bazel
+
+# absl/numeric/BUILD.bazel:27
+source_set("int128") {
+  sources = [
+    "int128.cc",
+    "int128_have_intrinsic.inc",
+    "int128_no_intrinsic.inc",
+  ]
+  public = ["int128.h"]
+  deps = [
+    "$abseil/absl/base:bits",
+    "$abseil/absl/base:config",
+    "$abseil/absl/base:core_headers",
+  ]
+}
+
+# absl/numeric/BUILD.bazel:44
+executable("int128_test") {
+  sources = [
+    "int128_stream_test.cc",
+    "int128_test.cc",
+  ]
+  deps = [
+    ":int128",
+    "$abseil/absl/base",
+    "$abseil/absl/base:core_headers",
+    "$abseil/absl/hash:hash_testing",
+    "$abseil/absl/meta:type_traits",
+    "$googletest:gtest_main",
+  ]
+}
+
+# absl/numeric/BUILD.bazel:63
+executable("int128_benchmark") {
+  sources = ["int128_benchmark.cc"]
+  deps = [
+    ":int128",
+    "$abseil/absl/base:config",
+    "$google_benchmark:benchmark_main",
+  ]
+}

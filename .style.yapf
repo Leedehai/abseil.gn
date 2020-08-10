@@ -1,0 +1,17 @@
+# -*- mode: yaml -*-
+# The coding style for automatic reformatting using YAPF for Python.
+# Documentation on options:
+#   https://github.com/google/yapf#knobs
+# Inspect the configs:
+#   python -m yapf --style-help | grep ...
+[style]
+based_on_style: pep8
+
+# Come on, PEP-8 uses 79 as the column limit..
+column_limit: 80
+
+# Use Chromium's overrides
+allow_split_before_dict_value: false
+allow_split_before_default_or_named_assigns: false
+coalesce_brackets: true
+each_dict_entry_on_separate_line: false

@@ -1,0 +1,85 @@
+absl/**/*.*
+absl/**/BUILD
+absl/**/METADATA
+absl/**/OWNERS
+absl/**/testdata
+!absl/**/BUILD.gn
+
+## Build artifacts
+bin
+out
+*.a
+*.d
+*.exe
+*.lib
+*.o
+*.out
+*.so
+*.test
+
+## Scripts
+__pycache__
+*.py[cod]
+*.pdb
+
+## Editors, IDEs
+# vim
+*~
+*.sw[op]
+# emacs
+\#*\#
+.\#*
+# Vistual Studio Code
+.vscode
+# Vistual Studio
+*.vcproj
+*.vcxproj
+*.vcxproj.filters
+# XCode
+*.xcodeproj
+xcodebuild
+
+## Logs, temporary files
+diff
+[.-].diff
+diff[.-]*
+dump
+[.-].dump
+dump[.-]*
+log
+*[.-]log
+log[.-]*
+logs
+*[.-]logs
+logs[.-]*
+temp
+[.-].temp
+temp[.-]*
+tmp
+[.-].tmp
+tmp[.-]*
+
+## Miscellaneous
+.*cache
+.*history
+.*log
+.clangd
+.DS_Store
+.env
+.npm
+.venv
+[a-z0-9]
+*.[tr]ar
+*.backup
+*.bak
+*.dSYM
+*.local.*
+*.zip
+app
+compile_commands.json
+dist
+GSYMS
+GTAGS
+node_modules
+TAGS
+www

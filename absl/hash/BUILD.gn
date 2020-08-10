@@ -1,0 +1,86 @@
+# Copyright (c) 2020 Leedehai. All rights reserved.
+# Use of this source code is governed under the MIT license.
+# Generated file. Do not modify manually.
+# upstream: 2020-08-07T17:37:02-04:00 ce4bc927755fdf0ed03d679d9c7fa041175bb3cb
+# file: absl/hash/BUILD.bazel
+
+# absl/hash/BUILD.bazel:29
+source_set("hash") {
+  sources = [
+    "internal/hash.cc",
+    "internal/hash.h",
+  ]
+  public = ["hash.h"]
+  deps = [
+    ":city",
+    "$abseil/absl/base:core_headers",
+    "$abseil/absl/base:endian",
+    "$abseil/absl/container:fixed_array",
+    "$abseil/absl/meta:type_traits",
+    "$abseil/absl/numeric:int128",
+    "$abseil/absl/strings",
+    "$abseil/absl/types:optional",
+    "$abseil/absl/types:variant",
+    "$abseil/absl/utility",
+  ]
+}
+
+# absl/hash/BUILD.bazel:52
+source_set("hash_testing") {
+  testonly = true
+  public = ["hash_testing.h"]
+  deps = [
+    ":spy_hash_state",
+    "$abseil/absl/meta:type_traits",
+    "$abseil/absl/strings",
+    "$abseil/absl/types:variant",
+    "$googletest:gtest",
+  ]
+}
+
+# absl/hash/BUILD.bazel:66
+executable("hash_test") {
+  sources = ["hash_test.cc"]
+  deps = [
+    ":hash",
+    ":hash_testing",
+    ":spy_hash_state",
+    "$abseil/absl/base:core_headers",
+    "$abseil/absl/container:flat_hash_set",
+    "$abseil/absl/meta:type_traits",
+    "$abseil/absl/numeric:int128",
+    "$abseil/absl/strings:cord_test_helpers",
+    "$googletest:gtest_main",
+  ]
+}
+
+# absl/hash/BUILD.bazel:84
+source_set("spy_hash_state") {
+  testonly = true
+  public = ["internal/spy_hash_state.h"]
+  deps = [
+    ":hash",
+    "$abseil/absl/strings",
+    "$abseil/absl/strings:str_format",
+  ]
+}
+
+# absl/hash/BUILD.bazel:98
+source_set("city") {
+  sources = ["internal/city.cc"]
+  public = ["internal/city.h"]
+  deps = [
+    "$abseil/absl/base:config",
+    "$abseil/absl/base:core_headers",
+    "$abseil/absl/base:endian",
+  ]
+}
+
+# absl/hash/BUILD.bazel:113
+executable("city_test") {
+  sources = ["internal/city_test.cc"]
+  deps = [
+    ":city",
+    "$googletest:gtest_main",
+  ]
+}

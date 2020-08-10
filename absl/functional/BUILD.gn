@@ -1,0 +1,58 @@
+# Copyright (c) 2020 Leedehai. All rights reserved.
+# Use of this source code is governed under the MIT license.
+# Generated file. Do not modify manually.
+# upstream: 2020-08-07T17:37:02-04:00 ce4bc927755fdf0ed03d679d9c7fa041175bb3cb
+# file: absl/functional/BUILD.bazel
+
+# absl/functional/BUILD.bazel:29
+source_set("bind_front") {
+  sources = ["internal/front_binder.h"]
+  public = ["bind_front.h"]
+  deps = [
+    "$abseil/absl/base:base_internal",
+    "$abseil/absl/container:compressed_tuple",
+    "$abseil/absl/meta:type_traits",
+    "$abseil/absl/utility",
+  ]
+}
+
+# absl/functional/BUILD.bazel:43
+executable("bind_front_test") {
+  sources = ["bind_front_test.cc"]
+  deps = [
+    ":bind_front",
+    "$abseil/absl/memory",
+    "$googletest:gtest_main",
+  ]
+}
+
+# absl/functional/BUILD.bazel:55
+source_set("function_ref") {
+  sources = ["internal/function_ref.h"]
+  public = ["function_ref.h"]
+  deps = [
+    "$abseil/absl/base:base_internal",
+    "$abseil/absl/meta:type_traits",
+  ]
+}
+
+# absl/functional/BUILD.bazel:67
+executable("function_ref_test") {
+  sources = ["function_ref_test.cc"]
+  deps = [
+    ":function_ref",
+    "$abseil/absl/container:test_instance_tracker",
+    "$abseil/absl/memory",
+    "$googletest:gtest_main",
+  ]
+}
+
+# absl/functional/BUILD.bazel:80
+executable("function_ref_benchmark") {
+  sources = ["function_ref_benchmark.cc"]
+  deps = [
+    ":function_ref",
+    "$abseil/absl/base:core_headers",
+    "$google_benchmark:benchmark_main",
+  ]
+}

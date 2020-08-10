@@ -1,0 +1,243 @@
+# Copyright (c) 2020 Leedehai. All rights reserved.
+# Use of this source code is governed under the MIT license.
+# Generated file. Do not modify manually.
+# upstream: 2020-08-07T17:37:02-04:00 ce4bc927755fdf0ed03d679d9c7fa041175bb3cb
+# file: absl/debugging/BUILD.bazel
+
+# absl/debugging/BUILD.bazel:31
+source_set("stacktrace") {
+  sources = [
+    "internal/stacktrace_aarch64-inl.inc",
+    "internal/stacktrace_arm-inl.inc",
+    "internal/stacktrace_config.h",
+    "internal/stacktrace_generic-inl.inc",
+    "internal/stacktrace_powerpc-inl.inc",
+    "internal/stacktrace_unimplemented-inl.inc",
+    "internal/stacktrace_win32-inl.inc",
+    "internal/stacktrace_x86-inl.inc",
+    "stacktrace.cc",
+  ]
+  public = ["stacktrace.h"]
+  deps = [
+    ":debugging_internal",
+    "$abseil/absl/base:config",
+    "$abseil/absl/base:core_headers",
+  ]
+}
+
+# absl/debugging/BUILD.bazel:54
+source_set("symbolize") {
+  sources = [
+    "symbolize.cc",
+    "symbolize_darwin.inc",
+    "symbolize_elf.inc",
+    "symbolize_unimplemented.inc",
+    "symbolize_win32.inc",
+  ]
+  public = [
+    "internal/symbolize.h",
+    "symbolize.h",
+  ]
+  deps = [
+    ":debugging_internal",
+    ":demangle_internal",
+    "$abseil/absl/base",
+    "$abseil/absl/base:config",
+    "$abseil/absl/base:core_headers",
+    "$abseil/absl/base:dynamic_annotations",
+    "$abseil/absl/base:malloc_internal",
+    "$abseil/absl/base:raw_logging_internal",
+    "$abseil/absl/strings",
+  ]
+}
+
+# absl/debugging/BUILD.bazel:85
+executable("symbolize_test") {
+  sources = ["symbolize_test.cc"]
+  deps = [
+    ":stack_consumption",
+    ":symbolize",
+    "$abseil/absl/base",
+    "$abseil/absl/base:config",
+    "$abseil/absl/base:core_headers",
+    "$abseil/absl/base:raw_logging_internal",
+    "$abseil/absl/memory",
+    "$abseil/absl/strings",
+    "$googletest:gtest",
+  ]
+}
+
+# absl/debugging/BUILD.bazel:109
+source_set("examine_stack") {
+  sources = ["internal/examine_stack.cc"]
+  public = ["internal/examine_stack.h"]
+  deps = [
+    ":stacktrace",
+    ":symbolize",
+    "$abseil/absl/base:config",
+    "$abseil/absl/base:core_headers",
+    "$abseil/absl/base:raw_logging_internal",
+  ]
+}
+
+# absl/debugging/BUILD.bazel:129
+source_set("failure_signal_handler") {
+  sources = ["failure_signal_handler.cc"]
+  public = ["failure_signal_handler.h"]
+  deps = [
+    ":examine_stack",
+    ":stacktrace",
+    "$abseil/absl/base",
+    "$abseil/absl/base:config",
+    "$abseil/absl/base:core_headers",
+    "$abseil/absl/base:errno_saver",
+    "$abseil/absl/base:raw_logging_internal",
+  ]
+}
+
+# absl/debugging/BUILD.bazel:146
+executable("failure_signal_handler_test") {
+  sources = ["failure_signal_handler_test.cc"]
+  deps = [
+    ":failure_signal_handler",
+    ":stacktrace",
+    ":symbolize",
+    "$abseil/absl/base:raw_logging_internal",
+    "$abseil/absl/strings",
+    "$googletest:gtest",
+  ]
+}
+
+# absl/debugging/BUILD.bazel:165
+source_set("debugging_internal") {
+  sources = [
+    "internal/address_is_readable.cc",
+    "internal/elf_mem_image.cc",
+    "internal/vdso_support.cc",
+  ]
+  public = [
+    "internal/address_is_readable.h",
+    "internal/elf_mem_image.h",
+    "internal/vdso_support.h",
+  ]
+  deps = [
+    "$abseil/absl/base:config",
+    "$abseil/absl/base:core_headers",
+    "$abseil/absl/base:dynamic_annotations",
+    "$abseil/absl/base:errno_saver",
+    "$abseil/absl/base:raw_logging_internal",
+  ]
+}
+
+# absl/debugging/BUILD.bazel:188
+source_set("demangle_internal") {
+  sources = ["internal/demangle.cc"]
+  public = ["internal/demangle.h"]
+  deps = [
+    "$abseil/absl/base",
+    "$abseil/absl/base:config",
+    "$abseil/absl/base:core_headers",
+  ]
+}
+
+# absl/debugging/BUILD.bazel:200
+executable("demangle_test") {
+  sources = ["internal/demangle_test.cc"]
+  deps = [
+    ":demangle_internal",
+    ":stack_consumption",
+    "$abseil/absl/base:config",
+    "$abseil/absl/base:core_headers",
+    "$abseil/absl/base:raw_logging_internal",
+    "$abseil/absl/memory",
+    "$googletest:gtest_main",
+  ]
+}
+
+# absl/debugging/BUILD.bazel:216
+source_set("leak_check") {
+  sources = ["leak_check.cc"]
+  public = ["leak_check.h"]
+  deps = [
+    "$abseil/absl/base:config",
+    "$abseil/absl/base:core_headers",
+  ]
+}
+
+# absl/debugging/BUILD.bazel:230
+source_set("leak_check_disable") {
+  sources = ["leak_check_disable.cc"]
+  deps = ["$abseil/absl/base:config"]
+}
+
+# absl/debugging/BUILD.bazel:246
+source_set("leak_check_api_enabled_for_testing") {
+  testonly = true
+  sources = ["leak_check.cc"]
+  public = ["leak_check.h"]
+  deps = ["$abseil/absl/base:config"]
+}
+
+# absl/debugging/BUILD.bazel:262
+source_set("leak_check_api_disabled_for_testing") {
+  testonly = true
+  sources = ["leak_check.cc"]
+  public = ["leak_check.h"]
+  cflags = ["-ULEAK_SANITIZER"]
+  deps = ["$abseil/absl/base:config"]
+}
+
+# absl/debugging/BUILD.bazel:275
+executable("leak_check_test") {
+  sources = ["leak_check_test.cc"]
+  deps = [
+    ":leak_check_api_enabled_for_testing",
+    "$abseil/absl/base",
+    "$googletest:gtest_main",
+  ]
+}
+
+# absl/debugging/BUILD.bazel:291
+executable("leak_check_no_lsan_test") {
+  sources = ["leak_check_test.cc"]
+  cflags = ["-UABSL_EXPECT_LEAK_SANITIZER"]
+  deps = [
+    ":leak_check_api_disabled_for_testing",
+    "$abseil/absl/base",
+    "$googletest:gtest_main",
+  ]
+}
+
+# absl/debugging/BUILD.bazel:308
+executable("disabled_leak_check_test") {
+  sources = ["leak_check_fail_test.cc"]
+  deps = [
+    ":leak_check_api_enabled_for_testing",
+    ":leak_check_disable",
+    "$abseil/absl/base",
+    "$googletest:gtest_main",
+  ]
+}
+
+# absl/debugging/BUILD.bazel:321
+source_set("stack_consumption") {
+  testonly = true
+  sources = ["internal/stack_consumption.cc"]
+  public = ["internal/stack_consumption.h"]
+  deps = [
+    "$abseil/absl/base:config",
+    "$abseil/absl/base:core_headers",
+    "$abseil/absl/base:raw_logging_internal",
+  ]
+}
+
+# absl/debugging/BUILD.bazel:336
+executable("stack_consumption_test") {
+  sources = ["internal/stack_consumption_test.cc"]
+  deps = [
+    ":stack_consumption",
+    "$abseil/absl/base:core_headers",
+    "$abseil/absl/base:raw_logging_internal",
+    "$googletest:gtest_main",
+  ]
+}
