@@ -20,6 +20,9 @@ Usage example ("--help" for help)
 $ ./gen.py $PATH_TO_ABSEIL_CPP_REPO --profile absl.json
 """
 
+import sys
+assert sys.version_info.major == 3 and sys.version_info.minor >= 7
+
 import argparse
 import ast
 import contextlib
@@ -27,9 +30,8 @@ import datetime
 import io
 import json
 import os
-import sys
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple, cast
+from typing import Any, Dict, List, Optional, Tuple, cast
 
 GEN_YEAR = datetime.datetime.now().year
 
@@ -108,6 +110,31 @@ def maybe_get_repo_info(dir_path: Path) -> Optional[str]:
     with open(info_txt, 'r') as f:
         return f.read().strip().replace("\n", " ")
 
+def is_constant_node(node) -> bool:
+    # ast.Num, ast.Str, ast.NameConstant are deprecated since Python 3.8 (though
+    # still available for a while), and all constants are classified as
+    # ast.Constant since then.
+    try:
+        return isinstance(node, (ast.Constant, ast.Num, ast.Str, ast.NameConstant))
+    except AttributeError: # ast.Num, ast.Str, ast.NameConstant are unavailable.
+        return isinstance(node, ast.Constant)
+
+def extract_constant_node(node) -> Any:
+    # ast.Num, ast.Str, ast.NameConstant are deprecated since Python 3.8 (though
+    # still available for a while), and all constants are classified as
+    # ast.Constant since then.
+    if isinstance(node, ast.Constant):
+        return cast(ast.Constant, node).value
+    try:
+        if isinstance(node, ast.Num):
+            return cast(ast.Num, node).n
+        if isinstance(node, ast.Str):
+            return cast(ast.Str, node).s
+        if isinstance(node, ast.NameConstant):
+            return cast(ast.NameConstant, node).value
+    except AttributeError: # ast.Num, ast.Str, ast.NameConstant are unavailable.
+        raise NotImplementedError("unhandled constant node: %s" % type(node))
+
 
 def read_bazel_build(source: io.TextIOWrapper,
                      profile: dict) -> Tuple[Optional[List[dict]], bool]:
@@ -126,16 +153,16 @@ def read_bazel_build(source: io.TextIOWrapper,
             continue
         kwargs = {}
         for kwarg in call.keywords:
-            attr = kwarg.arg
+            attr: str = kwarg.arg
             if attr not in INTERESTED_ATTRS:
                 continue
             value = kwarg.value
-            if isinstance(value, ast.Constant):
-                kwargs[attr] = value.value  # str
+            if is_constant_node(value):
+                kwargs[attr] = extract_constant_node(value)
             elif isinstance(value, ast.List):
                 kwargs[attr] = [
                     rectify_label_str(
-                        cast(ast.Constant, e).value,
+                        extract_constant_node(e),
                         profile.get(PROFILE_ROOT_REPLACERS, {}))
                     for e in value.elts
                 ]
@@ -294,7 +321,7 @@ def main() -> int:
         "--prefix",
         type=str,
         default=None,
-        help="root of generated files (default: source project)")
+        help="root of generated files (default: in source tree)")
     arg_parser.add_argument("-c",
                             "--clean",
                             action="store_true",
