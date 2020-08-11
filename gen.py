@@ -17,13 +17,14 @@ $ ./gen.py $PATH_TO_ABSEIL_CPP_REPO --profile absl.json
 """
 
 import sys
-assert sys.version_info.major == 3 and sys.version_info.minor >= 7
+# ast.get_source_segment is only availble in Python 3.8+.
+assert sys.version_info.major == 3 and sys.version_info.minor >= 8
 
 import argparse
 import ast
 import contextlib
 import datetime
-import fnmatch
+import glob
 import io
 import json
 import os
@@ -33,7 +34,7 @@ from pathlib import Path
 from typing import Any, Dict, Iterable, List, Optional, Tuple, cast
 
 GEN_YEAR = datetime.datetime.now().year
-DEP_ROOT_SIGIL = re.compile(r"^@\S+\/\/")  # e.g. "@om_google_googletest//"
+DEP_ROOT_SIGIL = re.compile(r"^@\S+")  # e.g. "@com_google_googletest"
 
 
 def print_warn(s: str) -> None:
@@ -51,11 +52,13 @@ PROFILE_TARGET_MAPPING = "target_mapping"
 PROFILE_ROOT_REPLACERS = "root_replacers"
 PROFILE_VARIABLES = "variable_expansions"
 PROFILE_HIDDEN_TARGETS = "hidden_targets"
+PROFILE_SKIP_TESTONLY = "skip_testonly"
+PROFILE_SELECT_KEYS = "select_keys"
 
 GnAttribute = namedtuple("GnAttribute", ["name", "order"])
 
-INTERESTED_ATTRS = {
-    "name": GnAttribute(name=None, order=None),
+INTERESTED_BAZEL_ATTRS = {
+    "name": None,
     "testonly": GnAttribute(name="testonly", order=5),
     "hdrs": GnAttribute(name="public", order=4),
     "srcs": GnAttribute(name="sources", order=3),
@@ -69,7 +72,7 @@ INTERESTED_ATTRS = {
     # "hidden_targets" list.
 }
 GN_ATTR_ORDER_LOOKUP = dict(
-    (e.name, e.order) for e in INTERESTED_ATTRS.values())
+    (e.name, e.order) for e in INTERESTED_BAZEL_ATTRS.values() if e != None)
 
 
 def gn_attr_sorted(iterable: Iterable[tuple]) -> List[tuple]:
@@ -83,7 +86,11 @@ def rectify_label_str(p: str, replacers: dict) -> str:
         if p.startswith(k):
             p = p.replace(k, v, 1)
             break
-    return p.replace("/:", ":", 1)
+    if ":" in p:
+        p1, p2 = p.split(":", 1)
+        if p != "/":
+            return (p1[:-1] if p1.endswith("/") else p1) + ":" + p2
+    return p
 
 
 def prettify_path_str(p: Path) -> str:
@@ -151,56 +158,129 @@ def extract_constant_node(node) -> Any:
         raise NotImplementedError("unhandled constant node: %s" % type(node))
 
 
-def read_bazel_build(source: io.TextIOWrapper,
-                     profile: dict) -> Tuple[Optional[List[dict]], bool]:
-    node = ast.parse(source.read())  # Bazel uses a subset of Python grammar.
+def eval_bazel_expr(code_text: Optional[str], profile: dict,
+                    source_path: Path) -> Optional[Any]:
+    if code_text == None or len(code_text) == 0:
+        return None
+
+    class _DisallowFunctions:
+        @staticmethod
+        def __getitem__(key):
+            raise NameError
+
+    def _bazel_select(choices: dict, **_) -> Any:
+        # The logic doesn't exactly match what Bazel does (e.g. it doesn't
+        # consider precedence if more than one choice keys are matched).
+        for condition, value in sorted(choices.items(), key=lambda kv: kv[0]):
+            if not condition.startswith("//"):
+                if condition.startswith(":"):
+                    condition = str(source_path.parent) + condition
+                else:
+                    condition = str(source_path.parent.joinpath(condition))
+            if condition in profile.get(PROFILE_SELECT_KEYS, {}):
+                return value
+        # //conditions:default is a pseudo-label in Bazel. Like Bazel, if
+        # no condition is picked up already, and //conditions:default is
+        # absent from the provided choices, then an error is raised.
+        return choices["//conditions:default"]
+
+    def _bazel_glob(include: str,
+                    exclude: Optional[List[str]] = None,
+                    **_) -> List[str]:
+        # The logic doesn't exactly match what Bazel does (e.g. it just
+        # assumes exclude_directories is enabled).
+        globbed = glob.glob(str(source_path.parent.joinpath(include)))
+        to_exclude = [str(source_path.parent.joinpath(e)) for e in exclude]
+        return [e for e in globbed if e not in to_exclude]
+
+    with_globals = {
+        "__builtins__": _DisallowFunctions,  # No Python builtin functions for security.
+        "select": _bazel_select,
+        "glob": _bazel_glob,
+    }
+    with_globals.update(profile.get(PROFILE_VARIABLES, {}))
+    with_globals.update(profile.get(PROFILE_VARIABLES, {}))
+
+    try:
+        res = eval(code_text, with_globals)  # pylint: disable=eval-used
+    except (NameError, KeyError, TypeError, SyntaxError):
+        # KeyError can be caused by missing "//conditions:default" in select()
+        # choices and none of the existing choices overlaps with profile's
+        # PROFILE_SELECT_KEYS list.
+        # TypeError can be caused by unrecognized variable names. To fix
+        # it, define it in profile PROFILE_VARIABLES map.
+        return None
+    return res
+
+
+def read_bazel_build(source: io.TextIOWrapper, profile: dict,
+                     source_path: Path) -> Tuple[Optional[List[dict]], bool]:
+    source_text = source.read()
+    node = ast.parse(source_text)  # Bazel uses a subset of Python grammar.
     function_calls: List[ast.Call] = [
         n.value for n in node.body
         if isinstance(n, ast.Expr) and isinstance(n.value, ast.Call)
     ]
-    calls: List[dict] = []  # Bazel declarations like cc_library(name=.., ..)
-    target_names = set()
+    decls: List[dict] = []  # Bazel declarations like cc_library(name=.., ..)
     has_printout = False
     for call in (c for c in function_calls if len(c.keywords) > 0):
         call_id = cast(ast.Name, call.func).id
         call_lineno = call.lineno
         if call_id not in profile.get(PROFILE_TARGET_MAPPING, {}):
             continue
-        kwargs = {}
-        for kwarg in call.keywords:
-            attr: Optional[str] = kwarg.arg
-            if attr == None or attr not in INTERESTED_ATTRS:
+        kwargs: Dict[str, Any] = {}
+        for kwarg_node in call.keywords:
+            attr: Optional[str] = kwarg_node.arg
+            if attr == None or attr not in INTERESTED_BAZEL_ATTRS:
                 continue
-            value = kwarg.value
-            if is_constant_node(value):
-                kwargs[attr] = extract_constant_node(value)
-            elif isinstance(value, ast.List):
-                kwargs[attr] = [
-                    rectify_label_str(extract_constant_node(e),
-                                      profile.get(PROFILE_ROOT_REPLACERS, {}))
-                    for e in value.elts
-                ]
-                for ee in (e for e in kwargs[attr] if DEP_ROOT_SIGIL.match(e)):
-                    print_warn("L%-3d: not replacing @..// in \"%s\"" %
-                               (value.lineno, ee))
-            elif isinstance(value, ast.Name):
-                profile_vars = profile.get(PROFILE_VARIABLES, {}).get(attr, {})
-                if value.id in profile_vars:
-                    replace_with = profile_vars[value.id]
+            rhs = kwarg_node.value  # Node of the keyword arg assigned value.
+            rhs_value = None  # Extracted value, i.e. not an AST node object.
+            if is_constant_node(rhs):
+                rhs_value = extract_constant_node(rhs)
+            elif isinstance(rhs, ast.List):
+                rhs_value = [extract_constant_node(e) for e in rhs.elts]
+            elif isinstance(rhs, ast.Name):
+                profile_vars = profile.get(PROFILE_VARIABLES, {})
+                if rhs.id in profile_vars:
+                    replace_with = profile_vars[rhs.id]
                     if replace_with != None:
-                        kwargs[attr] = profile_vars[value.id]
+                        rhs_value = profile_vars[rhs.id]
                 else:
-                    kwargs[attr] = value.id
+                    rhs_value = rhs.id
                     print_warn("L%-3d: not replacing %s = %s" %
-                               (value.lineno, attr, value.id))
+                               (rhs.lineno, attr, rhs.id))
                     has_printout = True
+            elif isinstance(
+                    rhs, (ast.expr, ast.Call)):  # ast.expr is an abstract class
+                source_segment = ast.get_source_segment(source_text, rhs)
+                eval_res = eval_bazel_expr(source_segment, profile, source_path)
+                if eval_res == None:
+                    print_err(  # If the expression gets complicated we can't do.
+                        "L%-3d: '%s' right hand side unable to eval: %s" %
+                        (rhs.lineno, attr, source_segment))
+                    return None, True
+                rhs_value = eval_res
+            # Processing rhs_value and store it
+            if rhs_value == None:
+                continue
+            if isinstance(rhs_value, list):
+                rhs_value = [
+                    rectify_label_str(e, profile.get(PROFILE_ROOT_REPLACERS,
+                                                     {})) for e in rhs_value
+                ]
+                for ee in (e for e in rhs_value if DEP_ROOT_SIGIL.match(e)):
+                    print_warn("L%-3d: not replacing @.. in '%s': \"%s\"" %
+                               (vars(rhs).get("lineno", "?"), attr, ee))
+            kwargs[attr] = rhs_value
         assert "name" in kwargs
-        target_names.add(kwargs["name"])
-        item_dict = {"type": call_id, "lineno": call_lineno}
-        item_dict.update(kwargs)
-        calls.append(item_dict)
-    assert len(calls) == len(target_names)
-    return calls, has_printout
+        item_dict = {
+            "type": call_id, "lineno": call_lineno, "name": kwargs["name"],
+            "kwargs": kwargs
+        }
+        if ((kwargs.get("testonly", 0) == 0)
+                or (profile.get(PROFILE_SKIP_TESTONLY, False)) == False):
+            decls.append(item_dict)
+    return decls, has_printout
 
 
 def make_gn_build(source_relpath: Path, repo_info: Optional[str],
@@ -208,6 +288,7 @@ def make_gn_build(source_relpath: Path, repo_info: Optional[str],
     ss = io.StringIO()
     ss.write("# Copyright (c) %d Leedehai. All rights reserved.\n" % GEN_YEAR)
     ss.write("# Use of this source code is governed under the MIT license.\n")
+    ss.write("# -----\n")
     ss.write("# Generated file. Do not modify manually.\n")
     if repo_info:
         ss.write("# upstream: %s\n" % repo_info)
@@ -218,25 +299,24 @@ def make_gn_build(source_relpath: Path, repo_info: Optional[str],
         return ss.getvalue()
 
     target_type_mapping = profile.get(PROFILE_TARGET_MAPPING, {})
-    hidden_target_globs = profile.get(PROFILE_HIDDEN_TARGETS, [])
+    hidden_target_regexes = profile.get(PROFILE_HIDDEN_TARGETS, [])
     proj_root_replacer = profile.get(PROFILE_ROOT_REPLACERS, {"//": "//"})["//"]
     for i, item_dict in enumerate(data_list):
         gn_target_type = target_type_mapping[item_dict["type"]]
         gn_target_name = item_dict["name"]
         gn_target_label = str(source_relpath.parent) + ":" + gn_target_name
+        source_lineno = item_dict["lineno"]
         private_visibility_cause = None
-        for glob_s in hidden_target_globs:
-            if fnmatch.fnmatch(gn_target_label, glob_s):
-                private_visibility_cause = glob_s
+        for regex_str in hidden_target_regexes:
+            if re.search(regex_str, gn_target_label):
+                private_visibility_cause = regex_str
                 break
         gn_attrs = {}
-        for in_attr, value in item_dict.items():
-            if in_attr in ["type", "name", "lineno"]:
+        for in_attr, value in item_dict["kwargs"].items():
+            if in_attr == "name" or value == None:
                 continue
-            if value == None:
-                continue
-            gn_attrs[INTERESTED_ATTRS[in_attr].name] = value
-        ss.write("# %s:%d\n" % (source_relpath, item_dict["lineno"]))
+            gn_attrs[INTERESTED_BAZEL_ATTRS[in_attr].name] = value
+        ss.write("# %s:%d\n" % (source_relpath, source_lineno))
         ss.write("%s(\"%s\") {\n" % (gn_target_type, gn_target_name))
         if private_visibility_cause:
             ss.write("  visibility = [\"%s:*\"]\n" % (proj_root_replacer))
@@ -260,7 +340,7 @@ def gen_file(source_path: Path, repo_path: Optional[Path],
              repo_info: Optional[str], profile: dict,
              verbose: bool) -> Tuple[Optional[str], bool]:
     with open(source_path, 'r') as f:
-        data_list, has_printout = read_bazel_build(f, profile)
+        data_list, has_printout = read_bazel_build(f, profile, source_path)
     if data_list == None:
         return None, has_printout
     if repo_path:
@@ -282,6 +362,9 @@ def work(args: argparse.Namespace) -> int:
     if args.profile:
         with open(args.profile, 'r') as f:
             profile = json.load(f)
+        if not isinstance(profile, dict):
+            print_err("profile should be a dict")
+            return 1
     else:
         profile = {}
 
@@ -313,6 +396,7 @@ def work(args: argparse.Namespace) -> int:
         return 0
 
     gn_contents: Dict[Path, str] = {}
+    parsing_error_file_num = 0
     total_builds = len(io_paths)
     sys.stderr.write("starting up..\n")
     for i, (bazel_path, gn_path) in enumerate(io_paths):
@@ -324,12 +408,15 @@ def work(args: argparse.Namespace) -> int:
         gn_content, has_printout = gen_file(bazel_path, input_path, repo_info,
                                             profile, args.verbose)
         if has_printout and not args.verbose:
-            sys.stderr.write("\n")  # Avoid being elided by "\x1b[1A\x1b[2K"
-        if gn_content != None:
-            gn_contents[gn_path] = gn_content
+            sys.stderr.write("\n")  # So text isn't elided by "\x1b[1A\x1b[2K"
+        if gn_content == None:
+            parsing_error_file_num += 1
         else:
-            print_err("error in %s, nothing written." % bazel_path)
-            return 1
+            gn_contents[gn_path] = gn_content
+    if parsing_error_file_num > 0:
+        print_err("error in %s files, nothing written." %
+                  parsing_error_file_num)
+        return 1
 
     written = 0
     if not args.dry_run:

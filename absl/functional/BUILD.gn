@@ -1,5 +1,6 @@
 # Copyright (c) 2020 Leedehai. All rights reserved.
 # Use of this source code is governed under the MIT license.
+# -----
 # Generated file. Do not modify manually.
 # upstream: 2020-08-07T17:37:02-04:00 ce4bc927755fdf0ed03d679d9c7fa041175bb3cb
 # file: absl/functional/BUILD.bazel
@@ -14,6 +15,8 @@ source_set("bind_front") {
     "$abseil/absl/meta:type_traits",
     "$abseil/absl/utility",
   ]
+  cflags = []
+  ldflags = []
 }
 
 # absl/functional/BUILD.bazel:55
@@ -24,4 +27,6 @@ source_set("function_ref") {
     "$abseil/absl/base:base_internal",
     "$abseil/absl/meta:type_traits",
   ]
+  cflags = []
+  ldflags = []
 }

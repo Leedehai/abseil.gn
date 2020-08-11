@@ -1,5 +1,6 @@
 # Copyright (c) 2020 Leedehai. All rights reserved.
 # Use of this source code is governed under the MIT license.
+# -----
 # Generated file. Do not modify manually.
 # upstream: 2020-08-07T17:37:02-04:00 ce4bc927755fdf0ed03d679d9c7fa041175bb3cb
 # file: absl/synchronization/BUILD.bazel
@@ -17,6 +18,8 @@ source_set("graphcycles_internal") {
     "$abseil/absl/base:malloc_internal",
     "$abseil/absl/base:raw_logging_internal",
   ]
+  cflags = []
+  ldflags = []
 }
 
 # absl/synchronization/BUILD.bazel:53
@@ -28,6 +31,8 @@ source_set("kernel_timeout_internal") {
     "$abseil/absl/base:raw_logging_internal",
     "$abseil/absl/time",
   ]
+  cflags = []
+  ldflags = []
 }
 
 # absl/synchronization/BUILD.bazel:68
@@ -41,6 +46,15 @@ source_set("synchronization") {
     "internal/waiter.h",
     "mutex.h",
     "notification.h",
+  ]
+  sources = [
+    "barrier.cc",
+    "blocking_counter.cc",
+    "internal/create_thread_identity.cc",
+    "internal/per_thread_sem.cc",
+    "internal/waiter.cc",
+    "mutex.cc",
+    "notification.cc",
   ]
   deps = [
     ":graphcycles_internal",
@@ -57,41 +71,6 @@ source_set("synchronization") {
     "$abseil/absl/debugging:symbolize",
     "$abseil/absl/time",
   ]
-}
-
-# absl/synchronization/BUILD.bazel:168
-source_set("thread_pool") {
-  testonly = true
-  public = ["internal/thread_pool.h"]
-  deps = [
-    ":synchronization",
-    "$abseil/absl/base:core_headers",
-  ]
-}
-
-# absl/synchronization/BUILD.bazel:202
-source_set("mutex_benchmark_common") {
-  testonly = true
-  sources = ["mutex_benchmark.cc"]
-  deps = [
-    ":synchronization",
-    ":thread_pool",
-    "@com_github_google_benchmark/:benchmark_main",
-    "$abseil/absl/base",
-    "$abseil/absl/base:config",
-  ]
-}
-
-# absl/synchronization/BUILD.bazel:245
-source_set("per_thread_sem_test_common") {
-  testonly = true
-  sources = ["internal/per_thread_sem_test.cc"]
-  deps = [
-    ":synchronization",
-    "@com_google_googletest/:gtest",
-    "$abseil/absl/base",
-    "$abseil/absl/base:config",
-    "$abseil/absl/strings",
-    "$abseil/absl/time",
-  ]
+  cflags = []
+  ldflags = ["-pthread"]
 }

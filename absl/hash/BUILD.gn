@@ -1,5 +1,6 @@
 # Copyright (c) 2020 Leedehai. All rights reserved.
 # Use of this source code is governed under the MIT license.
+# -----
 # Generated file. Do not modify manually.
 # upstream: 2020-08-07T17:37:02-04:00 ce4bc927755fdf0ed03d679d9c7fa041175bb3cb
 # file: absl/hash/BUILD.bazel
@@ -23,30 +24,8 @@ source_set("hash") {
     "$abseil/absl/types:variant",
     "$abseil/absl/utility",
   ]
-}
-
-# absl/hash/BUILD.bazel:52
-source_set("hash_testing") {
-  testonly = true
-  public = ["hash_testing.h"]
-  deps = [
-    ":spy_hash_state",
-    "@com_google_googletest/:gtest",
-    "$abseil/absl/meta:type_traits",
-    "$abseil/absl/strings",
-    "$abseil/absl/types:variant",
-  ]
-}
-
-# absl/hash/BUILD.bazel:84
-source_set("spy_hash_state") {
-  testonly = true
-  public = ["internal/spy_hash_state.h"]
-  deps = [
-    ":hash",
-    "$abseil/absl/strings",
-    "$abseil/absl/strings:str_format",
-  ]
+  cflags = []
+  ldflags = []
 }
 
 # absl/hash/BUILD.bazel:98
@@ -58,4 +37,6 @@ source_set("city") {
     "$abseil/absl/base:core_headers",
     "$abseil/absl/base:endian",
   ]
+  cflags = []
+  ldflags = []
 }

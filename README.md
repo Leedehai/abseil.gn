@@ -22,7 +22,7 @@ repository first (see below).
 
 ## Prerequisites
 
-- Python 3.7+,
+- Python 3.8+,
 - Git 2.21+ and network connection (if updating the build).
 
 ## How to update this repository

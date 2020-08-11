@@ -1,5 +1,6 @@
 # Copyright (c) 2020 Leedehai. All rights reserved.
 # Use of this source code is governed under the MIT license.
+# -----
 # Generated file. Do not modify manually.
 # upstream: 2020-08-07T17:37:02-04:00 ce4bc927755fdf0ed03d679d9c7fa041175bb3cb
 # file: absl/random/internal/BUILD.bazel
@@ -9,6 +10,8 @@ source_set("traits") {
   visibility = ["$abseil/:*"]
   public = ["traits.h"]
   deps = ["$abseil/absl/base:config"]
+  cflags = []
+  ldflags = []
 }
 
 # absl/random/internal/BUILD.bazel:43
@@ -20,6 +23,8 @@ source_set("distribution_caller") {
     "$abseil/absl/base:fast_type_id",
     "$abseil/absl/utility",
   ]
+  cflags = []
+  ldflags = []
 }
 
 # absl/random/internal/BUILD.bazel:55
@@ -30,6 +35,8 @@ source_set("fast_uniform_bits") {
     "$abseil/absl/base:config",
     "$abseil/absl/meta:type_traits",
   ]
+  cflags = []
+  ldflags = []
 }
 
 # absl/random/internal/BUILD.bazel:68
@@ -45,6 +52,8 @@ source_set("seed_material") {
     "$abseil/absl/types:optional",
     "$abseil/absl/types:span",
   ]
+  cflags = []
+  ldflags = []
 }
 
 # absl/random/internal/BUILD.bazel:91
@@ -64,22 +73,8 @@ source_set("pool_urbg") {
     "$abseil/absl/random:seed_gen_exception",
     "$abseil/absl/types:span",
   ]
-}
-
-# absl/random/internal/BUILD.bazel:119
-source_set("explicit_seed_seq") {
-  visibility = ["$abseil/:*"]
-  testonly = true
-  public = ["explicit_seed_seq.h"]
-  deps = ["$abseil/absl/base:config"]
-}
-
-# absl/random/internal/BUILD.bazel:130
-source_set("sequence_urbg") {
-  visibility = ["$abseil/:*"]
-  testonly = true
-  public = ["sequence_urbg.h"]
-  deps = ["$abseil/absl/base:config"]
+  cflags = []
+  ldflags = ["-pthread"]
 }
 
 # absl/random/internal/BUILD.bazel:141
@@ -93,6 +88,8 @@ source_set("salted_seed_seq") {
     "$abseil/absl/types:optional",
     "$abseil/absl/types:span",
   ]
+  cflags = []
+  ldflags = []
 }
 
 # absl/random/internal/BUILD.bazel:157
@@ -103,6 +100,8 @@ source_set("iostream_state_saver") {
     "$abseil/absl/meta:type_traits",
     "$abseil/absl/numeric:int128",
   ]
+  cflags = []
+  ldflags = []
 }
 
 # absl/random/internal/BUILD.bazel:168
@@ -115,6 +114,8 @@ source_set("generate_real") {
     "$abseil/absl/base:bits",
     "$abseil/absl/meta:type_traits",
   ]
+  cflags = []
+  ldflags = []
 }
 
 # absl/random/internal/BUILD.bazel:183
@@ -122,6 +123,8 @@ source_set("fastmath") {
   visibility = ["$abseil/:*"]
   public = ["fastmath.h"]
   deps = ["$abseil/absl/base:bits"]
+  cflags = []
+  ldflags = []
 }
 
 # absl/random/internal/BUILD.bazel:193
@@ -134,6 +137,8 @@ source_set("wide_multiply") {
     "$abseil/absl/base:config",
     "$abseil/absl/numeric:int128",
   ]
+  cflags = []
+  ldflags = []
 }
 
 # absl/random/internal/BUILD.bazel:206
@@ -149,6 +154,8 @@ source_set("nonsecure_base") {
     "$abseil/absl/types:optional",
     "$abseil/absl/types:span",
   ]
+  cflags = []
+  ldflags = []
 }
 
 # absl/random/internal/BUILD.bazel:222
@@ -162,6 +169,8 @@ source_set("pcg_engine") {
     "$abseil/absl/meta:type_traits",
     "$abseil/absl/numeric:int128",
   ]
+  cflags = []
+  ldflags = []
 }
 
 # absl/random/internal/BUILD.bazel:236
@@ -173,6 +182,8 @@ source_set("randen_engine") {
     ":randen",
     "$abseil/absl/meta:type_traits",
   ]
+  cflags = []
+  ldflags = []
 }
 
 # absl/random/internal/BUILD.bazel:248
@@ -181,6 +192,8 @@ source_set("platform") {
   public = ["randen_traits.h"]
   sources = ["randen_round_keys.cc"]
   deps = ["$abseil/absl/base:config"]
+  cflags = []
+  ldflags = []
 }
 
 # absl/random/internal/BUILD.bazel:264
@@ -194,6 +207,8 @@ source_set("randen") {
     ":randen_slow",
     "$abseil/absl/base:raw_logging_internal",
   ]
+  cflags = []
+  ldflags = []
 }
 
 # absl/random/internal/BUILD.bazel:282
@@ -206,6 +221,8 @@ source_set("randen_slow") {
     "$abseil/absl/base:config",
     "$abseil/absl/base:core_headers",
   ]
+  cflags = []
+  ldflags = []
 }
 
 # absl/random/internal/BUILD.bazel:297
@@ -221,6 +238,8 @@ source_set("randen_hwaes") {
     ":randen_hwaes_impl",
     "$abseil/absl/base:config",
   ]
+  cflags = []
+  ldflags = []
 }
 
 # absl/random/internal/BUILD.bazel:316
@@ -235,28 +254,11 @@ source_set("randen_hwaes_impl") {
     "$abseil/absl/base:config",
     "$abseil/absl/base:core_headers",
   ]
-}
-
-# absl/random/internal/BUILD.bazel:346
-source_set("distribution_test_util") {
-  visibility = ["$abseil/:*"]
-  testonly = true
-  public = [
-    "chi_square.h",
-    "distribution_test_util.h",
+  cflags = [
+    "-Wno-pass-failed",
+    "-maes",
   ]
-  sources = [
-    "chi_square.cc",
-    "distribution_test_util.cc",
-  ]
-  deps = [
-    "$abseil/absl/base:config",
-    "$abseil/absl/base:core_headers",
-    "$abseil/absl/base:raw_logging_internal",
-    "$abseil/absl/strings",
-    "$abseil/absl/strings:str_format",
-    "$abseil/absl/types:span",
-  ]
+  ldflags = []
 }
 
 # absl/random/internal/BUILD.bazel:487
@@ -266,18 +268,6 @@ source_set("mock_helpers") {
   deps = [
     "$abseil/absl/base:fast_type_id",
     "$abseil/absl/types:optional",
-  ]
-}
-
-# absl/random/internal/BUILD.bazel:496
-source_set("mock_overload_set") {
-  visibility = ["$abseil/:*"]
-  testonly = true
-  public = ["mock_overload_set.h"]
-  deps = [
-    ":mock_helpers",
-    "@com_google_googletest/:gtest",
-    "$abseil/absl/random:mocking_bit_gen",
   ]
 }
 
@@ -292,6 +282,7 @@ source_set("nanobenchmark") {
     "$abseil/absl/base:core_headers",
     "$abseil/absl/base:raw_logging_internal",
   ]
+  ldflags = []
 }
 
 # absl/random/internal/BUILD.bazel:657
@@ -303,4 +294,6 @@ source_set("uniform_helper") {
     "$abseil/absl/base:config",
     "$abseil/absl/meta:type_traits",
   ]
+  cflags = []
+  ldflags = []
 }

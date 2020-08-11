@@ -1,5 +1,6 @@
 # Copyright (c) 2020 Leedehai. All rights reserved.
 # Use of this source code is governed under the MIT license.
+# -----
 # Generated file. Do not modify manually.
 # upstream: 2020-08-07T17:37:02-04:00 ce4bc927755fdf0ed03d679d9c7fa041175bb3cb
 # file: absl/types/BUILD.bazel
@@ -15,6 +16,8 @@ source_set("any") {
     "$abseil/absl/meta:type_traits",
     "$abseil/absl/utility",
   ]
+  cflags = []
+  ldflags = []
 }
 
 # absl/types/BUILD.bazel:43
@@ -24,6 +27,8 @@ source_set("bad_any_cast") {
     ":bad_any_cast_impl",
     "$abseil/absl/base:config",
   ]
+  cflags = []
+  ldflags = []
 }
 
 # absl/types/BUILD.bazel:54
@@ -36,6 +41,8 @@ source_set("bad_any_cast_impl") {
     "$abseil/absl/base:config",
     "$abseil/absl/base:raw_logging_internal",
   ]
+  cflags = []
+  ldflags = []
 }
 
 # absl/types/BUILD.bazel:100
@@ -48,6 +55,8 @@ source_set("span") {
     "$abseil/absl/base:throw_delegate",
     "$abseil/absl/meta:type_traits",
   ]
+  cflags = []
+  ldflags = []
 }
 
 # absl/types/BUILD.bazel:137
@@ -63,6 +72,8 @@ source_set("optional") {
     "$abseil/absl/meta:type_traits",
     "$abseil/absl/utility",
   ]
+  cflags = []
+  ldflags = []
 }
 
 # absl/types/BUILD.bazel:154
@@ -73,6 +84,8 @@ source_set("bad_optional_access") {
     "$abseil/absl/base:config",
     "$abseil/absl/base:raw_logging_internal",
   ]
+  cflags = []
+  ldflags = []
 }
 
 # absl/types/BUILD.bazel:166
@@ -83,27 +96,8 @@ source_set("bad_variant_access") {
     "$abseil/absl/base:config",
     "$abseil/absl/base:raw_logging_internal",
   ]
-}
-
-# absl/types/BUILD.bazel:211
-source_set("conformance_testing") {
-  testonly = true
-  public = [
-    "internal/conformance_aliases.h",
-    "internal/conformance_archetype.h",
-    "internal/conformance_profile.h",
-    "internal/conformance_testing.h",
-    "internal/conformance_testing_helpers.h",
-    "internal/parentheses.h",
-    "internal/transform_args.h",
-  ]
-  deps = [
-    "@com_google_googletest/:gtest",
-    "$abseil/absl/algorithm:container",
-    "$abseil/absl/meta:type_traits",
-    "$abseil/absl/strings",
-    "$abseil/absl/utility",
-  ]
+  cflags = []
+  ldflags = []
 }
 
 # absl/types/BUILD.bazel:249
@@ -118,6 +112,8 @@ source_set("variant") {
     "$abseil/absl/meta:type_traits",
     "$abseil/absl/utility",
   ]
+  cflags = []
+  ldflags = []
 }
 
 # absl/types/BUILD.bazel:314
@@ -127,4 +123,5 @@ source_set("compare") {
     "$abseil/absl/base:core_headers",
     "$abseil/absl/meta:type_traits",
   ]
+  cflags = []
 }

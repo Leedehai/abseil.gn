@@ -1,5 +1,6 @@
 # Copyright (c) 2020 Leedehai. All rights reserved.
 # Use of this source code is governed under the MIT license.
+# -----
 # Generated file. Do not modify manually.
 # upstream: 2020-08-07T17:37:02-04:00 ce4bc927755fdf0ed03d679d9c7fa041175bb3cb
 # file: absl/random/BUILD.bazel
@@ -15,6 +16,8 @@ source_set("random") {
     "$abseil/absl/random/internal:pool_urbg",
     "$abseil/absl/random/internal:randen_engine",
   ]
+  cflags = []
+  ldflags = []
 }
 
 # absl/random/BUILD.bazel:46
@@ -51,6 +54,8 @@ source_set("distributions") {
     "$abseil/absl/random/internal:wide_multiply",
     "$abseil/absl/strings",
   ]
+  cflags = []
+  ldflags = []
 }
 
 # absl/random/BUILD.bazel:84
@@ -58,6 +63,8 @@ source_set("seed_gen_exception") {
   public = ["seed_gen_exception.h"]
   sources = ["seed_gen_exception.cc"]
   deps = ["$abseil/absl/base:config"]
+  cflags = []
+  ldflags = []
 }
 
 # absl/random/BUILD.bazel:93
@@ -73,6 +80,8 @@ source_set("seed_sequences") {
     "$abseil/absl/random/internal:seed_material",
     "$abseil/absl/types:span",
   ]
+  cflags = []
+  ldflags = []
 }
 
 # absl/random/BUILD.bazel:112
@@ -86,36 +95,6 @@ source_set("bit_gen_ref") {
     "$abseil/absl/random/internal:distribution_caller",
     "$abseil/absl/random/internal:fast_uniform_bits",
   ]
-}
-
-# absl/random/BUILD.bazel:127
-source_set("mock_distributions") {
-  testonly = true
-  public = ["mock_distributions.h"]
-  deps = [
-    ":distributions",
-    ":mocking_bit_gen",
-    "@com_google_googletest/:gtest",
-    "$abseil/absl/meta:type_traits",
-    "$abseil/absl/random/internal:mock_overload_set",
-  ]
-}
-
-# absl/random/BUILD.bazel:140
-source_set("mocking_bit_gen") {
-  testonly = true
-  public = ["mocking_bit_gen.h"]
-  deps = [
-    ":distributions",
-    ":random",
-    "@com_google_googletest/:gtest",
-    "$abseil/absl/base:fast_type_id",
-    "$abseil/absl/container:flat_hash_map",
-    "$abseil/absl/meta:type_traits",
-    "$abseil/absl/random/internal:distribution_caller",
-    "$abseil/absl/strings",
-    "$abseil/absl/types:span",
-    "$abseil/absl/types:variant",
-    "$abseil/absl/utility",
-  ]
+  cflags = []
+  ldflags = []
 }

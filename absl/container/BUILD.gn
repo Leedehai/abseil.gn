@@ -1,5 +1,6 @@
 # Copyright (c) 2020 Leedehai. All rights reserved.
 # Use of this source code is governed under the MIT license.
+# -----
 # Generated file. Do not modify manually.
 # upstream: 2020-08-07T17:37:02-04:00 ce4bc927755fdf0ed03d679d9c7fa041175bb3cb
 # file: absl/container/BUILD.bazel
@@ -8,6 +9,8 @@
 source_set("compressed_tuple") {
   public = ["internal/compressed_tuple.h"]
   deps = ["$abseil/absl/utility"]
+  cflags = []
+  ldflags = []
 }
 
 # absl/container/BUILD.bazel:55
@@ -22,6 +25,8 @@ source_set("fixed_array") {
     "$abseil/absl/base:throw_delegate",
     "$abseil/absl/memory",
   ]
+  cflags = []
+  ldflags = []
 }
 
 # absl/container/BUILD.bazel:112
@@ -35,6 +40,8 @@ source_set("inlined_vector_internal") {
     "$abseil/absl/meta:type_traits",
     "$abseil/absl/types:span",
   ]
+  cflags = []
+  ldflags = []
 }
 
 # absl/container/BUILD.bazel:126
@@ -47,21 +54,8 @@ source_set("inlined_vector") {
     "$abseil/absl/base:throw_delegate",
     "$abseil/absl/memory",
   ]
-}
-
-# absl/container/BUILD.bazel:140
-source_set("counting_allocator") {
-  testonly = true
-  public = ["internal/counting_allocator.h"]
-  deps = ["$abseil/absl/base:config"]
-}
-
-# absl/container/BUILD.bazel:197
-source_set("test_instance_tracker") {
-  testonly = true
-  public = ["internal/test_instance_tracker.h"]
-  sources = ["internal/test_instance_tracker.cc"]
-  deps = ["$abseil/absl/types:compare"]
+  cflags = []
+  ldflags = []
 }
 
 # absl/container/BUILD.bazel:235
@@ -74,6 +68,8 @@ source_set("flat_hash_map") {
     "$abseil/absl/algorithm:container",
     "$abseil/absl/memory",
   ]
+  cflags = []
+  ldflags = []
 }
 
 # absl/container/BUILD.bazel:268
@@ -87,6 +83,8 @@ source_set("flat_hash_set") {
     "$abseil/absl/base:core_headers",
     "$abseil/absl/memory",
   ]
+  cflags = []
+  ldflags = []
 }
 
 # absl/container/BUILD.bazel:303
@@ -100,6 +98,8 @@ source_set("node_hash_map") {
     "$abseil/absl/algorithm:container",
     "$abseil/absl/memory",
   ]
+  cflags = []
+  ldflags = []
 }
 
 # absl/container/BUILD.bazel:336
@@ -112,6 +112,8 @@ source_set("node_hash_set") {
     "$abseil/absl/algorithm:container",
     "$abseil/absl/memory",
   ]
+  cflags = []
+  ldflags = []
 }
 
 # absl/container/BUILD.bazel:366
@@ -123,6 +125,8 @@ source_set("container_memory") {
     "$abseil/absl/meta:type_traits",
     "$abseil/absl/utility",
   ]
+  cflags = []
+  ldflags = []
 }
 
 # absl/container/BUILD.bazel:393
@@ -134,47 +138,32 @@ source_set("hash_function_defaults") {
     "$abseil/absl/strings",
     "$abseil/absl/strings:cord",
   ]
-}
-
-# absl/container/BUILD.bazel:423
-source_set("hash_generator_testing") {
-  testonly = true
-  public = ["internal/hash_generator_testing.h"]
-  sources = ["internal/hash_generator_testing.cc"]
-  deps = [
-    ":hash_policy_testing",
-    "$abseil/absl/memory",
-    "$abseil/absl/meta:type_traits",
-    "$abseil/absl/strings",
-  ]
-}
-
-# absl/container/BUILD.bazel:438
-source_set("hash_policy_testing") {
-  testonly = true
-  public = ["internal/hash_policy_testing.h"]
-  deps = [
-    "$abseil/absl/hash",
-    "$abseil/absl/strings",
-  ]
+  cflags = []
+  ldflags = []
 }
 
 # absl/container/BUILD.bazel:461
 source_set("hash_policy_traits") {
   public = ["internal/hash_policy_traits.h"]
   deps = ["$abseil/absl/meta:type_traits"]
+  cflags = []
+  ldflags = []
 }
 
 # absl/container/BUILD.bazel:480
 source_set("hashtable_debug") {
   public = ["internal/hashtable_debug.h"]
   deps = [":hashtable_debug_hooks"]
+  cflags = []
+  ldflags = []
 }
 
 # absl/container/BUILD.bazel:490
 source_set("hashtable_debug_hooks") {
   public = ["internal/hashtable_debug_hooks.h"]
   deps = ["$abseil/absl/base:config"]
+  cflags = []
+  ldflags = []
 }
 
 # absl/container/BUILD.bazel:500
@@ -194,12 +183,16 @@ source_set("hashtablez_sampler") {
     "$abseil/absl/synchronization",
     "$abseil/absl/utility",
   ]
+  cflags = []
+  ldflags = []
 }
 
 # absl/container/BUILD.bazel:536
 source_set("node_hash_policy") {
   public = ["internal/node_hash_policy.h"]
   deps = ["$abseil/absl/base:config"]
+  cflags = []
+  ldflags = []
 }
 
 # absl/container/BUILD.bazel:556
@@ -210,11 +203,15 @@ source_set("raw_hash_map") {
     ":raw_hash_set",
     "$abseil/absl/base:throw_delegate",
   ]
+  cflags = []
+  ldflags = []
 }
 
 # absl/container/BUILD.bazel:568
 source_set("have_sse") {
   public = ["internal/have_sse.h"]
+  cflags = []
+  ldflags = []
 }
 
 # absl/container/BUILD.bazel:576
@@ -224,6 +221,8 @@ source_set("common") {
     "$abseil/absl/meta:type_traits",
     "$abseil/absl/types:optional",
   ]
+  cflags = []
+  ldflags = []
 }
 
 # absl/container/BUILD.bazel:587
@@ -247,6 +246,8 @@ source_set("raw_hash_set") {
     "$abseil/absl/meta:type_traits",
     "$abseil/absl/utility",
   ]
+  cflags = []
+  ldflags = []
 }
 
 # absl/container/BUILD.bazel:647
@@ -260,100 +261,8 @@ source_set("layout") {
     "$abseil/absl/types:span",
     "$abseil/absl/utility",
   ]
-}
-
-# absl/container/BUILD.bazel:680
-source_set("tracked") {
-  testonly = true
-  public = ["internal/tracked.h"]
-  deps = ["$abseil/absl/base:config"]
-}
-
-# absl/container/BUILD.bazel:691
-source_set("unordered_map_constructor_test") {
-  testonly = true
-  public = ["internal/unordered_map_constructor_test.h"]
-  deps = [
-    ":hash_generator_testing",
-    ":hash_policy_testing",
-    "@com_google_googletest/:gtest",
-  ]
-}
-
-# absl/container/BUILD.bazel:704
-source_set("unordered_map_lookup_test") {
-  testonly = true
-  public = ["internal/unordered_map_lookup_test.h"]
-  deps = [
-    ":hash_generator_testing",
-    ":hash_policy_testing",
-    "@com_google_googletest/:gtest",
-  ]
-}
-
-# absl/container/BUILD.bazel:717
-source_set("unordered_map_modifiers_test") {
-  testonly = true
-  public = ["internal/unordered_map_modifiers_test.h"]
-  deps = [
-    ":hash_generator_testing",
-    ":hash_policy_testing",
-    "@com_google_googletest/:gtest",
-  ]
-}
-
-# absl/container/BUILD.bazel:730
-source_set("unordered_set_constructor_test") {
-  testonly = true
-  public = ["internal/unordered_set_constructor_test.h"]
-  deps = [
-    ":hash_generator_testing",
-    ":hash_policy_testing",
-    "@com_google_googletest/:gtest",
-    "$abseil/absl/meta:type_traits",
-  ]
-}
-
-# absl/container/BUILD.bazel:744
-source_set("unordered_set_members_test") {
-  testonly = true
-  public = ["internal/unordered_set_members_test.h"]
-  deps = [
-    "@com_google_googletest/:gtest",
-    "$abseil/absl/meta:type_traits",
-  ]
-}
-
-# absl/container/BUILD.bazel:756
-source_set("unordered_map_members_test") {
-  testonly = true
-  public = ["internal/unordered_map_members_test.h"]
-  deps = [
-    "@com_google_googletest/:gtest",
-    "$abseil/absl/meta:type_traits",
-  ]
-}
-
-# absl/container/BUILD.bazel:768
-source_set("unordered_set_lookup_test") {
-  testonly = true
-  public = ["internal/unordered_set_lookup_test.h"]
-  deps = [
-    ":hash_generator_testing",
-    ":hash_policy_testing",
-    "@com_google_googletest/:gtest",
-  ]
-}
-
-# absl/container/BUILD.bazel:781
-source_set("unordered_set_modifiers_test") {
-  testonly = true
-  public = ["internal/unordered_set_modifiers_test.h"]
-  deps = [
-    ":hash_generator_testing",
-    ":hash_policy_testing",
-    "@com_google_googletest/:gtest",
-  ]
+  cflags = []
+  ldflags = []
 }
 
 # absl/container/BUILD.bazel:824
@@ -380,17 +289,6 @@ source_set("btree") {
     "$abseil/absl/types:compare",
     "$abseil/absl/utility",
   ]
-}
-
-# absl/container/BUILD.bazel:853
-source_set("btree_test_common") {
-  testonly = true
-  public = ["btree_test.h"]
-  deps = [
-    ":btree",
-    ":flat_hash_set",
-    "$abseil/absl/strings",
-    "$abseil/absl/strings:cord",
-    "$abseil/absl/time",
-  ]
+  cflags = []
+  ldflags = []
 }

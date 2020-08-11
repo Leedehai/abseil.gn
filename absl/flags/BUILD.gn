@@ -1,5 +1,6 @@
 # Copyright (c) 2020 Leedehai. All rights reserved.
 # Use of this source code is governed under the MIT license.
+# -----
 # Generated file. Do not modify manually.
 # upstream: 2020-08-07T17:37:02-04:00 ce4bc927755fdf0ed03d679d9c7fa041175bb3cb
 # file: absl/flags/BUILD.bazel
@@ -11,6 +12,8 @@ source_set("path_util") {
     "$abseil/absl/base:config",
     "$abseil/absl/strings",
   ]
+  cflags = []
+  ldflags = []
 }
 
 # absl/flags/BUILD.bazel:45
@@ -24,6 +27,8 @@ source_set("program_name") {
     "$abseil/absl/strings",
     "$abseil/absl/synchronization",
   ]
+  cflags = []
+  ldflags = []
 }
 
 # absl/flags/BUILD.bazel:67
@@ -41,6 +46,8 @@ source_set("config") {
     "$abseil/absl/strings",
     "$abseil/absl/synchronization",
   ]
+  cflags = []
+  ldflags = []
 }
 
 # absl/flags/BUILD.bazel:88
@@ -54,6 +61,8 @@ source_set("marshalling") {
     "$abseil/absl/strings",
     "$abseil/absl/strings:str_format",
   ]
+  cflags = []
+  ldflags = []
 }
 
 # absl/flags/BUILD.bazel:107
@@ -65,6 +74,8 @@ source_set("commandlineflag_internal") {
     "$abseil/absl/base:config",
     "$abseil/absl/base:fast_type_id",
   ]
+  cflags = []
+  ldflags = []
 }
 
 # absl/flags/BUILD.bazel:124
@@ -78,6 +89,8 @@ source_set("commandlineflag") {
     "$abseil/absl/strings",
     "$abseil/absl/types:optional",
   ]
+  cflags = []
+  ldflags = []
 }
 
 # absl/flags/BUILD.bazel:143
@@ -90,6 +103,8 @@ source_set("private_handle_accessor") {
     "$abseil/absl/base:config",
     "$abseil/absl/strings",
   ]
+  cflags = []
+  ldflags = []
 }
 
 # absl/flags/BUILD.bazel:164
@@ -109,6 +124,8 @@ source_set("reflection") {
     "$abseil/absl/strings",
     "$abseil/absl/synchronization",
   ]
+  cflags = []
+  ldflags = []
 }
 
 # absl/flags/BUILD.bazel:187
@@ -131,6 +148,8 @@ source_set("flag_internal") {
     "$abseil/absl/synchronization",
     "$abseil/absl/utility",
   ]
+  cflags = []
+  ldflags = []
 }
 
 # absl/flags/BUILD.bazel:215
@@ -149,6 +168,8 @@ source_set("flag") {
     "$abseil/absl/base:core_headers",
     "$abseil/absl/strings",
   ]
+  cflags = []
+  ldflags = []
 }
 
 # absl/flags/BUILD.bazel:237
@@ -169,6 +190,8 @@ source_set("usage_internal") {
     "$abseil/absl/base:core_headers",
     "$abseil/absl/strings",
   ]
+  cflags = []
+  ldflags = []
 }
 
 # absl/flags/BUILD.bazel:265
@@ -182,6 +205,8 @@ source_set("usage") {
     "$abseil/absl/strings",
     "$abseil/absl/synchronization",
   ]
+  cflags = []
+  ldflags = []
 }
 
 # absl/flags/BUILD.bazel:284
@@ -207,4 +232,6 @@ source_set("parse") {
     "$abseil/absl/strings",
     "$abseil/absl/synchronization",
   ]
+  cflags = []
+  ldflags = []
 }
