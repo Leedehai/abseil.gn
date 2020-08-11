@@ -59,8 +59,8 @@ source_set("counting_allocator") {
 # absl/container/BUILD.bazel:197
 source_set("test_instance_tracker") {
   testonly = true
-  sources = ["internal/test_instance_tracker.cc"]
   public = ["internal/test_instance_tracker.h"]
+  sources = ["internal/test_instance_tracker.cc"]
   deps = ["$abseil/absl/types:compare"]
 }
 
@@ -139,8 +139,8 @@ source_set("hash_function_defaults") {
 # absl/container/BUILD.bazel:423
 source_set("hash_generator_testing") {
   testonly = true
-  sources = ["internal/hash_generator_testing.cc"]
   public = ["internal/hash_generator_testing.h"]
+  sources = ["internal/hash_generator_testing.cc"]
   deps = [
     ":hash_policy_testing",
     "$abseil/absl/memory",
@@ -179,11 +179,11 @@ source_set("hashtable_debug_hooks") {
 
 # absl/container/BUILD.bazel:500
 source_set("hashtablez_sampler") {
+  public = ["internal/hashtablez_sampler.h"]
   sources = [
     "internal/hashtablez_sampler.cc",
     "internal/hashtablez_sampler_force_weak_definition.cc",
   ]
-  public = ["internal/hashtablez_sampler.h"]
   deps = [
     ":have_sse",
     "$abseil/absl/base",
@@ -228,8 +228,8 @@ source_set("common") {
 
 # absl/container/BUILD.bazel:587
 source_set("raw_hash_set") {
-  sources = ["internal/raw_hash_set.cc"]
   public = ["internal/raw_hash_set.h"]
+  sources = ["internal/raw_hash_set.cc"]
   deps = [
     ":common",
     ":compressed_tuple",
@@ -358,13 +358,13 @@ source_set("unordered_set_modifiers_test") {
 
 # absl/container/BUILD.bazel:824
 source_set("btree") {
-  sources = [
-    "internal/btree.h",
-    "internal/btree_container.h",
-  ]
   public = [
     "btree_map.h",
     "btree_set.h",
+  ]
+  sources = [
+    "internal/btree.h",
+    "internal/btree_container.h",
   ]
   deps = [
     ":common",

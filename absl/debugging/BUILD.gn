@@ -6,6 +6,7 @@
 
 # absl/debugging/BUILD.bazel:31
 source_set("stacktrace") {
+  public = ["stacktrace.h"]
   sources = [
     "internal/stacktrace_aarch64-inl.inc",
     "internal/stacktrace_arm-inl.inc",
@@ -17,7 +18,6 @@ source_set("stacktrace") {
     "internal/stacktrace_x86-inl.inc",
     "stacktrace.cc",
   ]
-  public = ["stacktrace.h"]
   deps = [
     ":debugging_internal",
     "$abseil/absl/base:config",
@@ -27,16 +27,16 @@ source_set("stacktrace") {
 
 # absl/debugging/BUILD.bazel:54
 source_set("symbolize") {
+  public = [
+    "internal/symbolize.h",
+    "symbolize.h",
+  ]
   sources = [
     "symbolize.cc",
     "symbolize_darwin.inc",
     "symbolize_elf.inc",
     "symbolize_unimplemented.inc",
     "symbolize_win32.inc",
-  ]
-  public = [
-    "internal/symbolize.h",
-    "symbolize.h",
   ]
   deps = [
     ":debugging_internal",
@@ -53,8 +53,8 @@ source_set("symbolize") {
 
 # absl/debugging/BUILD.bazel:109
 source_set("examine_stack") {
-  sources = ["internal/examine_stack.cc"]
   public = ["internal/examine_stack.h"]
+  sources = ["internal/examine_stack.cc"]
   deps = [
     ":stacktrace",
     ":symbolize",
@@ -66,8 +66,8 @@ source_set("examine_stack") {
 
 # absl/debugging/BUILD.bazel:129
 source_set("failure_signal_handler") {
-  sources = ["failure_signal_handler.cc"]
   public = ["failure_signal_handler.h"]
+  sources = ["failure_signal_handler.cc"]
   deps = [
     ":examine_stack",
     ":stacktrace",
@@ -82,15 +82,15 @@ source_set("failure_signal_handler") {
 # absl/debugging/BUILD.bazel:165
 source_set("debugging_internal") {
   visibility = ["$abseil/:*"]
-  sources = [
-    "internal/address_is_readable.cc",
-    "internal/elf_mem_image.cc",
-    "internal/vdso_support.cc",
-  ]
   public = [
     "internal/address_is_readable.h",
     "internal/elf_mem_image.h",
     "internal/vdso_support.h",
+  ]
+  sources = [
+    "internal/address_is_readable.cc",
+    "internal/elf_mem_image.cc",
+    "internal/vdso_support.cc",
   ]
   deps = [
     "$abseil/absl/base:config",
@@ -104,8 +104,8 @@ source_set("debugging_internal") {
 # absl/debugging/BUILD.bazel:188
 source_set("demangle_internal") {
   visibility = ["$abseil/:*"]
-  sources = ["internal/demangle.cc"]
   public = ["internal/demangle.h"]
+  sources = ["internal/demangle.cc"]
   deps = [
     "$abseil/absl/base",
     "$abseil/absl/base:config",
@@ -115,8 +115,8 @@ source_set("demangle_internal") {
 
 # absl/debugging/BUILD.bazel:216
 source_set("leak_check") {
-  sources = ["leak_check.cc"]
   public = ["leak_check.h"]
+  sources = ["leak_check.cc"]
   deps = [
     "$abseil/absl/base:config",
     "$abseil/absl/base:core_headers",
@@ -132,25 +132,25 @@ source_set("leak_check_disable") {
 # absl/debugging/BUILD.bazel:246
 source_set("leak_check_api_enabled_for_testing") {
   testonly = true
-  sources = ["leak_check.cc"]
   public = ["leak_check.h"]
+  sources = ["leak_check.cc"]
   deps = ["$abseil/absl/base:config"]
 }
 
 # absl/debugging/BUILD.bazel:262
 source_set("leak_check_api_disabled_for_testing") {
   testonly = true
-  sources = ["leak_check.cc"]
   public = ["leak_check.h"]
-  cflags = ["-ULEAK_SANITIZER"]
+  sources = ["leak_check.cc"]
   deps = ["$abseil/absl/base:config"]
+  cflags = ["-ULEAK_SANITIZER"]
 }
 
 # absl/debugging/BUILD.bazel:321
 source_set("stack_consumption") {
   testonly = true
-  sources = ["internal/stack_consumption.cc"]
   public = ["internal/stack_consumption.h"]
+  sources = ["internal/stack_consumption.cc"]
   deps = [
     "$abseil/absl/base:config",
     "$abseil/absl/base:core_headers",

@@ -7,8 +7,8 @@
 # absl/synchronization/BUILD.bazel:30
 source_set("graphcycles_internal") {
   visibility = ["$abseil/:*"]
-  sources = ["internal/graphcycles.cc"]
   public = ["internal/graphcycles.h"]
+  sources = ["internal/graphcycles.cc"]
   deps = [
     "$abseil/absl/base",
     "$abseil/absl/base:base_internal",

@@ -15,8 +15,8 @@ source_set("path_util") {
 
 # absl/flags/BUILD.bazel:45
 source_set("program_name") {
-  sources = ["internal/program_name.cc"]
   public = ["internal/program_name.h"]
+  sources = ["internal/program_name.cc"]
   deps = [
     ":path_util",
     "$abseil/absl/base:config",
@@ -28,11 +28,11 @@ source_set("program_name") {
 
 # absl/flags/BUILD.bazel:67
 source_set("config") {
-  sources = ["usage_config.cc"]
   public = [
     "config.h",
     "usage_config.h",
   ]
+  sources = ["usage_config.cc"]
   deps = [
     ":path_util",
     ":program_name",
@@ -45,8 +45,8 @@ source_set("config") {
 
 # absl/flags/BUILD.bazel:88
 source_set("marshalling") {
-  sources = ["marshalling.cc"]
   public = ["marshalling.h"]
+  sources = ["marshalling.cc"]
   deps = [
     "$abseil/absl/base:config",
     "$abseil/absl/base:core_headers",
@@ -59,8 +59,8 @@ source_set("marshalling") {
 # absl/flags/BUILD.bazel:107
 source_set("commandlineflag_internal") {
   visibility = ["$abseil/:*"]
-  sources = ["internal/commandlineflag.cc"]
   public = ["internal/commandlineflag.h"]
+  sources = ["internal/commandlineflag.cc"]
   deps = [
     "$abseil/absl/base:config",
     "$abseil/absl/base:fast_type_id",
@@ -69,8 +69,8 @@ source_set("commandlineflag_internal") {
 
 # absl/flags/BUILD.bazel:124
 source_set("commandlineflag") {
-  sources = ["commandlineflag.cc"]
   public = ["commandlineflag.h"]
+  sources = ["commandlineflag.cc"]
   deps = [
     ":commandlineflag_internal",
     "$abseil/absl/base:config",
@@ -82,8 +82,8 @@ source_set("commandlineflag") {
 
 # absl/flags/BUILD.bazel:143
 source_set("private_handle_accessor") {
-  sources = ["internal/private_handle_accessor.cc"]
   public = ["internal/private_handle_accessor.h"]
+  sources = ["internal/private_handle_accessor.cc"]
   deps = [
     ":commandlineflag",
     ":commandlineflag_internal",
@@ -94,11 +94,11 @@ source_set("private_handle_accessor") {
 
 # absl/flags/BUILD.bazel:164
 source_set("reflection") {
-  sources = ["reflection.cc"]
   public = [
     "internal/registry.h",
     "reflection.h",
   ]
+  sources = ["reflection.cc"]
   deps = [
     ":commandlineflag",
     ":commandlineflag_internal",
@@ -114,8 +114,8 @@ source_set("reflection") {
 # absl/flags/BUILD.bazel:187
 source_set("flag_internal") {
   visibility = ["$abseil/:*"]
-  sources = ["internal/flag.cc"]
   public = ["internal/flag.h"]
+  sources = ["internal/flag.cc"]
   deps = [
     ":commandlineflag",
     ":commandlineflag_internal",
@@ -135,11 +135,11 @@ source_set("flag_internal") {
 
 # absl/flags/BUILD.bazel:215
 source_set("flag") {
-  sources = ["flag.cc"]
   public = [
     "declare.h",
     "flag.h",
   ]
+  sources = ["flag.cc"]
   deps = [
     ":config",
     ":flag_internal",
@@ -154,8 +154,8 @@ source_set("flag") {
 # absl/flags/BUILD.bazel:237
 source_set("usage_internal") {
   visibility = ["$abseil/:*"]
-  sources = ["internal/usage.cc"]
   public = ["internal/usage.h"]
+  sources = ["internal/usage.cc"]
   deps = [
     ":commandlineflag",
     ":config",
@@ -173,8 +173,8 @@ source_set("usage_internal") {
 
 # absl/flags/BUILD.bazel:265
 source_set("usage") {
-  sources = ["usage.cc"]
   public = ["usage.h"]
+  sources = ["usage.cc"]
   deps = [
     ":usage_internal",
     "$abseil/absl/base:config",
@@ -186,11 +186,11 @@ source_set("usage") {
 
 # absl/flags/BUILD.bazel:284
 source_set("parse") {
-  sources = ["parse.cc"]
   public = [
     "internal/parse.h",
     "parse.h",
   ]
+  sources = ["parse.cc"]
   deps = [
     ":commandlineflag",
     ":commandlineflag_internal",

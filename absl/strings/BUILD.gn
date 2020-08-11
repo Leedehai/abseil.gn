@@ -6,6 +6,20 @@
 
 # absl/strings/BUILD.bazel:30
 source_set("strings") {
+  public = [
+    "ascii.h",
+    "charconv.h",
+    "escaping.h",
+    "match.h",
+    "numbers.h",
+    "str_cat.h",
+    "str_join.h",
+    "str_replace.h",
+    "str_split.h",
+    "string_view.h",
+    "strip.h",
+    "substitute.h",
+  ]
   sources = [
     "ascii.cc",
     "charconv.cc",
@@ -27,20 +41,6 @@ source_set("strings") {
     "string_view.cc",
     "substitute.cc",
   ]
-  public = [
-    "ascii.h",
-    "charconv.h",
-    "escaping.h",
-    "match.h",
-    "numbers.h",
-    "str_cat.h",
-    "str_join.h",
-    "str_replace.h",
-    "str_split.h",
-    "string_view.h",
-    "strip.h",
-    "substitute.h",
-  ]
   deps = [
     ":internal",
     "$abseil/absl/base",
@@ -59,17 +59,17 @@ source_set("strings") {
 # absl/strings/BUILD.bazel:83
 source_set("internal") {
   visibility = ["$abseil/:*"]
-  sources = [
-    "internal/escaping.cc",
-    "internal/ostringstream.cc",
-    "internal/utf8.cc",
-  ]
   public = [
     "internal/char_map.h",
     "internal/escaping.h",
     "internal/ostringstream.h",
     "internal/resize_uninitialized.h",
     "internal/utf8.h",
+  ]
+  sources = [
+    "internal/escaping.cc",
+    "internal/ostringstream.cc",
+    "internal/utf8.cc",
   ]
   deps = [
     "$abseil/absl/base:config",
@@ -94,8 +94,8 @@ source_set("cord_internal") {
 
 # absl/strings/BUILD.bazel:267
 source_set("cord") {
-  sources = ["cord.cc"]
   public = ["cord.h"]
+  sources = ["cord.cc"]
   deps = [
     ":cord_internal",
     ":internal",
@@ -129,14 +129,6 @@ source_set("str_format") {
 # absl/strings/BUILD.bazel:619
 source_set("str_format_internal") {
   visibility = ["$abseil/:*"]
-  sources = [
-    "internal/str_format/arg.cc",
-    "internal/str_format/bind.cc",
-    "internal/str_format/extension.cc",
-    "internal/str_format/float_conversion.cc",
-    "internal/str_format/output.cc",
-    "internal/str_format/parser.cc",
-  ]
   public = [
     "internal/str_format/arg.h",
     "internal/str_format/bind.h",
@@ -145,6 +137,14 @@ source_set("str_format_internal") {
     "internal/str_format/float_conversion.h",
     "internal/str_format/output.h",
     "internal/str_format/parser.h",
+  ]
+  sources = [
+    "internal/str_format/arg.cc",
+    "internal/str_format/bind.cc",
+    "internal/str_format/extension.cc",
+    "internal/str_format/float_conversion.cc",
+    "internal/str_format/output.cc",
+    "internal/str_format/parser.cc",
   ]
   deps = [
     ":strings",
@@ -162,7 +162,7 @@ source_set("str_format_internal") {
 # absl/strings/BUILD.bazel:755
 source_set("pow10_helper") {
   testonly = true
-  sources = ["internal/pow10_helper.cc"]
   public = ["internal/pow10_helper.h"]
+  sources = ["internal/pow10_helper.cc"]
   deps = ["$abseil/absl/base:config"]
 }

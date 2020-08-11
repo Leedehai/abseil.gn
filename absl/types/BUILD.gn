@@ -40,8 +40,8 @@ source_set("bad_any_cast_impl") {
 
 # absl/types/BUILD.bazel:100
 source_set("span") {
-  sources = ["internal/span.h"]
   public = ["span.h"]
+  sources = ["internal/span.h"]
   deps = [
     "$abseil/absl/algorithm",
     "$abseil/absl/base:core_headers",
@@ -52,8 +52,8 @@ source_set("span") {
 
 # absl/types/BUILD.bazel:137
 source_set("optional") {
-  sources = ["internal/optional.h"]
   public = ["optional.h"]
+  sources = ["internal/optional.h"]
   deps = [
     ":bad_optional_access",
     "$abseil/absl/base:base_internal",
@@ -67,8 +67,8 @@ source_set("optional") {
 
 # absl/types/BUILD.bazel:154
 source_set("bad_optional_access") {
-  sources = ["bad_optional_access.cc"]
   public = ["bad_optional_access.h"]
+  sources = ["bad_optional_access.cc"]
   deps = [
     "$abseil/absl/base:config",
     "$abseil/absl/base:raw_logging_internal",
@@ -77,8 +77,8 @@ source_set("bad_optional_access") {
 
 # absl/types/BUILD.bazel:166
 source_set("bad_variant_access") {
-  sources = ["bad_variant_access.cc"]
   public = ["bad_variant_access.h"]
+  sources = ["bad_variant_access.cc"]
   deps = [
     "$abseil/absl/base:config",
     "$abseil/absl/base:raw_logging_internal",
@@ -108,8 +108,8 @@ source_set("conformance_testing") {
 
 # absl/types/BUILD.bazel:249
 source_set("variant") {
-  sources = ["internal/variant.h"]
   public = ["variant.h"]
+  sources = ["internal/variant.h"]
   deps = [
     ":bad_variant_access",
     "$abseil/absl/base:base_internal",

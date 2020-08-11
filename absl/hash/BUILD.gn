@@ -6,11 +6,11 @@
 
 # absl/hash/BUILD.bazel:29
 source_set("hash") {
+  public = ["hash.h"]
   sources = [
     "internal/hash.cc",
     "internal/hash.h",
   ]
-  public = ["hash.h"]
   deps = [
     ":city",
     "$abseil/absl/base:core_headers",
@@ -51,8 +51,8 @@ source_set("spy_hash_state") {
 
 # absl/hash/BUILD.bazel:98
 source_set("city") {
-  sources = ["internal/city.cc"]
   public = ["internal/city.h"]
+  sources = ["internal/city.cc"]
   deps = [
     "$abseil/absl/base:config",
     "$abseil/absl/base:core_headers",

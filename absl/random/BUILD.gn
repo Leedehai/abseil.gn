@@ -19,10 +19,6 @@ source_set("random") {
 
 # absl/random/BUILD.bazel:46
 source_set("distributions") {
-  sources = [
-    "discrete_distribution.cc",
-    "gaussian_distribution.cc",
-  ]
   public = [
     "bernoulli_distribution.h",
     "beta_distribution.h",
@@ -35,6 +31,10 @@ source_set("distributions") {
     "uniform_int_distribution.h",
     "uniform_real_distribution.h",
     "zipf_distribution.h",
+  ]
+  sources = [
+    "discrete_distribution.cc",
+    "gaussian_distribution.cc",
   ]
   deps = [
     "$abseil/absl/base:base_internal",
@@ -55,15 +55,15 @@ source_set("distributions") {
 
 # absl/random/BUILD.bazel:84
 source_set("seed_gen_exception") {
-  sources = ["seed_gen_exception.cc"]
   public = ["seed_gen_exception.h"]
+  sources = ["seed_gen_exception.cc"]
   deps = ["$abseil/absl/base:config"]
 }
 
 # absl/random/BUILD.bazel:93
 source_set("seed_sequences") {
-  sources = ["seed_sequences.cc"]
   public = ["seed_sequences.h"]
+  sources = ["seed_sequences.cc"]
   deps = [
     ":seed_gen_exception",
     "$abseil/absl/container:inlined_vector",

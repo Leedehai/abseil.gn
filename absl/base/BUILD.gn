@@ -21,8 +21,8 @@ source_set("errno_saver") {
 
 # absl/base/BUILD.bazel:54
 source_set("log_severity") {
-  sources = ["log_severity.cc"]
   public = ["log_severity.h"]
+  sources = ["log_severity.cc"]
   deps = [
     ":config",
     ":core_headers",
@@ -32,8 +32,8 @@ source_set("log_severity") {
 # absl/base/BUILD.bazel:66
 source_set("raw_logging_internal") {
   visibility = ["$abseil/:*"]
-  sources = ["internal/raw_logging.cc"]
   public = ["internal/raw_logging.h"]
+  sources = ["internal/raw_logging.cc"]
   deps = [
     ":atomic_hook",
     ":config",
@@ -44,6 +44,7 @@ source_set("raw_logging_internal") {
 
 # absl/base/BUILD.bazel:83
 source_set("spinlock_wait") {
+  public = ["internal/spinlock_wait.h"]
   sources = [
     "internal/spinlock_akaros.inc",
     "internal/spinlock_linux.inc",
@@ -51,7 +52,6 @@ source_set("spinlock_wait") {
     "internal/spinlock_wait.cc",
     "internal/spinlock_win32.inc",
   ]
-  public = ["internal/spinlock_wait.h"]
   deps = [
     ":base_internal",
     ":core_headers",
@@ -70,8 +70,8 @@ source_set("config") {
 
 # absl/base/BUILD.bazel:116
 source_set("dynamic_annotations") {
-  sources = ["internal/dynamic_annotations.h"]
   public = ["dynamic_annotations.h"]
+  sources = ["internal/dynamic_annotations.h"]
   deps = [
     ":config",
     ":core_headers",
@@ -80,7 +80,6 @@ source_set("dynamic_annotations") {
 
 # absl/base/BUILD.bazel:132
 source_set("core_headers") {
-  sources = ["internal/thread_annotations.h"]
   public = [
     "attributes.h",
     "const_init.h",
@@ -89,17 +88,18 @@ source_set("core_headers") {
     "port.h",
     "thread_annotations.h",
   ]
+  sources = ["internal/thread_annotations.h"]
   deps = [":config"]
 }
 
 # absl/base/BUILD.bazel:152
 source_set("malloc_internal") {
   visibility = ["$abseil/:*"]
-  sources = ["internal/low_level_alloc.cc"]
   public = [
     "internal/direct_mmap.h",
     "internal/low_level_alloc.h",
   ]
+  sources = ["internal/low_level_alloc.cc"]
   deps = [
     ":base",
     ":base_internal",
@@ -128,13 +128,6 @@ source_set("base_internal") {
 
 # absl/base/BUILD.bazel:200
 source_set("base") {
-  sources = [
-    "internal/cycleclock.cc",
-    "internal/spinlock.cc",
-    "internal/sysinfo.cc",
-    "internal/thread_identity.cc",
-    "internal/unscaledcycleclock.cc",
-  ]
   public = [
     "call_once.h",
     "casts.h",
@@ -146,6 +139,13 @@ source_set("base") {
     "internal/thread_identity.h",
     "internal/tsan_mutex_interface.h",
     "internal/unscaledcycleclock.h",
+  ]
+  sources = [
+    "internal/cycleclock.cc",
+    "internal/spinlock.cc",
+    "internal/sysinfo.cc",
+    "internal/thread_identity.cc",
+    "internal/unscaledcycleclock.cc",
   ]
   deps = [
     ":atomic_hook",
@@ -163,8 +163,8 @@ source_set("base") {
 # absl/base/BUILD.bazel:242
 source_set("atomic_hook_test_helper") {
   testonly = true
-  sources = ["internal/atomic_hook_test_helper.cc"]
   public = ["internal/atomic_hook_test_helper.h"]
+  sources = ["internal/atomic_hook_test_helper.cc"]
   deps = [
     ":atomic_hook",
     ":core_headers",
@@ -173,8 +173,8 @@ source_set("atomic_hook_test_helper") {
 
 # absl/base/BUILD.bazel:284
 source_set("throw_delegate") {
-  sources = ["internal/throw_delegate.cc"]
   public = ["internal/throw_delegate.h"]
+  sources = ["internal/throw_delegate.cc"]
   deps = [
     ":config",
     ":raw_logging_internal",
@@ -199,8 +199,8 @@ source_set("pretty_function") {
 # absl/base/BUILD.bazel:346
 source_set("exception_safety_testing") {
   testonly = true
-  sources = ["internal/exception_safety_testing.cc"]
   public = ["internal/exception_safety_testing.h"]
+  sources = ["internal/exception_safety_testing.cc"]
   deps = [
     ":config",
     ":pretty_function",
@@ -262,8 +262,8 @@ source_set("bits") {
 
 # absl/base/BUILD.bazel:614
 source_set("exponential_biased") {
-  sources = ["internal/exponential_biased.cc"]
   public = ["internal/exponential_biased.h"]
+  sources = ["internal/exponential_biased.cc"]
   deps = [
     ":config",
     ":core_headers",
@@ -272,8 +272,8 @@ source_set("exponential_biased") {
 
 # absl/base/BUILD.bazel:642
 source_set("periodic_sampler") {
-  sources = ["internal/periodic_sampler.cc"]
   public = ["internal/periodic_sampler.h"]
+  sources = ["internal/periodic_sampler.cc"]
   deps = [
     ":core_headers",
     ":exponential_biased",
@@ -283,8 +283,8 @@ source_set("periodic_sampler") {
 # absl/base/BUILD.bazel:683
 source_set("scoped_set_env") {
   testonly = true
-  sources = ["internal/scoped_set_env.cc"]
   public = ["internal/scoped_set_env.h"]
+  sources = ["internal/scoped_set_env.cc"]
   deps = [
     ":config",
     ":raw_logging_internal",
@@ -293,8 +293,8 @@ source_set("scoped_set_env") {
 
 # absl/base/BUILD.bazel:725
 source_set("strerror") {
-  sources = ["internal/strerror.cc"]
   public = ["internal/strerror.h"]
+  sources = ["internal/strerror.cc"]
   deps = [
     ":config",
     ":core_headers",

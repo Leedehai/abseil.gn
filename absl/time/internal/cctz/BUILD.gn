@@ -7,14 +7,18 @@
 # absl/time/internal/cctz/BUILD.bazel:42
 source_set("civil_time") {
   visibility = ["$abseil/:*"]
-  sources = ["src/civil_time_detail.cc"]
   public = ["include/cctz/civil_time.h"]
+  sources = ["src/civil_time_detail.cc"]
   deps = ["$abseil/absl/base:config"]
 }
 
 # absl/time/internal/cctz/BUILD.bazel:53
 source_set("time_zone") {
   visibility = ["$abseil/:*"]
+  public = [
+    "include/cctz/time_zone.h",
+    "include/cctz/zone_info_source.h",
+  ]
   sources = [
     "src/time_zone_fixed.cc",
     "src/time_zone_fixed.h",
@@ -32,10 +36,6 @@ source_set("time_zone") {
     "src/time_zone_posix.h",
     "src/tzfile.h",
     "src/zone_info_source.cc",
-  ]
-  public = [
-    "include/cctz/time_zone.h",
-    "include/cctz/zone_info_source.h",
   ]
   deps = [
     ":civil_time",

@@ -6,13 +6,13 @@
 
 # absl/status/BUILD.bazel:31
 source_set("status") {
-  sources = [
-    "status.cc",
-    "status_payload_printer.cc",
-  ]
   public = [
     "status.h",
     "status_payload_printer.h",
+  ]
+  sources = [
+    "status.cc",
+    "status_payload_printer.cc",
   ]
   deps = [
     "$abseil/absl/base:atomic_hook",

@@ -35,8 +35,8 @@ source_set("fast_uniform_bits") {
 # absl/random/internal/BUILD.bazel:68
 source_set("seed_material") {
   visibility = ["$abseil/:*"]
-  sources = ["seed_material.cc"]
   public = ["seed_material.h"]
+  sources = ["seed_material.cc"]
   deps = [
     ":fast_uniform_bits",
     "$abseil/absl/base:core_headers",
@@ -50,8 +50,8 @@ source_set("seed_material") {
 # absl/random/internal/BUILD.bazel:91
 source_set("pool_urbg") {
   visibility = ["$abseil/:*"]
-  sources = ["pool_urbg.cc"]
   public = ["pool_urbg.h"]
+  sources = ["pool_urbg.cc"]
   deps = [
     ":randen",
     ":seed_material",
@@ -178,16 +178,16 @@ source_set("randen_engine") {
 # absl/random/internal/BUILD.bazel:248
 source_set("platform") {
   visibility = ["$abseil/:*"]
-  sources = ["randen_round_keys.cc"]
   public = ["randen_traits.h"]
+  sources = ["randen_round_keys.cc"]
   deps = ["$abseil/absl/base:config"]
 }
 
 # absl/random/internal/BUILD.bazel:264
 source_set("randen") {
   visibility = ["$abseil/:*"]
-  sources = ["randen.cc"]
   public = ["randen.h"]
+  sources = ["randen.cc"]
   deps = [
     ":platform",
     ":randen_hwaes",
@@ -199,8 +199,8 @@ source_set("randen") {
 # absl/random/internal/BUILD.bazel:282
 source_set("randen_slow") {
   visibility = ["$abseil/:*"]
-  sources = ["randen_slow.cc"]
   public = ["randen_slow.h"]
+  sources = ["randen_slow.cc"]
   deps = [
     ":platform",
     "$abseil/absl/base:config",
@@ -211,11 +211,11 @@ source_set("randen_slow") {
 # absl/random/internal/BUILD.bazel:297
 source_set("randen_hwaes") {
   visibility = ["$abseil/:*"]
-  sources = ["randen_detect.cc"]
   public = [
     "randen_detect.h",
     "randen_hwaes.h",
   ]
+  sources = ["randen_detect.cc"]
   deps = [
     ":platform",
     ":randen_hwaes_impl",
@@ -241,13 +241,13 @@ source_set("randen_hwaes_impl") {
 source_set("distribution_test_util") {
   visibility = ["$abseil/:*"]
   testonly = true
-  sources = [
-    "chi_square.cc",
-    "distribution_test_util.cc",
-  ]
   public = [
     "chi_square.h",
     "distribution_test_util.h",
+  ]
+  sources = [
+    "chi_square.cc",
+    "distribution_test_util.cc",
   ]
   deps = [
     "$abseil/absl/base:config",

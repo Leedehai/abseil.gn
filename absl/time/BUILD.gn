@@ -6,6 +6,11 @@
 
 # absl/time/BUILD.bazel:29
 source_set("time") {
+  public = [
+    "civil_time.h",
+    "clock.h",
+    "time.h",
+  ]
   sources = [
     "civil_time.cc",
     "clock.cc",
@@ -14,11 +19,6 @@ source_set("time") {
     "internal/get_current_time_chrono.inc",
     "internal/get_current_time_posix.inc",
     "time.cc",
-  ]
-  public = [
-    "civil_time.h",
-    "clock.h",
-    "time.h",
   ]
   deps = [
     "$abseil/absl/base",
@@ -34,11 +34,11 @@ source_set("time") {
 # absl/time/BUILD.bazel:58
 source_set("test_util") {
   testonly = true
+  public = ["internal/test_util.h"]
   sources = [
     "internal/test_util.cc",
     "internal/zoneinfo.inc",
   ]
-  public = ["internal/test_util.h"]
   deps = [
     ":time",
     "@com_google_googletest/:gtest",

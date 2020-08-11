@@ -28,8 +28,9 @@ import io
 import json
 import os
 import re
+from collections import namedtuple
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple, cast
+from typing import Any, Dict, Iterable, List, Optional, Tuple, cast
 
 GEN_YEAR = datetime.datetime.now().year
 DEP_ROOT_SIGIL = re.compile(r"^@\S+\/\/")  # e.g. "@om_google_googletest//"
@@ -51,20 +52,30 @@ PROFILE_ROOT_REPLACERS = "root_replacers"
 PROFILE_VARIABLES = "variable_expansions"
 PROFILE_HIDDEN_TARGETS = "hidden_targets"
 
+GnAttribute = namedtuple("GnAttribute", ["name", "order"])
+
 INTERESTED_ATTRS = {
-    "name": None,
-    "testonly": "testonly",
-    "hdrs": "public",
-    "srcs": "sources",
-    "deps": "deps",
-    "copts": "cflags",
-    "linkopts": "ldflags",
+    "name": GnAttribute(name=None, order=None),
+    "testonly": GnAttribute(name="testonly", order=5),
+    "hdrs": GnAttribute(name="public", order=4),
+    "srcs": GnAttribute(name="sources", order=3),
+    "deps": GnAttribute(name="deps", order=2),
+    "copts": GnAttribute(name="cflags", order=0),
+    "linkopts": GnAttribute(name="ldflags", order=0),
     # NOTE No "visibility" here, as Bazel has a more complicated visibility
     # syntax than GN's "visibility" and it is hard to translate. In the
     # generated GN, the default visibility is ["*"] (no restriction), unless
     # the target name is matched by one of the glob pattern in profile's
     # "hidden_targets" list.
 }
+GN_ATTR_ORDER_LOOKUP = dict(
+    (e.name, e.order) for e in INTERESTED_ATTRS.values())
+
+
+def gn_attr_sorted(iterable: Iterable[tuple]) -> List[tuple]:
+    return sorted(iterable,
+                  key=lambda tup: GN_ATTR_ORDER_LOOKUP.get(tup[0], 0),
+                  reverse=True)  # Items with high order scores go first
 
 
 def rectify_label_str(p: str, replacers: dict) -> str:
@@ -142,12 +153,12 @@ def extract_constant_node(node) -> Any:
 
 def read_bazel_build(source: io.TextIOWrapper,
                      profile: dict) -> Tuple[Optional[List[dict]], bool]:
-    node = ast.parse(source.read())
+    node = ast.parse(source.read())  # Bazel uses a subset of Python grammar.
     function_calls: List[ast.Call] = [
         n.value for n in node.body
         if isinstance(n, ast.Expr) and isinstance(n.value, ast.Call)
     ]
-    calls: List[dict] = []
+    calls: List[dict] = []  # Bazel declarations like cc_library(name=.., ..)
     target_names = set()
     has_printout = False
     for call in (c for c in function_calls if len(c.keywords) > 0):
@@ -224,12 +235,12 @@ def make_gn_build(source_relpath: Path, repo_info: Optional[str],
                 continue
             if value == None:
                 continue
-            gn_attrs[INTERESTED_ATTRS[in_attr]] = value
+            gn_attrs[INTERESTED_ATTRS[in_attr].name] = value
         ss.write("# %s:%d\n" % (source_relpath, item_dict["lineno"]))
         ss.write("%s(\"%s\") {\n" % (gn_target_type, gn_target_name))
         if private_visibility_cause:
             ss.write("  visibility = [\"%s:*\"]\n" % (proj_root_replacer))
-        for k, v in gn_attrs.items():
+        for k, v in gn_attr_sorted(gn_attrs.items()):
             if isinstance(v, list):
                 ss.write("  %s = %s\n" % (k, stringify_list(sorted(v))))
             elif k == "testonly":
