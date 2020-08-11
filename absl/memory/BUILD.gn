@@ -12,24 +12,3 @@ source_set("memory") {
     "$abseil/absl/meta:type_traits",
   ]
 }
-
-# absl/memory/BUILD.bazel:40
-executable("memory_test") {
-  sources = ["memory_test.cc"]
-  deps = [
-    ":memory",
-    "$abseil/absl/base:core_headers",
-    "$googletest:gtest_main",
-  ]
-}
-
-# absl/memory/BUILD.bazel:52
-executable("memory_exception_safety_test") {
-  sources = ["memory_exception_safety_test.cc"]
-  deps = [
-    ":memory",
-    "$abseil/absl/base:config",
-    "$abseil/absl/base:exception_safety_testing",
-    "$googletest:gtest_main",
-  ]
-}

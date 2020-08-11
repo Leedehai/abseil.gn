@@ -171,27 +171,6 @@ source_set("atomic_hook_test_helper") {
   ]
 }
 
-# absl/base/BUILD.bazel:255
-executable("atomic_hook_test") {
-  sources = ["internal/atomic_hook_test.cc"]
-  deps = [
-    ":atomic_hook",
-    ":atomic_hook_test_helper",
-    ":core_headers",
-    "$googletest:gtest_main",
-  ]
-}
-
-# absl/base/BUILD.bazel:269
-executable("bit_cast_test") {
-  sources = ["bit_cast_test.cc"]
-  deps = [
-    ":base",
-    ":core_headers",
-    "$googletest:gtest_main",
-  ]
-}
-
 # absl/base/BUILD.bazel:284
 source_set("throw_delegate") {
   sources = ["internal/throw_delegate.cc"]
@@ -202,33 +181,13 @@ source_set("throw_delegate") {
   ]
 }
 
-# absl/base/BUILD.bazel:299
-executable("throw_delegate_test") {
-  sources = ["throw_delegate_test.cc"]
-  deps = [
-    ":config",
-    ":throw_delegate",
-    "$googletest:gtest_main",
-  ]
-}
-
-# absl/base/BUILD.bazel:311
-executable("errno_saver_test") {
-  sources = ["internal/errno_saver_test.cc"]
-  deps = [
-    ":errno_saver",
-    ":strerror",
-    "$googletest:gtest_main",
-  ]
-}
-
 # absl/base/BUILD.bazel:324
 source_set("exception_testing") {
   testonly = true
   public = ["internal/exception_testing.h"]
   deps = [
     ":config",
-    "$googletest:gtest",
+    "@com_google_googletest/:gtest",
   ]
 }
 
@@ -245,46 +204,11 @@ source_set("exception_safety_testing") {
   deps = [
     ":config",
     ":pretty_function",
+    "@com_google_googletest/:gtest",
     "$abseil/absl/memory",
     "$abseil/absl/meta:type_traits",
     "$abseil/absl/strings",
     "$abseil/absl/utility",
-    "$googletest:gtest",
-  ]
-}
-
-# absl/base/BUILD.bazel:364
-executable("exception_safety_testing_test") {
-  sources = ["exception_safety_testing_test.cc"]
-  deps = [
-    ":exception_safety_testing",
-    "$abseil/absl/memory",
-    "$googletest:gtest_main",
-  ]
-}
-
-# absl/base/BUILD.bazel:376
-executable("inline_variable_test") {
-  sources = [
-    "inline_variable_test.cc",
-    "inline_variable_test_a.cc",
-    "inline_variable_test_b.cc",
-    "internal/inline_variable_testing.h",
-  ]
-  deps = [
-    ":base_internal",
-    "$googletest:gtest_main",
-  ]
-}
-
-# absl/base/BUILD.bazel:393
-executable("invoke_test") {
-  sources = ["invoke_test.cc"]
-  deps = [
-    ":base_internal",
-    "$abseil/absl/memory",
-    "$abseil/absl/strings",
-    "$googletest:gtest_main",
   ]
 }
 
@@ -297,21 +221,8 @@ source_set("spinlock_test_common") {
     ":base_internal",
     ":config",
     ":core_headers",
+    "@com_google_googletest/:gtest",
     "$abseil/absl/synchronization",
-    "$googletest:gtest",
-  ]
-}
-
-# absl/base/BUILD.bazel:426
-executable("spinlock_test") {
-  sources = ["spinlock_test_common.cc"]
-  deps = [
-    ":base",
-    ":base_internal",
-    ":config",
-    ":core_headers",
-    "$abseil/absl/synchronization",
-    "$googletest:gtest_main",
   ]
 }
 
@@ -323,8 +234,8 @@ source_set("spinlock_benchmark_common") {
     ":base",
     ":base_internal",
     ":raw_logging_internal",
+    "@com_github_google_benchmark/:benchmark_main",
     "$abseil/absl/synchronization",
-    "$google_benchmark:benchmark_main",
   ]
 }
 
@@ -340,102 +251,12 @@ source_set("endian") {
   ]
 }
 
-# absl/base/BUILD.bazel:487
-executable("endian_test") {
-  sources = ["internal/endian_test.cc"]
-  deps = [
-    ":config",
-    ":endian",
-    "$googletest:gtest_main",
-  ]
-}
-
-# absl/base/BUILD.bazel:498
-executable("config_test") {
-  sources = ["config_test.cc"]
-  deps = [
-    ":config",
-    "$abseil/absl/synchronization:thread_pool",
-    "$googletest:gtest_main",
-  ]
-}
-
-# absl/base/BUILD.bazel:510
-executable("call_once_test") {
-  sources = ["call_once_test.cc"]
-  deps = [
-    ":base",
-    ":core_headers",
-    "$abseil/absl/synchronization",
-    "$googletest:gtest_main",
-  ]
-}
-
-# absl/base/BUILD.bazel:523
-executable("raw_logging_test") {
-  sources = ["raw_logging_test.cc"]
-  deps = [
-    ":raw_logging_internal",
-    "$abseil/absl/strings",
-    "$googletest:gtest_main",
-  ]
-}
-
-# absl/base/BUILD.bazel:535
-executable("sysinfo_test") {
-  sources = ["internal/sysinfo_test.cc"]
-  deps = [
-    ":base",
-    "$abseil/absl/synchronization",
-    "$googletest:gtest_main",
-  ]
-}
-
-# absl/base/BUILD.bazel:548
-executable("low_level_alloc_test") {
-  sources = ["internal/low_level_alloc_test.cc"]
-  deps = [
-    ":malloc_internal",
-    "$abseil/absl/container:node_hash_map",
-  ]
-}
-
-# absl/base/BUILD.bazel:561
-executable("thread_identity_test") {
-  sources = ["internal/thread_identity_test.cc"]
-  deps = [
-    ":base",
-    ":core_headers",
-    "$abseil/absl/synchronization",
-    "$googletest:gtest_main",
-  ]
-}
-
-# absl/base/BUILD.bazel:575
-executable("thread_identity_benchmark") {
-  sources = ["internal/thread_identity_benchmark.cc"]
-  deps = [
-    ":base",
-    "$abseil/absl/synchronization",
-    "$google_benchmark:benchmark_main",
-  ]
-}
-
 # absl/base/BUILD.bazel:589
 source_set("bits") {
   public = ["internal/bits.h"]
   deps = [
     ":config",
     ":core_headers",
-  ]
-}
-
-# absl/base/BUILD.bazel:602
-executable("bits_test") {
-  sources = ["internal/bits_test.cc"]
-  deps = [
-    ":bits",
-    "$googletest:gtest_main",
   ]
 }
 
@@ -449,16 +270,6 @@ source_set("exponential_biased") {
   ]
 }
 
-# absl/base/BUILD.bazel:628
-executable("exponential_biased_test") {
-  sources = ["internal/exponential_biased_test.cc"]
-  deps = [
-    ":exponential_biased",
-    "$abseil/absl/strings",
-    "$googletest:gtest_main",
-  ]
-}
-
 # absl/base/BUILD.bazel:642
 source_set("periodic_sampler") {
   sources = ["internal/periodic_sampler.cc"]
@@ -466,16 +277,6 @@ source_set("periodic_sampler") {
   deps = [
     ":core_headers",
     ":exponential_biased",
-  ]
-}
-
-# absl/base/BUILD.bazel:654
-executable("periodic_sampler_test") {
-  sources = ["internal/periodic_sampler_test.cc"]
-  deps = [
-    ":core_headers",
-    ":periodic_sampler",
-    "$googletest:gtest_main",
   ]
 }
 
@@ -490,27 +291,6 @@ source_set("scoped_set_env") {
   ]
 }
 
-# absl/base/BUILD.bazel:698
-executable("scoped_set_env_test") {
-  sources = ["internal/scoped_set_env_test.cc"]
-  deps = [
-    ":scoped_set_env",
-    "$googletest:gtest_main",
-  ]
-}
-
-# absl/base/BUILD.bazel:710
-executable("log_severity_test") {
-  sources = ["log_severity_test.cc"]
-  deps = [
-    ":log_severity",
-    "$abseil/absl/flags:flag_internal",
-    "$abseil/absl/flags:marshalling",
-    "$abseil/absl/strings",
-    "$googletest:gtest_main",
-  ]
-}
-
 # absl/base/BUILD.bazel:725
 source_set("strerror") {
   sources = ["internal/strerror.cc"]
@@ -522,47 +302,8 @@ source_set("strerror") {
   ]
 }
 
-# absl/base/BUILD.bazel:741
-executable("strerror_test") {
-  sources = ["internal/strerror_test.cc"]
-  deps = [
-    ":strerror",
-    "$abseil/absl/strings",
-    "$googletest:gtest_main",
-  ]
-}
-
 # absl/base/BUILD.bazel:768
 source_set("fast_type_id") {
   public = ["internal/fast_type_id.h"]
   deps = [":config"]
-}
-
-# absl/base/BUILD.bazel:781
-executable("fast_type_id_test") {
-  sources = ["internal/fast_type_id_test.cc"]
-  deps = [
-    ":fast_type_id",
-    "$googletest:gtest_main",
-  ]
-}
-
-# absl/base/BUILD.bazel:793
-executable("unique_small_name_test") {
-  sources = ["internal/unique_small_name_test.cc"]
-  deps = [
-    ":core_headers",
-    "$abseil/absl/strings",
-    "$googletest:gtest_main",
-  ]
-}
-
-# absl/base/BUILD.bazel:807
-executable("optimization_test") {
-  sources = ["optimization_test.cc"]
-  deps = [
-    ":core_headers",
-    "$abseil/absl/types:optional",
-    "$googletest:gtest_main",
-  ]
 }

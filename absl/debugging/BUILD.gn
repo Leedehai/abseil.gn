@@ -51,22 +51,6 @@ source_set("symbolize") {
   ]
 }
 
-# absl/debugging/BUILD.bazel:85
-executable("symbolize_test") {
-  sources = ["symbolize_test.cc"]
-  deps = [
-    ":stack_consumption",
-    ":symbolize",
-    "$abseil/absl/base",
-    "$abseil/absl/base:config",
-    "$abseil/absl/base:core_headers",
-    "$abseil/absl/base:raw_logging_internal",
-    "$abseil/absl/memory",
-    "$abseil/absl/strings",
-    "$googletest:gtest",
-  ]
-}
-
 # absl/debugging/BUILD.bazel:109
 source_set("examine_stack") {
   sources = ["internal/examine_stack.cc"]
@@ -92,19 +76,6 @@ source_set("failure_signal_handler") {
     "$abseil/absl/base:core_headers",
     "$abseil/absl/base:errno_saver",
     "$abseil/absl/base:raw_logging_internal",
-  ]
-}
-
-# absl/debugging/BUILD.bazel:146
-executable("failure_signal_handler_test") {
-  sources = ["failure_signal_handler_test.cc"]
-  deps = [
-    ":failure_signal_handler",
-    ":stacktrace",
-    ":symbolize",
-    "$abseil/absl/base:raw_logging_internal",
-    "$abseil/absl/strings",
-    "$googletest:gtest",
   ]
 }
 
@@ -142,20 +113,6 @@ source_set("demangle_internal") {
   ]
 }
 
-# absl/debugging/BUILD.bazel:200
-executable("demangle_test") {
-  sources = ["internal/demangle_test.cc"]
-  deps = [
-    ":demangle_internal",
-    ":stack_consumption",
-    "$abseil/absl/base:config",
-    "$abseil/absl/base:core_headers",
-    "$abseil/absl/base:raw_logging_internal",
-    "$abseil/absl/memory",
-    "$googletest:gtest_main",
-  ]
-}
-
 # absl/debugging/BUILD.bazel:216
 source_set("leak_check") {
   sources = ["leak_check.cc"]
@@ -189,38 +146,6 @@ source_set("leak_check_api_disabled_for_testing") {
   deps = ["$abseil/absl/base:config"]
 }
 
-# absl/debugging/BUILD.bazel:275
-executable("leak_check_test") {
-  sources = ["leak_check_test.cc"]
-  deps = [
-    ":leak_check_api_enabled_for_testing",
-    "$abseil/absl/base",
-    "$googletest:gtest_main",
-  ]
-}
-
-# absl/debugging/BUILD.bazel:291
-executable("leak_check_no_lsan_test") {
-  sources = ["leak_check_test.cc"]
-  cflags = ["-UABSL_EXPECT_LEAK_SANITIZER"]
-  deps = [
-    ":leak_check_api_disabled_for_testing",
-    "$abseil/absl/base",
-    "$googletest:gtest_main",
-  ]
-}
-
-# absl/debugging/BUILD.bazel:308
-executable("disabled_leak_check_test") {
-  sources = ["leak_check_fail_test.cc"]
-  deps = [
-    ":leak_check_api_enabled_for_testing",
-    ":leak_check_disable",
-    "$abseil/absl/base",
-    "$googletest:gtest_main",
-  ]
-}
-
 # absl/debugging/BUILD.bazel:321
 source_set("stack_consumption") {
   testonly = true
@@ -230,16 +155,5 @@ source_set("stack_consumption") {
     "$abseil/absl/base:config",
     "$abseil/absl/base:core_headers",
     "$abseil/absl/base:raw_logging_internal",
-  ]
-}
-
-# absl/debugging/BUILD.bazel:336
-executable("stack_consumption_test") {
-  sources = ["internal/stack_consumption_test.cc"]
-  deps = [
-    ":stack_consumption",
-    "$abseil/absl/base:core_headers",
-    "$abseil/absl/base:raw_logging_internal",
-    "$googletest:gtest_main",
   ]
 }

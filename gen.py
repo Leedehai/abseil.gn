@@ -5,10 +5,6 @@
 # NOTE I could use asyncio, but disk-IO is not that slow in this
 # use case.
 """
-Converts the [Abseil C++ library](https://abseil.io/docs/cpp/)'s
-[Bazel](https://bazel.build/) build files to [GN](https://gn.googlesource.com/gn)
-build files.
-
 This project generates Abseil build files so that Abseil can serve as a
 library embedded in another GN-managed project. Therefore, it does not transpile
 the build configs such as compiler flags and whatnot.
@@ -31,10 +27,12 @@ import fnmatch
 import io
 import json
 import os
+import re
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple, cast
 
 GEN_YEAR = datetime.datetime.now().year
+DEP_ROOT_SIGIL = re.compile(r"^@\S+\/\/")  # e.g. "@om_google_googletest//"
 
 
 def print_warn(s: str) -> None:
@@ -45,10 +43,7 @@ def print_err(s: str) -> None:
     sys.stderr.write("\x1b[31merror: %s\x1b[0m\n" % s)
 
 
-BAZEL_BASENAMES = [
-    "BUILD.bazel",
-    "BUILD",
-]
+BAZEL_BASENAMES = ["BUILD.bazel", "BUILD"]
 
 # Keys in profile (optional)
 PROFILE_TARGET_MAPPING = "target_mapping"
@@ -67,7 +62,8 @@ INTERESTED_ATTRS = {
     # NOTE No "visibility" here, as Bazel has a more complicated visibility
     # syntax than GN's "visibility" and it is hard to translate. In the
     # generated GN, the default visibility is ["*"] (no restriction), unless
-    # the target appears in profile's "hidden_targets" glob pattern list.
+    # the target name is matched by one of the glob pattern in profile's
+    # "hidden_targets" list.
 }
 
 
@@ -87,8 +83,7 @@ def prettify_path_str(p: Path) -> str:
             break
     if dot_pos == -1:
         return str(p)
-    else:
-        return os.path.join(*p.parts[dot_pos + 1:])
+    return os.path.join(*p.parts[dot_pos + 1:])
 
 
 def stringify_list(arr: List[str],
@@ -174,6 +169,9 @@ def read_bazel_build(source: io.TextIOWrapper,
                                       profile.get(PROFILE_ROOT_REPLACERS, {}))
                     for e in value.elts
                 ]
+                for ee in (e for e in kwargs[attr] if DEP_ROOT_SIGIL.match(e)):
+                    print_warn("L%-3d: not replacing @..// in \"%s\"" %
+                               (value.lineno, ee))
             elif isinstance(value, ast.Name):
                 profile_vars = profile.get(PROFILE_VARIABLES, {}).get(attr, {})
                 if value.id in profile_vars:

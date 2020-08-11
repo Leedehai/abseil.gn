@@ -10,25 +10,6 @@ source_set("algorithm") {
   deps = ["$abseil/absl/base:config"]
 }
 
-# absl/algorithm/BUILD.bazel:39
-executable("algorithm_test") {
-  sources = ["algorithm_test.cc"]
-  deps = [
-    ":algorithm",
-    "$googletest:gtest_main",
-  ]
-}
-
-# absl/algorithm/BUILD.bazel:51
-executable("algorithm_benchmark") {
-  sources = ["equal_benchmark.cc"]
-  deps = [
-    ":algorithm",
-    "$abseil/absl/base:core_headers",
-    "$google_benchmark:benchmark_main",
-  ]
-}
-
 # absl/algorithm/BUILD.bazel:64
 source_set("container") {
   public = ["container.h"]
@@ -36,18 +17,5 @@ source_set("container") {
     ":algorithm",
     "$abseil/absl/base:core_headers",
     "$abseil/absl/meta:type_traits",
-  ]
-}
-
-# absl/algorithm/BUILD.bazel:78
-executable("container_test") {
-  sources = ["container_test.cc"]
-  deps = [
-    ":container",
-    "$abseil/absl/base",
-    "$abseil/absl/base:core_headers",
-    "$abseil/absl/memory",
-    "$abseil/absl/types:span",
-    "$googletest:gtest_main",
   ]
 }

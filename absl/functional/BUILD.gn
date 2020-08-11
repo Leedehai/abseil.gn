@@ -16,16 +16,6 @@ source_set("bind_front") {
   ]
 }
 
-# absl/functional/BUILD.bazel:43
-executable("bind_front_test") {
-  sources = ["bind_front_test.cc"]
-  deps = [
-    ":bind_front",
-    "$abseil/absl/memory",
-    "$googletest:gtest_main",
-  ]
-}
-
 # absl/functional/BUILD.bazel:55
 source_set("function_ref") {
   sources = ["internal/function_ref.h"]
@@ -33,26 +23,5 @@ source_set("function_ref") {
   deps = [
     "$abseil/absl/base:base_internal",
     "$abseil/absl/meta:type_traits",
-  ]
-}
-
-# absl/functional/BUILD.bazel:67
-executable("function_ref_test") {
-  sources = ["function_ref_test.cc"]
-  deps = [
-    ":function_ref",
-    "$abseil/absl/container:test_instance_tracker",
-    "$abseil/absl/memory",
-    "$googletest:gtest_main",
-  ]
-}
-
-# absl/functional/BUILD.bazel:80
-executable("function_ref_benchmark") {
-  sources = ["function_ref_benchmark.cc"]
-  deps = [
-    ":function_ref",
-    "$abseil/absl/base:core_headers",
-    "$google_benchmark:benchmark_main",
   ]
 }

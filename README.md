@@ -2,18 +2,18 @@
 
 [The Abseil C++ Library](https://abseil.io) ([source](https://github.com/abseil/abseil-cpp))
 is a collection of useful C++ utilities that are elusive in the C++ standard
-library.
+library. [Why adopt Abseil?](https://abseil.io/about/philosophy)
 
-The original library supports using [Bazel](https://bazel.build) or
-[CMake](https://cmake.org) as the build system. But I wanted to make it usable
-with [GN](https://gn.googlesource.com/gn), which was developed for Chromium with
-cross-platform and conditional builds in mind, and which I think is more
-light-weight and syntactically elegant than Bazel
-([in author's words](https://gn.googlesource.com/gn/+/refs/heads/master/docs/language.md#differences-and-similarities-to-blaze)).
+The official repository supports using [Bazel](https://bazel.build) or
+[CMake](https://cmake.org) as the build system. But I want to make it usable
+with [GN](https://gn.googlesource.com/gn), a build system developed by and for
+the Chromium projects with cross-platform and conditional builds in mind, and
+which I think is more light-weight and syntactically elegant than Bazel
+([GN vs Bazel](https://gn.googlesource.com/gn/+/refs/heads/master/docs/language.md#differences-and-similarities-to-blaze)).
 
-This project generates Abseil build files so that Abseil can serve as a
-library embedded in another GN-managed project. Therefore, it does not transpile
-Bazel build settings stored in `WORKSPACE` and `*.bzl` files etc.
+This project generates GN build files so that Abseil can serve as a library
+embedded in another GN-managed project. Therefore, it does not transpile Bazel
+build settings stored in `WORKSPACE` and `*.bzl` files etc.
 
 ## Before using
 

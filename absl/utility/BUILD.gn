@@ -13,15 +13,3 @@ source_set("utility") {
     "$abseil/absl/meta:type_traits",
   ]
 }
-
-# absl/utility/BUILD.bazel:43
-executable("utility_test") {
-  sources = ["utility_test.cc"]
-  deps = [
-    ":utility",
-    "$abseil/absl/base:core_headers",
-    "$abseil/absl/memory",
-    "$abseil/absl/strings",
-    "$googletest:gtest_main",
-  ]
-}

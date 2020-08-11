@@ -41,49 +41,9 @@ source_set("test_util") {
   public = ["internal/test_util.h"]
   deps = [
     ":time",
+    "@com_google_googletest/:gtest",
     "$abseil/absl/base:config",
     "$abseil/absl/base:raw_logging_internal",
     "$abseil/absl/time/internal/cctz:time_zone",
-    "$googletest:gtest",
-  ]
-}
-
-# absl/time/BUILD.bazel:80
-executable("time_test") {
-  sources = [
-    "civil_time_test.cc",
-    "clock_test.cc",
-    "duration_test.cc",
-    "format_test.cc",
-    "time_test.cc",
-    "time_zone_test.cc",
-  ]
-  deps = [
-    ":test_util",
-    ":time",
-    "$abseil/absl/base:config",
-    "$abseil/absl/base:core_headers",
-    "$abseil/absl/numeric:int128",
-    "$abseil/absl/time/internal/cctz:time_zone",
-    "$googletest:gtest_main",
-  ]
-}
-
-# absl/time/BUILD.bazel:103
-executable("time_benchmark") {
-  sources = [
-    "civil_time_benchmark.cc",
-    "clock_benchmark.cc",
-    "duration_benchmark.cc",
-    "format_benchmark.cc",
-    "time_benchmark.cc",
-  ]
-  deps = [
-    ":test_util",
-    ":time",
-    "$abseil/absl/base",
-    "$abseil/absl/base:core_headers",
-    "$abseil/absl/hash",
-    "$google_benchmark:benchmark_main",
   ]
 }

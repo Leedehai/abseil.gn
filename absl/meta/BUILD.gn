@@ -9,12 +9,3 @@ source_set("type_traits") {
   public = ["type_traits.h"]
   deps = ["$abseil/absl/base:config"]
 }
-
-# absl/meta/BUILD.bazel:39
-executable("type_traits_test") {
-  sources = ["type_traits_test.cc"]
-  deps = [
-    ":type_traits",
-    "$googletest:gtest_main",
-  ]
-}

@@ -31,26 +31,10 @@ source_set("hash_testing") {
   public = ["hash_testing.h"]
   deps = [
     ":spy_hash_state",
+    "@com_google_googletest/:gtest",
     "$abseil/absl/meta:type_traits",
     "$abseil/absl/strings",
     "$abseil/absl/types:variant",
-    "$googletest:gtest",
-  ]
-}
-
-# absl/hash/BUILD.bazel:66
-executable("hash_test") {
-  sources = ["hash_test.cc"]
-  deps = [
-    ":hash",
-    ":hash_testing",
-    ":spy_hash_state",
-    "$abseil/absl/base:core_headers",
-    "$abseil/absl/container:flat_hash_set",
-    "$abseil/absl/meta:type_traits",
-    "$abseil/absl/numeric:int128",
-    "$abseil/absl/strings:cord_test_helpers",
-    "$googletest:gtest_main",
   ]
 }
 
@@ -73,14 +57,5 @@ source_set("city") {
     "$abseil/absl/base:config",
     "$abseil/absl/base:core_headers",
     "$abseil/absl/base:endian",
-  ]
-}
-
-# absl/hash/BUILD.bazel:113
-executable("city_test") {
-  sources = ["internal/city_test.cc"]
-  deps = [
-    ":city",
-    "$googletest:gtest_main",
   ]
 }

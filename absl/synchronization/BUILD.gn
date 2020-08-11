@@ -59,47 +59,6 @@ source_set("synchronization") {
   ]
 }
 
-# absl/synchronization/BUILD.bazel:113
-executable("barrier_test") {
-  sources = ["barrier_test.cc"]
-  deps = [
-    ":synchronization",
-    "$abseil/absl/time",
-    "$googletest:gtest_main",
-  ]
-}
-
-# absl/synchronization/BUILD.bazel:126
-executable("blocking_counter_test") {
-  sources = ["blocking_counter_test.cc"]
-  deps = [
-    ":synchronization",
-    "$abseil/absl/time",
-    "$googletest:gtest_main",
-  ]
-}
-
-# absl/synchronization/BUILD.bazel:139
-executable("graphcycles_test") {
-  sources = ["internal/graphcycles_test.cc"]
-  deps = [
-    ":graphcycles_internal",
-    "$abseil/absl/base:core_headers",
-    "$abseil/absl/base:raw_logging_internal",
-    "$googletest:gtest_main",
-  ]
-}
-
-# absl/synchronization/BUILD.bazel:153
-executable("graphcycles_benchmark") {
-  sources = ["internal/graphcycles_benchmark.cc"]
-  deps = [
-    ":graphcycles_internal",
-    "$abseil/absl/base:raw_logging_internal",
-    "$google_benchmark:benchmark_main",
-  ]
-}
-
 # absl/synchronization/BUILD.bazel:168
 source_set("thread_pool") {
   testonly = true
@@ -110,22 +69,6 @@ source_set("thread_pool") {
   ]
 }
 
-# absl/synchronization/BUILD.bazel:182
-executable("mutex_test") {
-  sources = ["mutex_test.cc"]
-  deps = [
-    ":synchronization",
-    ":thread_pool",
-    "$abseil/absl/base",
-    "$abseil/absl/base:config",
-    "$abseil/absl/base:core_headers",
-    "$abseil/absl/base:raw_logging_internal",
-    "$abseil/absl/memory",
-    "$abseil/absl/time",
-    "$googletest:gtest_main",
-  ]
-}
-
 # absl/synchronization/BUILD.bazel:202
 source_set("mutex_benchmark_common") {
   testonly = true
@@ -133,19 +76,9 @@ source_set("mutex_benchmark_common") {
   deps = [
     ":synchronization",
     ":thread_pool",
+    "@com_github_google_benchmark/:benchmark_main",
     "$abseil/absl/base",
     "$abseil/absl/base:config",
-    "$google_benchmark:benchmark_main",
-  ]
-}
-
-# absl/synchronization/BUILD.bazel:232
-executable("notification_test") {
-  sources = ["notification_test.cc"]
-  deps = [
-    ":synchronization",
-    "$abseil/absl/time",
-    "$googletest:gtest_main",
   ]
 }
 
@@ -155,31 +88,10 @@ source_set("per_thread_sem_test_common") {
   sources = ["internal/per_thread_sem_test.cc"]
   deps = [
     ":synchronization",
+    "@com_google_googletest/:gtest",
     "$abseil/absl/base",
     "$abseil/absl/base:config",
     "$abseil/absl/strings",
     "$abseil/absl/time",
-    "$googletest:gtest",
-  ]
-}
-
-# absl/synchronization/BUILD.bazel:262
-executable("per_thread_sem_test") {
-  deps = [
-    ":per_thread_sem_test_common",
-    ":synchronization",
-    "$abseil/absl/strings",
-    "$abseil/absl/time",
-    "$googletest:gtest_main",
-  ]
-}
-
-# absl/synchronization/BUILD.bazel:276
-executable("lifetime_test") {
-  sources = ["lifetime_test.cc"]
-  deps = [
-    ":synchronization",
-    "$abseil/absl/base:core_headers",
-    "$abseil/absl/base:raw_logging_internal",
   ]
 }

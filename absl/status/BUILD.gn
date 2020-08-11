@@ -28,13 +28,3 @@ source_set("status") {
     "$abseil/absl/types:optional",
   ]
 }
-
-# absl/status/BUILD.bazel:57
-executable("status_test") {
-  sources = ["status_test.cc"]
-  deps = [
-    ":status",
-    "$abseil/absl/strings",
-    "$googletest:gtest_main",
-  ]
-}

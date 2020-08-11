@@ -18,29 +18,3 @@ source_set("int128") {
     "$abseil/absl/base:core_headers",
   ]
 }
-
-# absl/numeric/BUILD.bazel:44
-executable("int128_test") {
-  sources = [
-    "int128_stream_test.cc",
-    "int128_test.cc",
-  ]
-  deps = [
-    ":int128",
-    "$abseil/absl/base",
-    "$abseil/absl/base:core_headers",
-    "$abseil/absl/hash:hash_testing",
-    "$abseil/absl/meta:type_traits",
-    "$googletest:gtest_main",
-  ]
-}
-
-# absl/numeric/BUILD.bazel:63
-executable("int128_benchmark") {
-  sources = ["int128_benchmark.cc"]
-  deps = [
-    ":int128",
-    "$abseil/absl/base:config",
-    "$google_benchmark:benchmark_main",
-  ]
-}
