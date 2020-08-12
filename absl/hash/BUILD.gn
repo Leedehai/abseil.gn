@@ -24,8 +24,6 @@ source_set("hash") {
     "$abseil/absl/types:variant",
     "$abseil/absl/utility",
   ]
-  cflags = []
-  ldflags = []
 }
 
 # absl/hash/BUILD.bazel:98
@@ -37,6 +35,4 @@ source_set("city") {
     "$abseil/absl/base:core_headers",
     "$abseil/absl/base:endian",
   ]
-  cflags = []
-  ldflags = []
 }

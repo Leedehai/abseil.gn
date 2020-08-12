@@ -9,8 +9,6 @@
 source_set("algorithm") {
   public = ["algorithm.h"]
   deps = ["$abseil/absl/base:config"]
-  cflags = []
-  ldflags = []
 }
 
 # absl/algorithm/BUILD.bazel:64
@@ -21,6 +19,4 @@ source_set("container") {
     "$abseil/absl/base:core_headers",
     "$abseil/absl/meta:type_traits",
   ]
-  cflags = []
-  ldflags = []
 }

@@ -42,5 +42,4 @@ source_set("time_zone") {
     ":civil_time",
     "$abseil/absl/base:config",
   ]
-  ldflags = []
 }

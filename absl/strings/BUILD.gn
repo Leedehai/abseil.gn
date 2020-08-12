@@ -55,7 +55,6 @@ source_set("strings") {
     "$abseil/absl/meta:type_traits",
     "$abseil/absl/numeric:int128",
   ]
-  cflags = []
 }
 
 # absl/strings/BUILD.bazel:83
@@ -80,7 +79,6 @@ source_set("internal") {
     "$abseil/absl/base:raw_logging_internal",
     "$abseil/absl/meta:type_traits",
   ]
-  cflags = []
 }
 
 # absl/strings/BUILD.bazel:254
@@ -93,7 +91,6 @@ source_set("cord_internal") {
     "$abseil/absl/container:compressed_tuple",
     "$abseil/absl/meta:type_traits",
   ]
-  cflags = []
 }
 
 # absl/strings/BUILD.bazel:267
@@ -115,14 +112,12 @@ source_set("cord") {
     "$abseil/absl/meta:type_traits",
     "$abseil/absl/types:optional",
   ]
-  cflags = []
 }
 
 # absl/strings/BUILD.bazel:608
 source_set("str_format") {
   public = ["str_format.h"]
   deps = [":str_format_internal"]
-  cflags = []
 }
 
 # absl/strings/BUILD.bazel:619
@@ -156,5 +151,4 @@ source_set("str_format_internal") {
     "$abseil/absl/types:optional",
     "$abseil/absl/types:span",
   ]
-  cflags = []
 }

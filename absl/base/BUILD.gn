@@ -12,16 +12,12 @@ source_set("atomic_hook") {
     ":config",
     ":core_headers",
   ]
-  cflags = []
-  ldflags = []
 }
 
 # absl/base/BUILD.bazel:43
 source_set("errno_saver") {
   public = ["internal/errno_saver.h"]
   deps = [":config"]
-  cflags = []
-  ldflags = []
 }
 
 # absl/base/BUILD.bazel:54
@@ -32,8 +28,6 @@ source_set("log_severity") {
     ":config",
     ":core_headers",
   ]
-  cflags = []
-  ldflags = []
 }
 
 # absl/base/BUILD.bazel:66
@@ -47,8 +41,6 @@ source_set("raw_logging_internal") {
     ":core_headers",
     ":log_severity",
   ]
-  cflags = []
-  ldflags = []
 }
 
 # absl/base/BUILD.bazel:83
@@ -66,8 +58,6 @@ source_set("spinlock_wait") {
     ":core_headers",
     ":errno_saver",
   ]
-  cflags = []
-  ldflags = []
 }
 
 # absl/base/BUILD.bazel:105
@@ -77,8 +67,6 @@ source_set("config") {
     "options.h",
     "policy_checks.h",
   ]
-  cflags = []
-  ldflags = []
 }
 
 # absl/base/BUILD.bazel:116
@@ -89,8 +77,6 @@ source_set("dynamic_annotations") {
     ":config",
     ":core_headers",
   ]
-  cflags = []
-  ldflags = []
 }
 
 # absl/base/BUILD.bazel:132
@@ -105,8 +91,6 @@ source_set("core_headers") {
   ]
   sources = ["internal/thread_annotations.h"]
   deps = [":config"]
-  cflags = []
-  ldflags = []
 }
 
 # absl/base/BUILD.bazel:152
@@ -125,7 +109,6 @@ source_set("malloc_internal") {
     ":dynamic_annotations",
     ":raw_logging_internal",
   ]
-  cflags = []
   ldflags = ["-pthread"]
 }
 
@@ -143,8 +126,6 @@ source_set("base_internal") {
     ":config",
     "$abseil/absl/meta:type_traits",
   ]
-  cflags = []
-  ldflags = []
 }
 
 # absl/base/BUILD.bazel:200
@@ -179,7 +160,6 @@ source_set("base") {
     ":spinlock_wait",
     "$abseil/absl/meta:type_traits",
   ]
-  cflags = []
   ldflags = ["-pthread"]
 }
 
@@ -191,14 +171,11 @@ source_set("throw_delegate") {
     ":config",
     ":raw_logging_internal",
   ]
-  cflags = []
-  ldflags = []
 }
 
 # absl/base/BUILD.bazel:339
 source_set("pretty_function") {
   public = ["internal/pretty_function.h"]
-  ldflags = []
 }
 
 # absl/base/BUILD.bazel:473
@@ -211,8 +188,6 @@ source_set("endian") {
     ":config",
     ":core_headers",
   ]
-  cflags = []
-  ldflags = []
 }
 
 # absl/base/BUILD.bazel:589
@@ -222,7 +197,6 @@ source_set("bits") {
     ":config",
     ":core_headers",
   ]
-  ldflags = []
 }
 
 # absl/base/BUILD.bazel:614
@@ -233,7 +207,6 @@ source_set("exponential_biased") {
     ":config",
     ":core_headers",
   ]
-  ldflags = []
 }
 
 # absl/base/BUILD.bazel:642
@@ -244,8 +217,6 @@ source_set("periodic_sampler") {
     ":core_headers",
     ":exponential_biased",
   ]
-  cflags = []
-  ldflags = []
 }
 
 # absl/base/BUILD.bazel:725
@@ -257,14 +228,10 @@ source_set("strerror") {
     ":core_headers",
     ":errno_saver",
   ]
-  cflags = []
-  ldflags = []
 }
 
 # absl/base/BUILD.bazel:768
 source_set("fast_type_id") {
   public = ["internal/fast_type_id.h"]
   deps = [":config"]
-  cflags = []
-  ldflags = []
 }

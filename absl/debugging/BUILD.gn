@@ -24,8 +24,6 @@ source_set("stacktrace") {
     "$abseil/absl/base:config",
     "$abseil/absl/base:core_headers",
   ]
-  cflags = []
-  ldflags = []
 }
 
 # absl/debugging/BUILD.bazel:54
@@ -52,8 +50,6 @@ source_set("symbolize") {
     "$abseil/absl/base:raw_logging_internal",
     "$abseil/absl/strings",
   ]
-  cflags = []
-  ldflags = []
 }
 
 # absl/debugging/BUILD.bazel:109
@@ -67,8 +63,6 @@ source_set("examine_stack") {
     "$abseil/absl/base:core_headers",
     "$abseil/absl/base:raw_logging_internal",
   ]
-  cflags = []
-  ldflags = []
 }
 
 # absl/debugging/BUILD.bazel:129
@@ -84,8 +78,6 @@ source_set("failure_signal_handler") {
     "$abseil/absl/base:errno_saver",
     "$abseil/absl/base:raw_logging_internal",
   ]
-  cflags = []
-  ldflags = []
 }
 
 # absl/debugging/BUILD.bazel:165
@@ -108,8 +100,6 @@ source_set("debugging_internal") {
     "$abseil/absl/base:errno_saver",
     "$abseil/absl/base:raw_logging_internal",
   ]
-  cflags = []
-  ldflags = []
 }
 
 # absl/debugging/BUILD.bazel:188
@@ -122,7 +112,6 @@ source_set("demangle_internal") {
     "$abseil/absl/base:config",
     "$abseil/absl/base:core_headers",
   ]
-  cflags = []
 }
 
 # absl/debugging/BUILD.bazel:216
@@ -133,12 +122,10 @@ source_set("leak_check") {
     "$abseil/absl/base:config",
     "$abseil/absl/base:core_headers",
   ]
-  ldflags = []
 }
 
 # absl/debugging/BUILD.bazel:230
 source_set("leak_check_disable") {
   sources = ["leak_check_disable.cc"]
   deps = ["$abseil/absl/base:config"]
-  ldflags = []
 }

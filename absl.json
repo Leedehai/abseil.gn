@@ -2,24 +2,31 @@
   "target_mapping": {
     "cc_library": "source_set"
   },
+  "hidden_target_labels": [
+    "(\\W|_)internal(\\W|$)"
+  ],
   "skip_testonly": true,
   "root_replacers": {
     "//": "$abseil/",
     "@com_google_googletest//": "$googletest/",
     "@com_github_google_benchmark//": "$google_benchmark/"
   },
-  "select_keys": [
+  "bazel_select_keys": [
     "//absl:llvm_compiler"
   ],
-  "variable_expansions": {
+  "bazel_variable_expansions": {
     "ABSL_DEFAULT_COPTS": [],
     "ABSL_RANDOM_RANDEN_COPTS": [
-      "-maes"
+      "-maes",
+      "-msse4.1"
     ],
     "ABSL_DEFAULT_LINKOPTS": [],
     "ABSL_TEST_COPTS": []
   },
-  "hidden_targets": [
-    "(\\W|_)internal(\\W|$)"
+  "gn_omit_if_empty": [
+    "cflags",
+    "ldflags",
+    "public",
+    "sources"
   ]
 }

@@ -13,6 +13,4 @@ source_set("utility") {
     "$abseil/absl/base:config",
     "$abseil/absl/meta:type_traits",
   ]
-  cflags = []
-  ldflags = []
 }

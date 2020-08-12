@@ -18,6 +18,4 @@ source_set("int128") {
     "$abseil/absl/base:config",
     "$abseil/absl/base:core_headers",
   ]
-  cflags = []
-  ldflags = []
 }

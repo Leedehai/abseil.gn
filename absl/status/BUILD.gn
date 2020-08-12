@@ -28,5 +28,4 @@ source_set("status") {
     "$abseil/absl/strings:str_format",
     "$abseil/absl/types:optional",
   ]
-  cflags = []
 }

@@ -15,8 +15,6 @@ source_set("bind_front") {
     "$abseil/absl/meta:type_traits",
     "$abseil/absl/utility",
   ]
-  cflags = []
-  ldflags = []
 }
 
 # absl/functional/BUILD.bazel:55
@@ -27,6 +25,4 @@ source_set("function_ref") {
     "$abseil/absl/base:base_internal",
     "$abseil/absl/meta:type_traits",
   ]
-  cflags = []
-  ldflags = []
 }

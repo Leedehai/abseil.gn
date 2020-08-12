@@ -50,10 +50,11 @@ BAZEL_BASENAMES = ["BUILD.bazel", "BUILD"]
 # Keys in profile (optional)
 PROFILE_TARGET_MAPPING = "target_mapping"
 PROFILE_ROOT_REPLACERS = "root_replacers"
-PROFILE_VARIABLES = "variable_expansions"
-PROFILE_HIDDEN_TARGETS = "hidden_targets"
+PROFILE_VARIABLES = "bazel_variable_expansions"
+PROFILE_HIDDEN_TARGETS = "hidden_target_labels"
 PROFILE_SKIP_TESTONLY = "skip_testonly"
-PROFILE_SELECT_KEYS = "select_keys"
+PROFILE_SELECT_KEYS = "bazel_select_keys"
+PROFILE_GN_OMIT_IF_EMPTY = "gn_omit_if_empty"
 
 GnAttribute = namedtuple("GnAttribute", ["name", "order"])
 
@@ -322,6 +323,9 @@ def make_gn_build(source_relpath: Path, repo_info: Optional[str],
             ss.write("  visibility = [\"%s:*\"]\n" % (proj_root_replacer))
         for k, v in gn_attr_sorted(gn_attrs.items()):
             if isinstance(v, list):
+                if (len(v) == 0
+                        and k in profile.get(PROFILE_GN_OMIT_IF_EMPTY, [])):
+                    continue
                 ss.write("  %s = %s\n" % (k, stringify_list(sorted(v))))
             elif k == "testonly":
                 ss.write("  %s = %s\n" % (k, "true" if v else "false"))

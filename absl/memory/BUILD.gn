@@ -12,6 +12,4 @@ source_set("memory") {
     "$abseil/absl/base:core_headers",
     "$abseil/absl/meta:type_traits",
   ]
-  cflags = []
-  ldflags = []
 }
