@@ -23,7 +23,7 @@ repository first (see below).
 ## Prerequisites
 
 - Python 3.8+,
-- Git 2.21+ and network connection (if updating the build).
+- Git 2.21+,
 - Bazel 3.4.1+ (we need it to extract target definitions)
 
 ## How to update this repository
@@ -34,6 +34,12 @@ Working directory: at root of this repository.
 # Fetch Abseil source and update *.gn files
 $ ./update.sh # add "-r" to skip fetching the Abseil source.
 ```
+
+### What if the program "hangs"?
+
+On first execution, Bazel may decide to download JDK (yeah, it doesn't do this
+step during installation), which may take a long time and it appears the program
+hangs. This peculiar behavior of Bazel is annoying ([GitHub issue](https://github.com/bazelbuild/bazel/issues/6865)).
 
 ## Explore alternative actions
 
@@ -90,19 +96,12 @@ understandable by GN. For example, `@com_google_googletest//` can be replaced
 with `$googletest/`, and the user need to specify in their GN setup what
 path string the variable `googletest` is mapped to.
 
-### `bazel_select_keys`
+### `bazel_build_options`
 
 Type: `list[str]`. Default: empty.
 
-Bazel has a special function `select()`, whose input is a mapping from `config_setting` labels to possible outputs, and the output depends on which
-`config_setting` fires. However, the rule to determine which `config_setting`
-fires is complex, so `bazel_select_keys` provides a way for user to directly
-specify which should fire.
-
-Note the element strings are full label of the
-original `config_setting`, e.g. `path/to/build/file:config_setting_foo`, not
-something like `:config_setting_foo`, though the latter is what may appear in
-a Bazel file's `select()` invocations.
+Bazel build options to control how to evaluate `config_setting` targets, which
+in turn affect how `select()` is evaluated.
 
 ### `bazel_variable_expansions`
 

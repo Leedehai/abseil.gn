@@ -5,92 +5,9 @@
 # upstream: 2020-08-14T18:40:01-04:00 d0c433455801e1c1fb6f486f0b447e22f946ab52
 # file: absl/base/BUILD.bazel
 
-# absl/base/BUILD.bazel:throw_delegate
-source_set("throw_delegate") {
-  public = ["internal/throw_delegate.h"]
-  sources = ["internal/throw_delegate.cc"]
-  deps = [
-    ":config",
-    ":raw_logging_internal",
-  ]
-}
-
-# absl/base/BUILD.bazel:periodic_sampler
-source_set("periodic_sampler") {
-  public = ["internal/periodic_sampler.h"]
-  sources = ["internal/periodic_sampler.cc"]
-  deps = [
-    ":core_headers",
-    ":exponential_biased",
-  ]
-}
-
-# absl/base/BUILD.bazel:malloc_internal
-source_set("malloc_internal") {
-  visibility = ["$abseil/:*"]
-  public = [
-    "internal/direct_mmap.h",
-    "internal/low_level_alloc.h",
-  ]
-  sources = ["internal/low_level_alloc.cc"]
-  deps = [
-    ":base",
-    ":base_internal",
-    ":config",
-    ":core_headers",
-    ":dynamic_annotations",
-    ":raw_logging_internal",
-  ]
-  ldflags = ["-pthread"]
-}
-
-# absl/base/BUILD.bazel:fast_type_id
-source_set("fast_type_id") {
-  public = ["internal/fast_type_id.h"]
-  deps = [":config"]
-}
-
-# absl/base/BUILD.bazel:exponential_biased
-source_set("exponential_biased") {
-  public = ["internal/exponential_biased.h"]
-  sources = ["internal/exponential_biased.cc"]
-  deps = [
-    ":config",
-    ":core_headers",
-  ]
-}
-
-# absl/base/BUILD.bazel:pretty_function
-source_set("pretty_function") {
-  public = ["internal/pretty_function.h"]
-}
-
-# absl/base/BUILD.bazel:strerror
-source_set("strerror") {
-  public = ["internal/strerror.h"]
-  sources = ["internal/strerror.cc"]
-  deps = [
-    ":config",
-    ":core_headers",
-    ":errno_saver",
-  ]
-}
-
-# absl/base/BUILD.bazel:endian
-source_set("endian") {
-  public = [
-    "internal/endian.h",
-    "internal/unaligned_access.h",
-  ]
-  deps = [
-    ":config",
-    ":core_headers",
-  ]
-}
-
-# absl/base/BUILD.bazel:bits
-source_set("bits") {
-  public = ["internal/bits.h"]
+# absl/base/BUILD.bazel:atomic_hook
+source_set("atomic_hook") {
+  public = ["internal/atomic_hook.h"]
   deps = [
     ":config",
     ":core_headers",
@@ -132,62 +49,6 @@ source_set("base") {
   ldflags = ["-pthread"]
 }
 
-# absl/base/BUILD.bazel:spinlock_wait
-source_set("spinlock_wait") {
-  public = ["internal/spinlock_wait.h"]
-  sources = [
-    "internal/spinlock_akaros.inc",
-    "internal/spinlock_linux.inc",
-    "internal/spinlock_posix.inc",
-    "internal/spinlock_wait.cc",
-    "internal/spinlock_win32.inc",
-  ]
-  deps = [
-    ":base_internal",
-    ":core_headers",
-    ":errno_saver",
-  ]
-}
-
-# absl/base/BUILD.bazel:errno_saver
-source_set("errno_saver") {
-  public = ["internal/errno_saver.h"]
-  deps = [":config"]
-}
-
-# absl/base/BUILD.bazel:raw_logging_internal
-source_set("raw_logging_internal") {
-  visibility = ["$abseil/:*"]
-  public = ["internal/raw_logging.h"]
-  sources = ["internal/raw_logging.cc"]
-  deps = [
-    ":atomic_hook",
-    ":config",
-    ":core_headers",
-    ":log_severity",
-  ]
-}
-
-# absl/base/BUILD.bazel:log_severity
-source_set("log_severity") {
-  public = ["log_severity.h"]
-  sources = ["log_severity.cc"]
-  deps = [
-    ":config",
-    ":core_headers",
-  ]
-}
-
-# absl/base/BUILD.bazel:dynamic_annotations
-source_set("dynamic_annotations") {
-  public = ["dynamic_annotations.h"]
-  sources = ["internal/dynamic_annotations.h"]
-  deps = [
-    ":config",
-    ":core_headers",
-  ]
-}
-
 # absl/base/BUILD.bazel:base_internal
 source_set("base_internal") {
   visibility = ["$abseil/:*"]
@@ -204,12 +65,21 @@ source_set("base_internal") {
   ]
 }
 
-# absl/base/BUILD.bazel:atomic_hook
-source_set("atomic_hook") {
-  public = ["internal/atomic_hook.h"]
+# absl/base/BUILD.bazel:bits
+source_set("bits") {
+  public = ["internal/bits.h"]
   deps = [
     ":config",
     ":core_headers",
+  ]
+}
+
+# absl/base/BUILD.bazel:config
+source_set("config") {
+  public = [
+    "config.h",
+    "options.h",
+    "policy_checks.h",
   ]
 }
 
@@ -227,11 +97,141 @@ source_set("core_headers") {
   deps = [":config"]
 }
 
-# absl/base/BUILD.bazel:config
-source_set("config") {
+# absl/base/BUILD.bazel:dynamic_annotations
+source_set("dynamic_annotations") {
+  public = ["dynamic_annotations.h"]
+  sources = ["internal/dynamic_annotations.h"]
+  deps = [
+    ":config",
+    ":core_headers",
+  ]
+}
+
+# absl/base/BUILD.bazel:endian
+source_set("endian") {
   public = [
-    "config.h",
-    "options.h",
-    "policy_checks.h",
+    "internal/endian.h",
+    "internal/unaligned_access.h",
+  ]
+  deps = [
+    ":config",
+    ":core_headers",
+  ]
+}
+
+# absl/base/BUILD.bazel:errno_saver
+source_set("errno_saver") {
+  public = ["internal/errno_saver.h"]
+  deps = [":config"]
+}
+
+# absl/base/BUILD.bazel:exponential_biased
+source_set("exponential_biased") {
+  public = ["internal/exponential_biased.h"]
+  sources = ["internal/exponential_biased.cc"]
+  deps = [
+    ":config",
+    ":core_headers",
+  ]
+}
+
+# absl/base/BUILD.bazel:fast_type_id
+source_set("fast_type_id") {
+  public = ["internal/fast_type_id.h"]
+  deps = [":config"]
+}
+
+# absl/base/BUILD.bazel:log_severity
+source_set("log_severity") {
+  public = ["log_severity.h"]
+  sources = ["log_severity.cc"]
+  deps = [
+    ":config",
+    ":core_headers",
+  ]
+}
+
+# absl/base/BUILD.bazel:malloc_internal
+source_set("malloc_internal") {
+  visibility = ["$abseil/:*"]
+  public = [
+    "internal/direct_mmap.h",
+    "internal/low_level_alloc.h",
+  ]
+  sources = ["internal/low_level_alloc.cc"]
+  deps = [
+    ":base",
+    ":base_internal",
+    ":config",
+    ":core_headers",
+    ":dynamic_annotations",
+    ":raw_logging_internal",
+  ]
+  ldflags = ["-pthread"]
+}
+
+# absl/base/BUILD.bazel:periodic_sampler
+source_set("periodic_sampler") {
+  public = ["internal/periodic_sampler.h"]
+  sources = ["internal/periodic_sampler.cc"]
+  deps = [
+    ":core_headers",
+    ":exponential_biased",
+  ]
+}
+
+# absl/base/BUILD.bazel:pretty_function
+source_set("pretty_function") {
+  public = ["internal/pretty_function.h"]
+}
+
+# absl/base/BUILD.bazel:raw_logging_internal
+source_set("raw_logging_internal") {
+  visibility = ["$abseil/:*"]
+  public = ["internal/raw_logging.h"]
+  sources = ["internal/raw_logging.cc"]
+  deps = [
+    ":atomic_hook",
+    ":config",
+    ":core_headers",
+    ":log_severity",
+  ]
+}
+
+# absl/base/BUILD.bazel:spinlock_wait
+source_set("spinlock_wait") {
+  public = ["internal/spinlock_wait.h"]
+  sources = [
+    "internal/spinlock_akaros.inc",
+    "internal/spinlock_linux.inc",
+    "internal/spinlock_posix.inc",
+    "internal/spinlock_wait.cc",
+    "internal/spinlock_win32.inc",
+  ]
+  deps = [
+    ":base_internal",
+    ":core_headers",
+    ":errno_saver",
+  ]
+}
+
+# absl/base/BUILD.bazel:strerror
+source_set("strerror") {
+  public = ["internal/strerror.h"]
+  sources = ["internal/strerror.cc"]
+  deps = [
+    ":config",
+    ":core_headers",
+    ":errno_saver",
+  ]
+}
+
+# absl/base/BUILD.bazel:throw_delegate
+source_set("throw_delegate") {
+  public = ["internal/throw_delegate.h"]
+  sources = ["internal/throw_delegate.cc"]
+  deps = [
+    ":config",
+    ":raw_logging_internal",
   ]
 }

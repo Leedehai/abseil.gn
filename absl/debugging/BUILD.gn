@@ -5,13 +5,50 @@
 # upstream: 2020-08-14T18:40:01-04:00 d0c433455801e1c1fb6f486f0b447e22f946ab52
 # file: absl/debugging/BUILD.bazel
 
-# absl/debugging/BUILD.bazel:leak_check
-source_set("leak_check") {
-  public = ["leak_check.h"]
-  sources = ["leak_check.cc"]
+# absl/debugging/BUILD.bazel:debugging_internal
+source_set("debugging_internal") {
+  visibility = ["$abseil/:*"]
+  public = [
+    "internal/address_is_readable.h",
+    "internal/elf_mem_image.h",
+    "internal/vdso_support.h",
+  ]
+  sources = [
+    "internal/address_is_readable.cc",
+    "internal/elf_mem_image.cc",
+    "internal/vdso_support.cc",
+  ]
   deps = [
     "$abseil/absl/base:config",
     "$abseil/absl/base:core_headers",
+    "$abseil/absl/base:dynamic_annotations",
+    "$abseil/absl/base:errno_saver",
+    "$abseil/absl/base:raw_logging_internal",
+  ]
+}
+
+# absl/debugging/BUILD.bazel:demangle_internal
+source_set("demangle_internal") {
+  visibility = ["$abseil/:*"]
+  public = ["internal/demangle.h"]
+  sources = ["internal/demangle.cc"]
+  deps = [
+    "$abseil/absl/base:base",
+    "$abseil/absl/base:config",
+    "$abseil/absl/base:core_headers",
+  ]
+}
+
+# absl/debugging/BUILD.bazel:examine_stack
+source_set("examine_stack") {
+  public = ["internal/examine_stack.h"]
+  sources = ["internal/examine_stack.cc"]
+  deps = [
+    ":stacktrace",
+    ":symbolize",
+    "$abseil/absl/base:config",
+    "$abseil/absl/base:core_headers",
+    "$abseil/absl/base:raw_logging_internal",
   ]
 }
 
@@ -30,16 +67,40 @@ source_set("failure_signal_handler") {
   ]
 }
 
-# absl/debugging/BUILD.bazel:examine_stack
-source_set("examine_stack") {
-  public = ["internal/examine_stack.h"]
-  sources = ["internal/examine_stack.cc"]
+# absl/debugging/BUILD.bazel:leak_check
+source_set("leak_check") {
+  public = ["leak_check.h"]
+  sources = ["leak_check.cc"]
   deps = [
-    ":stacktrace",
-    ":symbolize",
     "$abseil/absl/base:config",
     "$abseil/absl/base:core_headers",
-    "$abseil/absl/base:raw_logging_internal",
+  ]
+}
+
+# absl/debugging/BUILD.bazel:leak_check_disable
+source_set("leak_check_disable") {
+  sources = ["leak_check_disable.cc"]
+  deps = ["$abseil/absl/base:config"]
+}
+
+# absl/debugging/BUILD.bazel:stacktrace
+source_set("stacktrace") {
+  public = ["stacktrace.h"]
+  sources = [
+    "internal/stacktrace_aarch64-inl.inc",
+    "internal/stacktrace_arm-inl.inc",
+    "internal/stacktrace_config.h",
+    "internal/stacktrace_generic-inl.inc",
+    "internal/stacktrace_powerpc-inl.inc",
+    "internal/stacktrace_unimplemented-inl.inc",
+    "internal/stacktrace_win32-inl.inc",
+    "internal/stacktrace_x86-inl.inc",
+    "stacktrace.cc",
+  ]
+  deps = [
+    ":debugging_internal",
+    "$abseil/absl/base:config",
+    "$abseil/absl/base:core_headers",
   ]
 }
 
@@ -66,66 +127,5 @@ source_set("symbolize") {
     "$abseil/absl/base:malloc_internal",
     "$abseil/absl/base:raw_logging_internal",
     "$abseil/absl/strings:strings",
-  ]
-}
-
-# absl/debugging/BUILD.bazel:stacktrace
-source_set("stacktrace") {
-  public = ["stacktrace.h"]
-  sources = [
-    "internal/stacktrace_aarch64-inl.inc",
-    "internal/stacktrace_arm-inl.inc",
-    "internal/stacktrace_config.h",
-    "internal/stacktrace_generic-inl.inc",
-    "internal/stacktrace_powerpc-inl.inc",
-    "internal/stacktrace_unimplemented-inl.inc",
-    "internal/stacktrace_win32-inl.inc",
-    "internal/stacktrace_x86-inl.inc",
-    "stacktrace.cc",
-  ]
-  deps = [
-    ":debugging_internal",
-    "$abseil/absl/base:config",
-    "$abseil/absl/base:core_headers",
-  ]
-}
-
-# absl/debugging/BUILD.bazel:leak_check_disable
-source_set("leak_check_disable") {
-  sources = ["leak_check_disable.cc"]
-  deps = ["$abseil/absl/base:config"]
-}
-
-# absl/debugging/BUILD.bazel:demangle_internal
-source_set("demangle_internal") {
-  visibility = ["$abseil/:*"]
-  public = ["internal/demangle.h"]
-  sources = ["internal/demangle.cc"]
-  deps = [
-    "$abseil/absl/base:base",
-    "$abseil/absl/base:config",
-    "$abseil/absl/base:core_headers",
-  ]
-}
-
-# absl/debugging/BUILD.bazel:debugging_internal
-source_set("debugging_internal") {
-  visibility = ["$abseil/:*"]
-  public = [
-    "internal/address_is_readable.h",
-    "internal/elf_mem_image.h",
-    "internal/vdso_support.h",
-  ]
-  sources = [
-    "internal/address_is_readable.cc",
-    "internal/elf_mem_image.cc",
-    "internal/vdso_support.cc",
-  ]
-  deps = [
-    "$abseil/absl/base:config",
-    "$abseil/absl/base:core_headers",
-    "$abseil/absl/base:dynamic_annotations",
-    "$abseil/absl/base:errno_saver",
-    "$abseil/absl/base:raw_logging_internal",
   ]
 }

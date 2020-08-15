@@ -46,12 +46,15 @@ def print_err(s: str) -> None:
     sys.stderr.write("\x1b[31merror: %s\x1b[0m\n" % s)
 
 
-def bazel_query(label_pattern: str) -> Optional[str]:
+def bazel_cquery(label_pattern: str, build_options: List[str]) -> Optional[str]:
     """
     Return a string as if the targets were hand-written in the BUILD file.
-    All variables and function calls (except select()) are expanded.
+    All variables and function calls (including glob(), select()) are expanded.
     """
-    command = ["bazel", "query", label_pattern, "--output", "build"]
+    command = ["bazel", "cquery", label_pattern, "--output", "build"]
+    if len(build_options) > 0:
+        command += ["--define"] + build_options
+    print(' '.join(command))
     try:
         stdout = subprocess.check_output(command, stderr=subprocess.DEVNULL)
         return stdout.decode()
@@ -79,7 +82,7 @@ PROFILE_ROOT_REPLACERS = "root_replacers"
 PROFILE_VARIABLES = "bazel_variable_expansions"
 PROFILE_HIDDEN_TARGETS = "hidden_target_labels"
 PROFILE_SKIP_TESTONLY = "skip_testonly"
-PROFILE_SELECT_KEYS = "bazel_select_keys"
+PROFILE_BUILD_OPTIONS = "bazel_build_options"
 PROFILE_GN_OMIT_IF_EMPTY = "gn_omit_if_empty"
 PROFILE_REMOVE_GN_LIST_ELEMENTS = "remove_gn_list_elements"
 
@@ -216,7 +219,7 @@ def eval_bazel_expr(code_text: Optional[str], profile: dict,
                     condition = str(source_path.parent) + condition
                 else:
                     condition = str(source_path.parent.joinpath(condition))
-            if condition in profile.get(PROFILE_SELECT_KEYS, {}):
+            if condition in profile.get(PROFILE_BUILD_OPTIONS, {}):
                 return value
         # //conditions:default is a pseudo-label in Bazel. Like Bazel, if
         # no condition is picked up already, and //conditions:default is
@@ -290,6 +293,7 @@ def parse_bazel_build(
                     has_printout = True
             elif isinstance(
                     rhs, (ast.expr, ast.Call)):  # ast.expr is an abstract class
+                print_err("aaaaaaaaaaaaaaaaaaaa")
                 source_segment = ast.get_source_segment(source_text, rhs)
                 eval_res = eval_bazel_expr(source_segment, profile, source_path)
                 if eval_res == None:
@@ -353,7 +357,7 @@ def make_gn_build(source_relpath: Path, repo_info: Optional[str],
             if in_attr == "name" or value == None:
                 continue
             gn_attrs[INTERESTED_BAZEL_ATTRS[in_attr].name] = value
-        ss.write("# %s:%s\n" % (source_relpath, gn_target_name))
+        ss.write("# %s:%s\n" % (source_relpath.parent, gn_target_name))
         ss.write("%s(\"%s\") {\n" % (gn_target_type, gn_target_name))
         if private_visibility_cause:
             ss.write("  visibility = [\"%s:*\"]\n" % (proj_root_replacer))
@@ -384,7 +388,8 @@ def gen_file(source_path: Path, repo_path: Optional[Path],
              verbose: bool) -> Tuple[Optional[str], bool]:
     if repo_path:
         with cd(repo_path):
-            source_text = bazel_query("%s:*" % source_path.parent)
+            source_text = bazel_cquery("%s:*" % source_path.parent,
+                                       profile.get(PROFILE_BUILD_OPTIONS, []))
         if source_text == None:
             print_err("bazel can't query: %s" % source_path)
             return None, True

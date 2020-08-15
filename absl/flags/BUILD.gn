@@ -5,61 +5,44 @@
 # upstream: 2020-08-14T18:40:01-04:00 d0c433455801e1c1fb6f486f0b447e22f946ab52
 # file: absl/flags/BUILD.bazel
 
-# absl/flags/BUILD.bazel:parse
-source_set("parse") {
-  public = [
-    "internal/parse.h",
-    "parse.h",
-  ]
-  sources = ["parse.cc"]
+# absl/flags/BUILD.bazel:commandlineflag
+source_set("commandlineflag") {
+  public = ["commandlineflag.h"]
+  sources = ["commandlineflag.cc"]
   deps = [
-    ":commandlineflag",
     ":commandlineflag_internal",
-    ":config",
-    ":flag",
-    ":flag_internal",
-    ":private_handle_accessor",
-    ":program_name",
-    ":reflection",
-    ":usage",
-    ":usage_internal",
     "$abseil/absl/base:config",
-    "$abseil/absl/base:core_headers",
+    "$abseil/absl/base:fast_type_id",
     "$abseil/absl/strings:strings",
-    "$abseil/absl/synchronization:synchronization",
+    "$abseil/absl/types:optional",
   ]
 }
 
-# absl/flags/BUILD.bazel:usage
-source_set("usage") {
-  public = ["usage.h"]
-  sources = ["usage.cc"]
-  deps = [
-    ":usage_internal",
-    "$abseil/absl/base:config",
-    "$abseil/absl/base:core_headers",
-    "$abseil/absl/strings:strings",
-    "$abseil/absl/synchronization:synchronization",
-  ]
-}
-
-# absl/flags/BUILD.bazel:usage_internal
-source_set("usage_internal") {
+# absl/flags/BUILD.bazel:commandlineflag_internal
+source_set("commandlineflag_internal") {
   visibility = ["$abseil/:*"]
-  public = ["internal/usage.h"]
-  sources = ["internal/usage.cc"]
+  public = ["internal/commandlineflag.h"]
+  sources = ["internal/commandlineflag.cc"]
   deps = [
-    ":commandlineflag",
-    ":config",
-    ":flag",
-    ":flag_internal",
+    "$abseil/absl/base:config",
+    "$abseil/absl/base:fast_type_id",
+  ]
+}
+
+# absl/flags/BUILD.bazel:config
+source_set("config") {
+  public = [
+    "config.h",
+    "usage_config.h",
+  ]
+  sources = ["usage_config.cc"]
+  deps = [
     ":path_util",
-    ":private_handle_accessor",
     ":program_name",
-    ":reflection",
     "$abseil/absl/base:config",
     "$abseil/absl/base:core_headers",
     "$abseil/absl/strings:strings",
+    "$abseil/absl/synchronization:synchronization",
   ]
 }
 
@@ -103,6 +86,78 @@ source_set("flag_internal") {
   ]
 }
 
+# absl/flags/BUILD.bazel:marshalling
+source_set("marshalling") {
+  public = ["marshalling.h"]
+  sources = ["marshalling.cc"]
+  deps = [
+    "$abseil/absl/base:config",
+    "$abseil/absl/base:core_headers",
+    "$abseil/absl/base:log_severity",
+    "$abseil/absl/strings:str_format",
+    "$abseil/absl/strings:strings",
+  ]
+}
+
+# absl/flags/BUILD.bazel:parse
+source_set("parse") {
+  public = [
+    "internal/parse.h",
+    "parse.h",
+  ]
+  sources = ["parse.cc"]
+  deps = [
+    ":commandlineflag",
+    ":commandlineflag_internal",
+    ":config",
+    ":flag",
+    ":flag_internal",
+    ":private_handle_accessor",
+    ":program_name",
+    ":reflection",
+    ":usage",
+    ":usage_internal",
+    "$abseil/absl/base:config",
+    "$abseil/absl/base:core_headers",
+    "$abseil/absl/strings:strings",
+    "$abseil/absl/synchronization:synchronization",
+  ]
+}
+
+# absl/flags/BUILD.bazel:path_util
+source_set("path_util") {
+  public = ["internal/path_util.h"]
+  deps = [
+    "$abseil/absl/base:config",
+    "$abseil/absl/strings:strings",
+  ]
+}
+
+# absl/flags/BUILD.bazel:private_handle_accessor
+source_set("private_handle_accessor") {
+  public = ["internal/private_handle_accessor.h"]
+  sources = ["internal/private_handle_accessor.cc"]
+  deps = [
+    ":commandlineflag",
+    ":commandlineflag_internal",
+    "$abseil/absl/base:config",
+    "$abseil/absl/strings:strings",
+  ]
+}
+
+# absl/flags/BUILD.bazel:program_name
+source_set("program_name") {
+  public = ["internal/program_name.h"]
+  sources = ["internal/program_name.cc"]
+  deps = [
+    ":path_util",
+    "$abseil/absl/base:config",
+    "$abseil/absl/base:core_headers",
+    "$abseil/absl/strings:strings",
+    "$abseil/absl/synchronization:synchronization",
+  ]
+}
+
 # absl/flags/BUILD.bazel:reflection
 source_set("reflection") {
   public = [
@@ -122,90 +177,35 @@ source_set("reflection") {
   ]
 }
 
-# absl/flags/BUILD.bazel:private_handle_accessor
-source_set("private_handle_accessor") {
-  public = ["internal/private_handle_accessor.h"]
-  sources = ["internal/private_handle_accessor.cc"]
+# absl/flags/BUILD.bazel:usage
+source_set("usage") {
+  public = ["usage.h"]
+  sources = ["usage.cc"]
+  deps = [
+    ":usage_internal",
+    "$abseil/absl/base:config",
+    "$abseil/absl/base:core_headers",
+    "$abseil/absl/strings:strings",
+    "$abseil/absl/synchronization:synchronization",
+  ]
+}
+
+# absl/flags/BUILD.bazel:usage_internal
+source_set("usage_internal") {
+  visibility = ["$abseil/:*"]
+  public = ["internal/usage.h"]
+  sources = ["internal/usage.cc"]
   deps = [
     ":commandlineflag",
-    ":commandlineflag_internal",
-    "$abseil/absl/base:config",
-    "$abseil/absl/strings:strings",
-  ]
-}
-
-# absl/flags/BUILD.bazel:marshalling
-source_set("marshalling") {
-  public = ["marshalling.h"]
-  sources = ["marshalling.cc"]
-  deps = [
-    "$abseil/absl/base:config",
-    "$abseil/absl/base:core_headers",
-    "$abseil/absl/base:log_severity",
-    "$abseil/absl/strings:str_format",
-    "$abseil/absl/strings:strings",
-  ]
-}
-
-# absl/flags/BUILD.bazel:config
-source_set("config") {
-  public = [
-    "config.h",
-    "usage_config.h",
-  ]
-  sources = ["usage_config.cc"]
-  deps = [
+    ":config",
+    ":flag",
+    ":flag_internal",
     ":path_util",
+    ":private_handle_accessor",
     ":program_name",
+    ":reflection",
     "$abseil/absl/base:config",
     "$abseil/absl/base:core_headers",
     "$abseil/absl/strings:strings",
-    "$abseil/absl/synchronization:synchronization",
-  ]
-}
-
-# absl/flags/BUILD.bazel:program_name
-source_set("program_name") {
-  public = ["internal/program_name.h"]
-  sources = ["internal/program_name.cc"]
-  deps = [
-    ":path_util",
-    "$abseil/absl/base:config",
-    "$abseil/absl/base:core_headers",
-    "$abseil/absl/strings:strings",
-    "$abseil/absl/synchronization:synchronization",
-  ]
-}
-
-# absl/flags/BUILD.bazel:path_util
-source_set("path_util") {
-  public = ["internal/path_util.h"]
-  deps = [
-    "$abseil/absl/base:config",
-    "$abseil/absl/strings:strings",
-  ]
-}
-
-# absl/flags/BUILD.bazel:commandlineflag
-source_set("commandlineflag") {
-  public = ["commandlineflag.h"]
-  sources = ["commandlineflag.cc"]
-  deps = [
-    ":commandlineflag_internal",
-    "$abseil/absl/base:config",
-    "$abseil/absl/base:fast_type_id",
-    "$abseil/absl/strings:strings",
-    "$abseil/absl/types:optional",
-  ]
-}
-
-# absl/flags/BUILD.bazel:commandlineflag_internal
-source_set("commandlineflag_internal") {
-  visibility = ["$abseil/:*"]
-  public = ["internal/commandlineflag.h"]
-  sources = ["internal/commandlineflag.cc"]
-  deps = [
-    "$abseil/absl/base:config",
-    "$abseil/absl/base:fast_type_id",
   ]
 }

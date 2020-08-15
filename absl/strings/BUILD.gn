@@ -38,6 +38,30 @@ source_set("cord_internal") {
   ]
 }
 
+# absl/strings/BUILD.bazel:internal
+source_set("internal") {
+  visibility = ["$abseil/:*"]
+  public = [
+    "internal/char_map.h",
+    "internal/escaping.h",
+    "internal/ostringstream.h",
+    "internal/resize_uninitialized.h",
+    "internal/utf8.h",
+  ]
+  sources = [
+    "internal/escaping.cc",
+    "internal/ostringstream.cc",
+    "internal/utf8.cc",
+  ]
+  deps = [
+    "$abseil/absl/base:config",
+    "$abseil/absl/base:core_headers",
+    "$abseil/absl/base:endian",
+    "$abseil/absl/base:raw_logging_internal",
+    "$abseil/absl/meta:type_traits",
+  ]
+}
+
 # absl/strings/BUILD.bazel:str_format
 source_set("str_format") {
   public = ["str_format.h"]
@@ -126,29 +150,5 @@ source_set("strings") {
     "$abseil/absl/memory:memory",
     "$abseil/absl/meta:type_traits",
     "$abseil/absl/numeric:int128",
-  ]
-}
-
-# absl/strings/BUILD.bazel:internal
-source_set("internal") {
-  visibility = ["$abseil/:*"]
-  public = [
-    "internal/char_map.h",
-    "internal/escaping.h",
-    "internal/ostringstream.h",
-    "internal/resize_uninitialized.h",
-    "internal/utf8.h",
-  ]
-  sources = [
-    "internal/escaping.cc",
-    "internal/ostringstream.cc",
-    "internal/utf8.cc",
-  ]
-  deps = [
-    "$abseil/absl/base:config",
-    "$abseil/absl/base:core_headers",
-    "$abseil/absl/base:endian",
-    "$abseil/absl/base:raw_logging_internal",
-    "$abseil/absl/meta:type_traits",
   ]
 }

@@ -5,76 +5,6 @@
 # upstream: 2020-08-14T18:40:01-04:00 d0c433455801e1c1fb6f486f0b447e22f946ab52
 # file: absl/types/BUILD.bazel
 
-# absl/types/BUILD.bazel:variant
-source_set("variant") {
-  public = ["variant.h"]
-  sources = ["internal/variant.h"]
-  deps = [
-    ":bad_variant_access",
-    "$abseil/absl/base:base_internal",
-    "$abseil/absl/base:config",
-    "$abseil/absl/base:core_headers",
-    "$abseil/absl/meta:type_traits",
-    "$abseil/absl/utility:utility",
-  ]
-}
-
-# absl/types/BUILD.bazel:span
-source_set("span") {
-  public = ["span.h"]
-  sources = ["internal/span.h"]
-  deps = [
-    "$abseil/absl/algorithm:algorithm",
-    "$abseil/absl/base:core_headers",
-    "$abseil/absl/base:throw_delegate",
-    "$abseil/absl/meta:type_traits",
-  ]
-}
-
-# absl/types/BUILD.bazel:optional
-source_set("optional") {
-  public = ["optional.h"]
-  sources = ["internal/optional.h"]
-  deps = [
-    ":bad_optional_access",
-    "$abseil/absl/base:base_internal",
-    "$abseil/absl/base:config",
-    "$abseil/absl/base:core_headers",
-    "$abseil/absl/memory:memory",
-    "$abseil/absl/meta:type_traits",
-    "$abseil/absl/utility:utility",
-  ]
-}
-
-# absl/types/BUILD.bazel:compare
-source_set("compare") {
-  public = ["compare.h"]
-  deps = [
-    "$abseil/absl/base:core_headers",
-    "$abseil/absl/meta:type_traits",
-  ]
-}
-
-# absl/types/BUILD.bazel:bad_variant_access
-source_set("bad_variant_access") {
-  public = ["bad_variant_access.h"]
-  sources = ["bad_variant_access.cc"]
-  deps = [
-    "$abseil/absl/base:config",
-    "$abseil/absl/base:raw_logging_internal",
-  ]
-}
-
-# absl/types/BUILD.bazel:bad_optional_access
-source_set("bad_optional_access") {
-  public = ["bad_optional_access.h"]
-  sources = ["bad_optional_access.cc"]
-  deps = [
-    "$abseil/absl/base:config",
-    "$abseil/absl/base:raw_logging_internal",
-  ]
-}
-
 # absl/types/BUILD.bazel:any
 source_set("any") {
   public = ["any.h"]
@@ -106,5 +36,75 @@ source_set("bad_any_cast_impl") {
   deps = [
     "$abseil/absl/base:config",
     "$abseil/absl/base:raw_logging_internal",
+  ]
+}
+
+# absl/types/BUILD.bazel:bad_optional_access
+source_set("bad_optional_access") {
+  public = ["bad_optional_access.h"]
+  sources = ["bad_optional_access.cc"]
+  deps = [
+    "$abseil/absl/base:config",
+    "$abseil/absl/base:raw_logging_internal",
+  ]
+}
+
+# absl/types/BUILD.bazel:bad_variant_access
+source_set("bad_variant_access") {
+  public = ["bad_variant_access.h"]
+  sources = ["bad_variant_access.cc"]
+  deps = [
+    "$abseil/absl/base:config",
+    "$abseil/absl/base:raw_logging_internal",
+  ]
+}
+
+# absl/types/BUILD.bazel:compare
+source_set("compare") {
+  public = ["compare.h"]
+  deps = [
+    "$abseil/absl/base:core_headers",
+    "$abseil/absl/meta:type_traits",
+  ]
+}
+
+# absl/types/BUILD.bazel:optional
+source_set("optional") {
+  public = ["optional.h"]
+  sources = ["internal/optional.h"]
+  deps = [
+    ":bad_optional_access",
+    "$abseil/absl/base:base_internal",
+    "$abseil/absl/base:config",
+    "$abseil/absl/base:core_headers",
+    "$abseil/absl/memory:memory",
+    "$abseil/absl/meta:type_traits",
+    "$abseil/absl/utility:utility",
+  ]
+}
+
+# absl/types/BUILD.bazel:span
+source_set("span") {
+  public = ["span.h"]
+  sources = ["internal/span.h"]
+  deps = [
+    "$abseil/absl/algorithm:algorithm",
+    "$abseil/absl/base:core_headers",
+    "$abseil/absl/base:throw_delegate",
+    "$abseil/absl/meta:type_traits",
+  ]
+}
+
+# absl/types/BUILD.bazel:variant
+source_set("variant") {
+  public = ["variant.h"]
+  sources = ["internal/variant.h"]
+  deps = [
+    ":bad_variant_access",
+    "$abseil/absl/base:base_internal",
+    "$abseil/absl/base:config",
+    "$abseil/absl/base:core_headers",
+    "$abseil/absl/meta:type_traits",
+    "$abseil/absl/utility:utility",
   ]
 }

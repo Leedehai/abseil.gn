@@ -5,6 +5,14 @@
 # upstream: 2020-08-14T18:40:01-04:00 d0c433455801e1c1fb6f486f0b447e22f946ab52
 # file: absl/time/internal/cctz/BUILD.bazel
 
+# absl/time/internal/cctz/BUILD.bazel:civil_time
+source_set("civil_time") {
+  visibility = ["$abseil/:*"]
+  public = ["include/cctz/civil_time.h"]
+  sources = ["src/civil_time_detail.cc"]
+  deps = ["$abseil/absl/base:config"]
+}
+
 # absl/time/internal/cctz/BUILD.bazel:time_zone
 source_set("time_zone") {
   visibility = ["$abseil/:*"]
@@ -34,12 +42,4 @@ source_set("time_zone") {
     ":civil_time",
     "$abseil/absl/base:config",
   ]
-}
-
-# absl/time/internal/cctz/BUILD.bazel:civil_time
-source_set("civil_time") {
-  visibility = ["$abseil/:*"]
-  public = ["include/cctz/civil_time.h"]
-  sources = ["src/civil_time_detail.cc"]
-  deps = ["$abseil/absl/base:config"]
 }

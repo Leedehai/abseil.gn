@@ -18,41 +18,6 @@ source_set("bit_gen_ref") {
   ]
 }
 
-# absl/random/BUILD.bazel:random
-source_set("random") {
-  public = ["random.h"]
-  deps = [
-    ":distributions",
-    ":seed_sequences",
-    "$abseil/absl/random/internal:nonsecure_base",
-    "$abseil/absl/random/internal:pcg_engine",
-    "$abseil/absl/random/internal:pool_urbg",
-    "$abseil/absl/random/internal:randen_engine",
-  ]
-}
-
-# absl/random/BUILD.bazel:seed_sequences
-source_set("seed_sequences") {
-  public = ["seed_sequences.h"]
-  sources = ["seed_sequences.cc"]
-  deps = [
-    ":seed_gen_exception",
-    "$abseil/absl/container:inlined_vector",
-    "$abseil/absl/random/internal:nonsecure_base",
-    "$abseil/absl/random/internal:pool_urbg",
-    "$abseil/absl/random/internal:salted_seed_seq",
-    "$abseil/absl/random/internal:seed_material",
-    "$abseil/absl/types:span",
-  ]
-}
-
-# absl/random/BUILD.bazel:seed_gen_exception
-source_set("seed_gen_exception") {
-  public = ["seed_gen_exception.h"]
-  sources = ["seed_gen_exception.cc"]
-  deps = ["$abseil/absl/base:config"]
-}
-
 # absl/random/BUILD.bazel:distributions
 source_set("distributions") {
   public = [
@@ -86,5 +51,40 @@ source_set("distributions") {
     "$abseil/absl/random/internal:uniform_helper",
     "$abseil/absl/random/internal:wide_multiply",
     "$abseil/absl/strings:strings",
+  ]
+}
+
+# absl/random/BUILD.bazel:random
+source_set("random") {
+  public = ["random.h"]
+  deps = [
+    ":distributions",
+    ":seed_sequences",
+    "$abseil/absl/random/internal:nonsecure_base",
+    "$abseil/absl/random/internal:pcg_engine",
+    "$abseil/absl/random/internal:pool_urbg",
+    "$abseil/absl/random/internal:randen_engine",
+  ]
+}
+
+# absl/random/BUILD.bazel:seed_gen_exception
+source_set("seed_gen_exception") {
+  public = ["seed_gen_exception.h"]
+  sources = ["seed_gen_exception.cc"]
+  deps = ["$abseil/absl/base:config"]
+}
+
+# absl/random/BUILD.bazel:seed_sequences
+source_set("seed_sequences") {
+  public = ["seed_sequences.h"]
+  sources = ["seed_sequences.cc"]
+  deps = [
+    ":seed_gen_exception",
+    "$abseil/absl/container:inlined_vector",
+    "$abseil/absl/random/internal:nonsecure_base",
+    "$abseil/absl/random/internal:pool_urbg",
+    "$abseil/absl/random/internal:salted_seed_seq",
+    "$abseil/absl/random/internal:seed_material",
+    "$abseil/absl/types:span",
   ]
 }

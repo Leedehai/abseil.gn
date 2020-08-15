@@ -5,16 +5,6 @@
 # upstream: 2020-08-14T18:40:01-04:00 d0c433455801e1c1fb6f486f0b447e22f946ab52
 # file: absl/functional/BUILD.bazel
 
-# absl/functional/BUILD.bazel:function_ref
-source_set("function_ref") {
-  public = ["function_ref.h"]
-  sources = ["internal/function_ref.h"]
-  deps = [
-    "$abseil/absl/base:base_internal",
-    "$abseil/absl/meta:type_traits",
-  ]
-}
-
 # absl/functional/BUILD.bazel:bind_front
 source_set("bind_front") {
   public = ["bind_front.h"]
@@ -24,5 +14,15 @@ source_set("bind_front") {
     "$abseil/absl/container:compressed_tuple",
     "$abseil/absl/meta:type_traits",
     "$abseil/absl/utility:utility",
+  ]
+}
+
+# absl/functional/BUILD.bazel:function_ref
+source_set("function_ref") {
+  public = ["function_ref.h"]
+  sources = ["internal/function_ref.h"]
+  deps = [
+    "$abseil/absl/base:base_internal",
+    "$abseil/absl/meta:type_traits",
   ]
 }
