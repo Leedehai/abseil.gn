@@ -31,3 +31,6 @@ if [ "$1" != "-r" ] && [ "$1" != "--reuse" ]; then
 fi
 
 $dirname/gen.py . --profile=$dirname/absl.json # Help: use "--help"
+
+echo "Rolled to Abseil commit: "
+cat ABSL_REVISION.txt
