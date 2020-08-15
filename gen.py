@@ -29,6 +29,7 @@ import io
 import json
 import os
 import re
+import subprocess
 from collections import namedtuple
 from pathlib import Path
 from typing import Any, Dict, Iterable, List, Optional, Tuple, cast
@@ -45,6 +46,31 @@ def print_err(s: str) -> None:
     sys.stderr.write("\x1b[31merror: %s\x1b[0m\n" % s)
 
 
+def bazel_query(label_pattern: str) -> Optional[str]:
+    """
+    Return a string as if the targets were hand-written in the BUILD file.
+    All variables and function calls (except select()) are expanded.
+    """
+    command = ["bazel", "query", label_pattern, "--output", "build"]
+    try:
+        stdout = subprocess.check_output(command, stderr=subprocess.DEVNULL)
+        return stdout.decode()
+    except subprocess.CalledProcessError:
+        return None
+
+
+class cd:
+    def __init__(self, to_path: Path):
+        self.to_path = to_path
+        self.old_path = Path.cwd()
+
+    def __enter__(self):
+        os.chdir(self.to_path)
+
+    def __exit__(self, etype, value, traceback):
+        os.chdir(self.old_path)
+
+
 BAZEL_BASENAMES = ["BUILD.bazel", "BUILD"]
 
 # Keys in profile (optional)
@@ -55,6 +81,7 @@ PROFILE_HIDDEN_TARGETS = "hidden_target_labels"
 PROFILE_SKIP_TESTONLY = "skip_testonly"
 PROFILE_SELECT_KEYS = "bazel_select_keys"
 PROFILE_GN_OMIT_IF_EMPTY = "gn_omit_if_empty"
+PROFILE_REMOVE_GN_LIST_ELEMENTS = "remove_gn_list_elements"
 
 GnAttribute = namedtuple("GnAttribute", ["name", "order"])
 
@@ -64,6 +91,8 @@ INTERESTED_BAZEL_ATTRS = {
     "hdrs": GnAttribute(name="public", order=4),
     "srcs": GnAttribute(name="sources", order=3),
     "deps": GnAttribute(name="deps", order=2),
+    "defines": GnAttribute(name="defines", order=1),
+    "local_defines": GnAttribute(name="defines", order=1),
     "copts": GnAttribute(name="cflags", order=0),
     "linkopts": GnAttribute(name="ldflags", order=0),
     # NOTE No "visibility" here, as Bazel has a more complicated visibility
@@ -82,15 +111,24 @@ def gn_attr_sorted(iterable: Iterable[tuple]) -> List[tuple]:
                   reverse=True)  # Items with high order scores go first
 
 
-def rectify_label_str(p: str, replacers: dict) -> str:
+def rectify_list_str(
+        p: str,
+        is_path: bool,  # is path string or label string
+        source_dir_relative_to_repo: Optional[str],
+        replacers: dict) -> str:
+    p = p.replace("//" + source_dir_relative_to_repo + ":", ":")
     for k, v in replacers.items():
         if p.startswith(k):
             p = p.replace(k, v, 1)
             break
     if ":" in p:
-        p1, p2 = p.split(":", 1)
-        if p != "/":
-            return (p1[:-1] if p1.endswith("/") else p1) + ":" + p2
+        if is_path:
+            p = p[1:] if p[0] == ':' else p.replace(':', '/')
+        else:
+            # "foo/bar/:baz" => "foo/bar:baz"
+            p1, p2 = p.split(":", 1)
+            if p != "/":
+                return (p1[:-1] if p1.endswith("/") else p1) + ":" + p2
     return p
 
 
@@ -200,7 +238,6 @@ def eval_bazel_expr(code_text: Optional[str], profile: dict,
         "glob": _bazel_glob,
     }
     with_globals.update(profile.get(PROFILE_VARIABLES, {}))
-    with_globals.update(profile.get(PROFILE_VARIABLES, {}))
 
     try:
         res = eval(code_text, with_globals)  # pylint: disable=eval-used
@@ -214,9 +251,10 @@ def eval_bazel_expr(code_text: Optional[str], profile: dict,
     return res
 
 
-def read_bazel_build(source: io.TextIOWrapper, profile: dict,
-                     source_path: Path) -> Tuple[Optional[List[dict]], bool]:
-    source_text = source.read()
+def parse_bazel_build(
+    source_text: str, profile: dict, source_path: Path,
+    source_relative_to_repo: Optional[Path]
+) -> Tuple[Optional[List[dict]], bool]:
     node = ast.parse(source_text)  # Bazel uses a subset of Python grammar.
     function_calls: List[ast.Call] = [
         n.value for n in node.body
@@ -226,7 +264,6 @@ def read_bazel_build(source: io.TextIOWrapper, profile: dict,
     has_printout = False
     for call in (c for c in function_calls if len(c.keywords) > 0):
         call_id = cast(ast.Name, call.func).id
-        call_lineno = call.lineno
         if call_id not in profile.get(PROFILE_TARGET_MAPPING, {}):
             continue
         kwargs: Dict[str, Any] = {}
@@ -266,18 +303,17 @@ def read_bazel_build(source: io.TextIOWrapper, profile: dict,
                 continue
             if isinstance(rhs_value, list):
                 rhs_value = [
-                    rectify_label_str(e, profile.get(PROFILE_ROOT_REPLACERS,
-                                                     {})) for e in rhs_value
+                    rectify_list_str(e, attr in ["hdrs", "srcs"],
+                                     str(source_relative_to_repo.parent),
+                                     profile.get(PROFILE_ROOT_REPLACERS, {}))
+                    for e in rhs_value
                 ]
                 for ee in (e for e in rhs_value if DEP_ROOT_SIGIL.match(e)):
                     print_warn("L%-3d: not replacing @.. in '%s': \"%s\"" %
                                (vars(rhs).get("lineno", "?"), attr, ee))
             kwargs[attr] = rhs_value
         assert "name" in kwargs
-        item_dict = {
-            "type": call_id, "lineno": call_lineno, "name": kwargs["name"],
-            "kwargs": kwargs
-        }
+        item_dict = {"type": call_id, "name": kwargs["name"], "kwargs": kwargs}
         if ((kwargs.get("testonly", 0) == 0)
                 or (profile.get(PROFILE_SKIP_TESTONLY, False)) == False):
             decls.append(item_dict)
@@ -301,12 +337,12 @@ def make_gn_build(source_relpath: Path, repo_info: Optional[str],
 
     target_type_mapping = profile.get(PROFILE_TARGET_MAPPING, {})
     hidden_target_regexes = profile.get(PROFILE_HIDDEN_TARGETS, [])
+    remove_gn_list_elements = profile.get(PROFILE_REMOVE_GN_LIST_ELEMENTS, {})
     proj_root_replacer = profile.get(PROFILE_ROOT_REPLACERS, {"//": "//"})["//"]
     for i, item_dict in enumerate(data_list):
         gn_target_type = target_type_mapping[item_dict["type"]]
         gn_target_name = item_dict["name"]
         gn_target_label = str(source_relpath.parent) + ":" + gn_target_name
-        source_lineno = item_dict["lineno"]
         private_visibility_cause = None
         for regex_str in hidden_target_regexes:
             if re.search(regex_str, gn_target_label):
@@ -317,12 +353,15 @@ def make_gn_build(source_relpath: Path, repo_info: Optional[str],
             if in_attr == "name" or value == None:
                 continue
             gn_attrs[INTERESTED_BAZEL_ATTRS[in_attr].name] = value
-        ss.write("# %s:%d\n" % (source_relpath, source_lineno))
+        ss.write("# %s:%s\n" % (source_relpath, gn_target_name))
         ss.write("%s(\"%s\") {\n" % (gn_target_type, gn_target_name))
         if private_visibility_cause:
             ss.write("  visibility = [\"%s:*\"]\n" % (proj_root_replacer))
         for k, v in gn_attr_sorted(gn_attrs.items()):
             if isinstance(v, list):
+                if k in remove_gn_list_elements:
+                    elements_to_remove = remove_gn_list_elements[k]
+                    v = [e for e in v if e not in elements_to_remove]
                 if (len(v) == 0
                         and k in profile.get(PROFILE_GN_OMIT_IF_EMPTY, [])):
                     continue
@@ -343,8 +382,21 @@ def make_gn_build(source_relpath: Path, repo_info: Optional[str],
 def gen_file(source_path: Path, repo_path: Optional[Path],
              repo_info: Optional[str], profile: dict,
              verbose: bool) -> Tuple[Optional[str], bool]:
-    with open(source_path, 'r') as f:
-        data_list, has_printout = read_bazel_build(f, profile, source_path)
+    if repo_path:
+        with cd(repo_path):
+            source_text = bazel_query("%s:*" % source_path.parent)
+        if source_text == None:
+            print_err("bazel can't query: %s" % source_path)
+            return None, True
+        source_relative_to_repo = Path(os.path.relpath(source_path, repo_path))
+        data_list, has_printout = parse_bazel_build(source_text, profile,
+                                                    source_path,
+                                                    source_relative_to_repo)
+    else:  # Input was single file
+        with open(source_path, 'r') as f:
+            data_list, has_printout = parse_bazel_build(f.read(), profile,
+                                                        source_path, None)
+
     if data_list == None:
         return None, has_printout
     if repo_path:

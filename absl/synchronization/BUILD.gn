@@ -5,33 +5,7 @@
 # upstream: 2020-08-14T18:40:01-04:00 d0c433455801e1c1fb6f486f0b447e22f946ab52
 # file: absl/synchronization/BUILD.bazel
 
-# absl/synchronization/BUILD.bazel:30
-source_set("graphcycles_internal") {
-  visibility = ["$abseil/:*"]
-  public = ["internal/graphcycles.h"]
-  sources = ["internal/graphcycles.cc"]
-  deps = [
-    "$abseil/absl/base",
-    "$abseil/absl/base:base_internal",
-    "$abseil/absl/base:config",
-    "$abseil/absl/base:core_headers",
-    "$abseil/absl/base:malloc_internal",
-    "$abseil/absl/base:raw_logging_internal",
-  ]
-}
-
-# absl/synchronization/BUILD.bazel:53
-source_set("kernel_timeout_internal") {
-  visibility = ["$abseil/:*"]
-  public = ["internal/kernel_timeout.h"]
-  deps = [
-    "$abseil/absl/base:core_headers",
-    "$abseil/absl/base:raw_logging_internal",
-    "$abseil/absl/time",
-  ]
-}
-
-# absl/synchronization/BUILD.bazel:68
+# absl/synchronization/BUILD.bazel:synchronization
 source_set("synchronization") {
   public = [
     "barrier.h",
@@ -55,8 +29,8 @@ source_set("synchronization") {
   deps = [
     ":graphcycles_internal",
     ":kernel_timeout_internal",
-    "$abseil/absl/base",
     "$abseil/absl/base:atomic_hook",
+    "$abseil/absl/base:base",
     "$abseil/absl/base:base_internal",
     "$abseil/absl/base:config",
     "$abseil/absl/base:core_headers",
@@ -65,7 +39,33 @@ source_set("synchronization") {
     "$abseil/absl/base:raw_logging_internal",
     "$abseil/absl/debugging:stacktrace",
     "$abseil/absl/debugging:symbolize",
-    "$abseil/absl/time",
+    "$abseil/absl/time:time",
   ]
   ldflags = ["-pthread"]
+}
+
+# absl/synchronization/BUILD.bazel:kernel_timeout_internal
+source_set("kernel_timeout_internal") {
+  visibility = ["$abseil/:*"]
+  public = ["internal/kernel_timeout.h"]
+  deps = [
+    "$abseil/absl/base:core_headers",
+    "$abseil/absl/base:raw_logging_internal",
+    "$abseil/absl/time:time",
+  ]
+}
+
+# absl/synchronization/BUILD.bazel:graphcycles_internal
+source_set("graphcycles_internal") {
+  visibility = ["$abseil/:*"]
+  public = ["internal/graphcycles.h"]
+  sources = ["internal/graphcycles.cc"]
+  deps = [
+    "$abseil/absl/base:base",
+    "$abseil/absl/base:base_internal",
+    "$abseil/absl/base:config",
+    "$abseil/absl/base:core_headers",
+    "$abseil/absl/base:malloc_internal",
+    "$abseil/absl/base:raw_logging_internal",
+  ]
 }

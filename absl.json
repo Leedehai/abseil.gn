@@ -14,19 +14,59 @@
   "bazel_select_keys": [
     "//absl:llvm_compiler"
   ],
-  "bazel_variable_expansions": {
-    "ABSL_DEFAULT_COPTS": [],
-    "ABSL_RANDOM_RANDEN_COPTS": [
-      "-maes",
-      "-msse4.1"
-    ],
-    "ABSL_DEFAULT_LINKOPTS": [],
-    "ABSL_TEST_COPTS": []
-  },
   "gn_omit_if_empty": [
     "cflags",
     "ldflags",
     "public",
     "sources"
-  ]
+  ],
+  "remove_gn_list_elements": {
+    "cflags": [
+      "-DNOMINMAX",
+      "-Wall",
+      "-Wbitfield-enum-conversion",
+      "-Wbool-conversion",
+      "-Wconstant-conversion",
+      "-Wenum-conversion",
+      "-Weverything",
+      "-Wextra",
+      "-Wint-conversion",
+      "-Wliteral-conversion",
+      "-Wno-c++98-compat-pedantic",
+      "-Wno-comma",
+      "-Wno-conversion",
+      "-Wno-covered-switch-default",
+      "-Wno-deprecated",
+      "-Wno-disabled-macro-expansion",
+      "-Wno-double-promotion",
+      "-Wno-exit-time-destructors",
+      "-Wno-extra-semi",
+      "-Wno-extra-semi-stmt",
+      "-Wno-float-conversion",
+      "-Wno-float-equal",
+      "-Wno-format-nonliteral",
+      "-Wno-gcc-compat",
+      "-Wno-global-constructors",
+      "-Wno-non-modular-include-in-module",
+      "-Wno-old-style-cast",
+      "-Wno-packed",
+      "-Wno-padded",
+      "-Wno-range-loop-analysis",
+      "-Wno-reserved-id-macro",
+      "-Wno-shorten-64-to-32",
+      "-Wno-sign-compare",
+      "-Wno-sign-conversion",
+      "-Wno-switch-enum",
+      "-Wno-thread-safety-negative",
+      "-Wno-unknown-warning-option",
+      "-Wno-unreachable-code",
+      "-Wno-unused-macros",
+      "-Wno-weak-vtables",
+      "-Wno-zero-as-null-pointer-constant",
+      "-Wnon-literal-null-conversion",
+      "-Wnull-conversion",
+      "-Wobjc-literal-conversion",
+      "-Wstring-conversion"
+    ]
+  }
 }

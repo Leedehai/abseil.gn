@@ -5,7 +5,7 @@
 # upstream: 2020-08-14T18:40:01-04:00 d0c433455801e1c1fb6f486f0b447e22f946ab52
 # file: absl/time/BUILD.bazel
 
-# absl/time/BUILD.bazel:29
+# absl/time/BUILD.bazel:time
 source_set("time") {
   public = [
     "civil_time.h",
@@ -22,11 +22,11 @@ source_set("time") {
     "time.cc",
   ]
   deps = [
-    "$abseil/absl/base",
+    "$abseil/absl/base:base",
     "$abseil/absl/base:core_headers",
     "$abseil/absl/base:raw_logging_internal",
     "$abseil/absl/numeric:int128",
-    "$abseil/absl/strings",
+    "$abseil/absl/strings:strings",
     "$abseil/absl/time/internal/cctz:civil_time",
     "$abseil/absl/time/internal/cctz:time_zone",
   ]

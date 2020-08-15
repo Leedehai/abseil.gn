@@ -5,88 +5,7 @@
 # upstream: 2020-08-14T18:40:01-04:00 d0c433455801e1c1fb6f486f0b447e22f946ab52
 # file: absl/types/BUILD.bazel
 
-# absl/types/BUILD.bazel:28
-source_set("any") {
-  public = ["any.h"]
-  deps = [
-    ":bad_any_cast",
-    "$abseil/absl/base:config",
-    "$abseil/absl/base:core_headers",
-    "$abseil/absl/base:fast_type_id",
-    "$abseil/absl/meta:type_traits",
-    "$abseil/absl/utility",
-  ]
-}
-
-# absl/types/BUILD.bazel:43
-source_set("bad_any_cast") {
-  public = ["bad_any_cast.h"]
-  deps = [
-    ":bad_any_cast_impl",
-    "$abseil/absl/base:config",
-  ]
-}
-
-# absl/types/BUILD.bazel:54
-source_set("bad_any_cast_impl") {
-  sources = [
-    "bad_any_cast.cc",
-    "bad_any_cast.h",
-  ]
-  deps = [
-    "$abseil/absl/base:config",
-    "$abseil/absl/base:raw_logging_internal",
-  ]
-}
-
-# absl/types/BUILD.bazel:100
-source_set("span") {
-  public = ["span.h"]
-  sources = ["internal/span.h"]
-  deps = [
-    "$abseil/absl/algorithm",
-    "$abseil/absl/base:core_headers",
-    "$abseil/absl/base:throw_delegate",
-    "$abseil/absl/meta:type_traits",
-  ]
-}
-
-# absl/types/BUILD.bazel:137
-source_set("optional") {
-  public = ["optional.h"]
-  sources = ["internal/optional.h"]
-  deps = [
-    ":bad_optional_access",
-    "$abseil/absl/base:base_internal",
-    "$abseil/absl/base:config",
-    "$abseil/absl/base:core_headers",
-    "$abseil/absl/memory",
-    "$abseil/absl/meta:type_traits",
-    "$abseil/absl/utility",
-  ]
-}
-
-# absl/types/BUILD.bazel:154
-source_set("bad_optional_access") {
-  public = ["bad_optional_access.h"]
-  sources = ["bad_optional_access.cc"]
-  deps = [
-    "$abseil/absl/base:config",
-    "$abseil/absl/base:raw_logging_internal",
-  ]
-}
-
-# absl/types/BUILD.bazel:166
-source_set("bad_variant_access") {
-  public = ["bad_variant_access.h"]
-  sources = ["bad_variant_access.cc"]
-  deps = [
-    "$abseil/absl/base:config",
-    "$abseil/absl/base:raw_logging_internal",
-  ]
-}
-
-# absl/types/BUILD.bazel:249
+# absl/types/BUILD.bazel:variant
 source_set("variant") {
   public = ["variant.h"]
   sources = ["internal/variant.h"]
@@ -96,15 +15,96 @@ source_set("variant") {
     "$abseil/absl/base:config",
     "$abseil/absl/base:core_headers",
     "$abseil/absl/meta:type_traits",
-    "$abseil/absl/utility",
+    "$abseil/absl/utility:utility",
   ]
 }
 
-# absl/types/BUILD.bazel:314
+# absl/types/BUILD.bazel:span
+source_set("span") {
+  public = ["span.h"]
+  sources = ["internal/span.h"]
+  deps = [
+    "$abseil/absl/algorithm:algorithm",
+    "$abseil/absl/base:core_headers",
+    "$abseil/absl/base:throw_delegate",
+    "$abseil/absl/meta:type_traits",
+  ]
+}
+
+# absl/types/BUILD.bazel:optional
+source_set("optional") {
+  public = ["optional.h"]
+  sources = ["internal/optional.h"]
+  deps = [
+    ":bad_optional_access",
+    "$abseil/absl/base:base_internal",
+    "$abseil/absl/base:config",
+    "$abseil/absl/base:core_headers",
+    "$abseil/absl/memory:memory",
+    "$abseil/absl/meta:type_traits",
+    "$abseil/absl/utility:utility",
+  ]
+}
+
+# absl/types/BUILD.bazel:compare
 source_set("compare") {
   public = ["compare.h"]
   deps = [
     "$abseil/absl/base:core_headers",
     "$abseil/absl/meta:type_traits",
+  ]
+}
+
+# absl/types/BUILD.bazel:bad_variant_access
+source_set("bad_variant_access") {
+  public = ["bad_variant_access.h"]
+  sources = ["bad_variant_access.cc"]
+  deps = [
+    "$abseil/absl/base:config",
+    "$abseil/absl/base:raw_logging_internal",
+  ]
+}
+
+# absl/types/BUILD.bazel:bad_optional_access
+source_set("bad_optional_access") {
+  public = ["bad_optional_access.h"]
+  sources = ["bad_optional_access.cc"]
+  deps = [
+    "$abseil/absl/base:config",
+    "$abseil/absl/base:raw_logging_internal",
+  ]
+}
+
+# absl/types/BUILD.bazel:any
+source_set("any") {
+  public = ["any.h"]
+  deps = [
+    ":bad_any_cast",
+    "$abseil/absl/base:config",
+    "$abseil/absl/base:core_headers",
+    "$abseil/absl/base:fast_type_id",
+    "$abseil/absl/meta:type_traits",
+    "$abseil/absl/utility:utility",
+  ]
+}
+
+# absl/types/BUILD.bazel:bad_any_cast
+source_set("bad_any_cast") {
+  public = ["bad_any_cast.h"]
+  deps = [
+    ":bad_any_cast_impl",
+    "$abseil/absl/base:config",
+  ]
+}
+
+# absl/types/BUILD.bazel:bad_any_cast_impl
+source_set("bad_any_cast_impl") {
+  sources = [
+    "bad_any_cast.cc",
+    "bad_any_cast.h",
+  ]
+  deps = [
+    "$abseil/absl/base:config",
+    "$abseil/absl/base:raw_logging_internal",
   ]
 }

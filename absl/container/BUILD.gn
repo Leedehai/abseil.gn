@@ -5,77 +5,19 @@
 # upstream: 2020-08-14T18:40:01-04:00 d0c433455801e1c1fb6f486f0b447e22f946ab52
 # file: absl/container/BUILD.bazel
 
-# absl/container/BUILD.bazel:29
-source_set("compressed_tuple") {
-  public = ["internal/compressed_tuple.h"]
-  deps = ["$abseil/absl/utility"]
-}
-
-# absl/container/BUILD.bazel:55
-source_set("fixed_array") {
-  public = ["fixed_array.h"]
+# absl/container/BUILD.bazel:node_hash_set
+source_set("node_hash_set") {
+  public = ["node_hash_set.h"]
   deps = [
-    ":compressed_tuple",
-    "$abseil/absl/algorithm",
-    "$abseil/absl/base:config",
-    "$abseil/absl/base:core_headers",
-    "$abseil/absl/base:dynamic_annotations",
-    "$abseil/absl/base:throw_delegate",
-    "$abseil/absl/memory",
-  ]
-}
-
-# absl/container/BUILD.bazel:112
-source_set("inlined_vector_internal") {
-  visibility = ["$abseil/:*"]
-  public = ["internal/inlined_vector.h"]
-  deps = [
-    ":compressed_tuple",
-    "$abseil/absl/base:core_headers",
-    "$abseil/absl/memory",
-    "$abseil/absl/meta:type_traits",
-    "$abseil/absl/types:span",
-  ]
-}
-
-# absl/container/BUILD.bazel:126
-source_set("inlined_vector") {
-  public = ["inlined_vector.h"]
-  deps = [
-    ":inlined_vector_internal",
-    "$abseil/absl/algorithm",
-    "$abseil/absl/base:core_headers",
-    "$abseil/absl/base:throw_delegate",
-    "$abseil/absl/memory",
-  ]
-}
-
-# absl/container/BUILD.bazel:235
-source_set("flat_hash_map") {
-  public = ["flat_hash_map.h"]
-  deps = [
-    ":container_memory",
     ":hash_function_defaults",
-    ":raw_hash_map",
-    "$abseil/absl/algorithm:container",
-    "$abseil/absl/memory",
-  ]
-}
-
-# absl/container/BUILD.bazel:268
-source_set("flat_hash_set") {
-  public = ["flat_hash_set.h"]
-  deps = [
-    ":container_memory",
-    ":hash_function_defaults",
+    ":node_hash_policy",
     ":raw_hash_set",
     "$abseil/absl/algorithm:container",
-    "$abseil/absl/base:core_headers",
-    "$abseil/absl/memory",
+    "$abseil/absl/memory:memory",
   ]
 }
 
-# absl/container/BUILD.bazel:303
+# absl/container/BUILD.bazel:node_hash_map
 source_set("node_hash_map") {
   public = ["node_hash_map.h"]
   deps = [
@@ -84,88 +26,74 @@ source_set("node_hash_map") {
     ":node_hash_policy",
     ":raw_hash_map",
     "$abseil/absl/algorithm:container",
-    "$abseil/absl/memory",
+    "$abseil/absl/memory:memory",
   ]
 }
 
-# absl/container/BUILD.bazel:336
-source_set("node_hash_set") {
-  public = ["node_hash_set.h"]
-  deps = [
-    ":hash_function_defaults",
-    ":node_hash_policy",
-    ":raw_hash_set",
-    "$abseil/absl/algorithm:container",
-    "$abseil/absl/memory",
-  ]
-}
-
-# absl/container/BUILD.bazel:366
-source_set("container_memory") {
-  public = ["internal/container_memory.h"]
-  deps = [
-    "$abseil/absl/base:config",
-    "$abseil/absl/memory",
-    "$abseil/absl/meta:type_traits",
-    "$abseil/absl/utility",
-  ]
-}
-
-# absl/container/BUILD.bazel:393
-source_set("hash_function_defaults") {
-  public = ["internal/hash_function_defaults.h"]
-  deps = [
-    "$abseil/absl/base:config",
-    "$abseil/absl/hash",
-    "$abseil/absl/strings",
-    "$abseil/absl/strings:cord",
-  ]
-}
-
-# absl/container/BUILD.bazel:461
-source_set("hash_policy_traits") {
-  public = ["internal/hash_policy_traits.h"]
-  deps = ["$abseil/absl/meta:type_traits"]
-}
-
-# absl/container/BUILD.bazel:480
-source_set("hashtable_debug") {
-  public = ["internal/hashtable_debug.h"]
-  deps = [":hashtable_debug_hooks"]
-}
-
-# absl/container/BUILD.bazel:490
-source_set("hashtable_debug_hooks") {
-  public = ["internal/hashtable_debug_hooks.h"]
-  deps = ["$abseil/absl/base:config"]
-}
-
-# absl/container/BUILD.bazel:500
-source_set("hashtablez_sampler") {
-  public = ["internal/hashtablez_sampler.h"]
-  sources = [
-    "internal/hashtablez_sampler.cc",
-    "internal/hashtablez_sampler_force_weak_definition.cc",
-  ]
-  deps = [
-    ":have_sse",
-    "$abseil/absl/base",
-    "$abseil/absl/base:core_headers",
-    "$abseil/absl/base:exponential_biased",
-    "$abseil/absl/debugging:stacktrace",
-    "$abseil/absl/memory",
-    "$abseil/absl/synchronization",
-    "$abseil/absl/utility",
-  ]
-}
-
-# absl/container/BUILD.bazel:536
+# absl/container/BUILD.bazel:node_hash_policy
 source_set("node_hash_policy") {
   public = ["internal/node_hash_policy.h"]
   deps = ["$abseil/absl/base:config"]
 }
 
-# absl/container/BUILD.bazel:556
+# absl/container/BUILD.bazel:inlined_vector
+source_set("inlined_vector") {
+  public = ["inlined_vector.h"]
+  deps = [
+    ":inlined_vector_internal",
+    "$abseil/absl/algorithm:algorithm",
+    "$abseil/absl/base:core_headers",
+    "$abseil/absl/base:throw_delegate",
+    "$abseil/absl/memory:memory",
+  ]
+}
+
+# absl/container/BUILD.bazel:inlined_vector_internal
+source_set("inlined_vector_internal") {
+  visibility = ["$abseil/:*"]
+  public = ["internal/inlined_vector.h"]
+  deps = [
+    ":compressed_tuple",
+    "$abseil/absl/base:core_headers",
+    "$abseil/absl/memory:memory",
+    "$abseil/absl/meta:type_traits",
+    "$abseil/absl/types:span",
+  ]
+}
+
+# absl/container/BUILD.bazel:fixed_array
+source_set("fixed_array") {
+  public = ["fixed_array.h"]
+  deps = [
+    ":compressed_tuple",
+    "$abseil/absl/algorithm:algorithm",
+    "$abseil/absl/base:config",
+    "$abseil/absl/base:core_headers",
+    "$abseil/absl/base:dynamic_annotations",
+    "$abseil/absl/base:throw_delegate",
+    "$abseil/absl/memory:memory",
+  ]
+}
+
+# absl/container/BUILD.bazel:hashtable_debug
+source_set("hashtable_debug") {
+  public = ["internal/hashtable_debug.h"]
+  deps = [":hashtable_debug_hooks"]
+}
+
+# absl/container/BUILD.bazel:flat_hash_map
+source_set("flat_hash_map") {
+  public = ["flat_hash_map.h"]
+  deps = [
+    ":container_memory",
+    ":hash_function_defaults",
+    ":raw_hash_map",
+    "$abseil/absl/algorithm:container",
+    "$abseil/absl/memory:memory",
+  ]
+}
+
+# absl/container/BUILD.bazel:raw_hash_map
 source_set("raw_hash_map") {
   public = ["internal/raw_hash_map.h"]
   deps = [
@@ -175,21 +103,20 @@ source_set("raw_hash_map") {
   ]
 }
 
-# absl/container/BUILD.bazel:568
-source_set("have_sse") {
-  public = ["internal/have_sse.h"]
-}
-
-# absl/container/BUILD.bazel:576
-source_set("common") {
-  public = ["internal/common.h"]
+# absl/container/BUILD.bazel:flat_hash_set
+source_set("flat_hash_set") {
+  public = ["flat_hash_set.h"]
   deps = [
-    "$abseil/absl/meta:type_traits",
-    "$abseil/absl/types:optional",
+    ":container_memory",
+    ":hash_function_defaults",
+    ":raw_hash_set",
+    "$abseil/absl/algorithm:container",
+    "$abseil/absl/base:core_headers",
+    "$abseil/absl/memory:memory",
   ]
 }
 
-# absl/container/BUILD.bazel:587
+# absl/container/BUILD.bazel:raw_hash_set
 source_set("raw_hash_set") {
   public = ["internal/raw_hash_set.h"]
   sources = ["internal/raw_hash_set.cc"]
@@ -206,26 +133,60 @@ source_set("raw_hash_set") {
     "$abseil/absl/base:config",
     "$abseil/absl/base:core_headers",
     "$abseil/absl/base:endian",
-    "$abseil/absl/memory",
+    "$abseil/absl/memory:memory",
     "$abseil/absl/meta:type_traits",
-    "$abseil/absl/utility",
+    "$abseil/absl/utility:utility",
   ]
 }
 
-# absl/container/BUILD.bazel:647
-source_set("layout") {
-  public = ["internal/layout.h"]
+# absl/container/BUILD.bazel:hashtablez_sampler
+source_set("hashtablez_sampler") {
+  public = ["internal/hashtablez_sampler.h"]
+  sources = [
+    "internal/hashtablez_sampler.cc",
+    "internal/hashtablez_sampler_force_weak_definition.cc",
+  ]
+  deps = [
+    ":have_sse",
+    "$abseil/absl/base:base",
+    "$abseil/absl/base:core_headers",
+    "$abseil/absl/base:exponential_biased",
+    "$abseil/absl/debugging:stacktrace",
+    "$abseil/absl/memory:memory",
+    "$abseil/absl/synchronization:synchronization",
+    "$abseil/absl/utility:utility",
+  ]
+}
+
+# absl/container/BUILD.bazel:have_sse
+source_set("have_sse") {
+  public = ["internal/have_sse.h"]
+}
+
+# absl/container/BUILD.bazel:hashtable_debug_hooks
+source_set("hashtable_debug_hooks") {
+  public = ["internal/hashtable_debug_hooks.h"]
+  deps = ["$abseil/absl/base:config"]
+}
+
+# absl/container/BUILD.bazel:hash_policy_traits
+source_set("hash_policy_traits") {
+  public = ["internal/hash_policy_traits.h"]
+  deps = ["$abseil/absl/meta:type_traits"]
+}
+
+# absl/container/BUILD.bazel:hash_function_defaults
+source_set("hash_function_defaults") {
+  public = ["internal/hash_function_defaults.h"]
   deps = [
     "$abseil/absl/base:config",
-    "$abseil/absl/base:core_headers",
-    "$abseil/absl/meta:type_traits",
-    "$abseil/absl/strings",
-    "$abseil/absl/types:span",
-    "$abseil/absl/utility",
+    "$abseil/absl/hash:hash",
+    "$abseil/absl/strings:cord",
+    "$abseil/absl/strings:strings",
   ]
 }
 
-# absl/container/BUILD.bazel:824
+# absl/container/BUILD.bazel:btree
 source_set("btree") {
   public = [
     "btree_map.h",
@@ -242,11 +203,50 @@ source_set("btree") {
     ":layout",
     "$abseil/absl/base:core_headers",
     "$abseil/absl/base:throw_delegate",
-    "$abseil/absl/memory",
+    "$abseil/absl/memory:memory",
     "$abseil/absl/meta:type_traits",
-    "$abseil/absl/strings",
     "$abseil/absl/strings:cord",
+    "$abseil/absl/strings:strings",
     "$abseil/absl/types:compare",
-    "$abseil/absl/utility",
+    "$abseil/absl/utility:utility",
+  ]
+}
+
+# absl/container/BUILD.bazel:layout
+source_set("layout") {
+  public = ["internal/layout.h"]
+  deps = [
+    "$abseil/absl/base:config",
+    "$abseil/absl/base:core_headers",
+    "$abseil/absl/meta:type_traits",
+    "$abseil/absl/strings:strings",
+    "$abseil/absl/types:span",
+    "$abseil/absl/utility:utility",
+  ]
+}
+
+# absl/container/BUILD.bazel:container_memory
+source_set("container_memory") {
+  public = ["internal/container_memory.h"]
+  deps = [
+    "$abseil/absl/base:config",
+    "$abseil/absl/memory:memory",
+    "$abseil/absl/meta:type_traits",
+    "$abseil/absl/utility:utility",
+  ]
+}
+
+# absl/container/BUILD.bazel:compressed_tuple
+source_set("compressed_tuple") {
+  public = ["internal/compressed_tuple.h"]
+  deps = ["$abseil/absl/utility:utility"]
+}
+
+# absl/container/BUILD.bazel:common
+source_set("common") {
+  public = ["internal/common.h"]
+  deps = [
+    "$abseil/absl/meta:type_traits",
+    "$abseil/absl/types:optional",
   ]
 }

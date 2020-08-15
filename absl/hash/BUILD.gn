@@ -5,7 +5,7 @@
 # upstream: 2020-08-14T18:40:01-04:00 d0c433455801e1c1fb6f486f0b447e22f946ab52
 # file: absl/hash/BUILD.bazel
 
-# absl/hash/BUILD.bazel:29
+# absl/hash/BUILD.bazel:hash
 source_set("hash") {
   public = ["hash.h"]
   sources = [
@@ -19,14 +19,14 @@ source_set("hash") {
     "$abseil/absl/container:fixed_array",
     "$abseil/absl/meta:type_traits",
     "$abseil/absl/numeric:int128",
-    "$abseil/absl/strings",
+    "$abseil/absl/strings:strings",
     "$abseil/absl/types:optional",
     "$abseil/absl/types:variant",
-    "$abseil/absl/utility",
+    "$abseil/absl/utility:utility",
   ]
 }
 
-# absl/hash/BUILD.bazel:98
+# absl/hash/BUILD.bazel:city
 source_set("city") {
   public = ["internal/city.h"]
   sources = ["internal/city.cc"]

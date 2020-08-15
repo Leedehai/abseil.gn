@@ -5,112 +5,7 @@
 # upstream: 2020-08-14T18:40:01-04:00 d0c433455801e1c1fb6f486f0b447e22f946ab52
 # file: absl/random/internal/BUILD.bazel
 
-# absl/random/internal/BUILD.bazel:35
-source_set("traits") {
-  visibility = ["$abseil/:*"]
-  public = ["traits.h"]
-  deps = ["$abseil/absl/base:config"]
-}
-
-# absl/random/internal/BUILD.bazel:43
-source_set("distribution_caller") {
-  visibility = ["$abseil/:*"]
-  public = ["distribution_caller.h"]
-  deps = [
-    "$abseil/absl/base:config",
-    "$abseil/absl/base:fast_type_id",
-    "$abseil/absl/utility",
-  ]
-}
-
-# absl/random/internal/BUILD.bazel:55
-source_set("fast_uniform_bits") {
-  visibility = ["$abseil/:*"]
-  public = ["fast_uniform_bits.h"]
-  deps = [
-    "$abseil/absl/base:config",
-    "$abseil/absl/meta:type_traits",
-  ]
-}
-
-# absl/random/internal/BUILD.bazel:68
-source_set("seed_material") {
-  visibility = ["$abseil/:*"]
-  public = ["seed_material.h"]
-  sources = ["seed_material.cc"]
-  deps = [
-    ":fast_uniform_bits",
-    "$abseil/absl/base:core_headers",
-    "$abseil/absl/base:raw_logging_internal",
-    "$abseil/absl/strings",
-    "$abseil/absl/types:optional",
-    "$abseil/absl/types:span",
-  ]
-}
-
-# absl/random/internal/BUILD.bazel:91
-source_set("pool_urbg") {
-  visibility = ["$abseil/:*"]
-  public = ["pool_urbg.h"]
-  sources = ["pool_urbg.cc"]
-  deps = [
-    ":randen",
-    ":seed_material",
-    ":traits",
-    "$abseil/absl/base",
-    "$abseil/absl/base:config",
-    "$abseil/absl/base:core_headers",
-    "$abseil/absl/base:endian",
-    "$abseil/absl/base:raw_logging_internal",
-    "$abseil/absl/random:seed_gen_exception",
-    "$abseil/absl/types:span",
-  ]
-  ldflags = ["-pthread"]
-}
-
-# absl/random/internal/BUILD.bazel:141
-source_set("salted_seed_seq") {
-  visibility = ["$abseil/:*"]
-  public = ["salted_seed_seq.h"]
-  deps = [
-    ":seed_material",
-    "$abseil/absl/container:inlined_vector",
-    "$abseil/absl/meta:type_traits",
-    "$abseil/absl/types:optional",
-    "$abseil/absl/types:span",
-  ]
-}
-
-# absl/random/internal/BUILD.bazel:157
-source_set("iostream_state_saver") {
-  visibility = ["$abseil/:*"]
-  public = ["iostream_state_saver.h"]
-  deps = [
-    "$abseil/absl/meta:type_traits",
-    "$abseil/absl/numeric:int128",
-  ]
-}
-
-# absl/random/internal/BUILD.bazel:168
-source_set("generate_real") {
-  visibility = ["$abseil/:*"]
-  public = ["generate_real.h"]
-  deps = [
-    ":fastmath",
-    ":traits",
-    "$abseil/absl/base:bits",
-    "$abseil/absl/meta:type_traits",
-  ]
-}
-
-# absl/random/internal/BUILD.bazel:183
-source_set("fastmath") {
-  visibility = ["$abseil/:*"]
-  public = ["fastmath.h"]
-  deps = ["$abseil/absl/base:bits"]
-}
-
-# absl/random/internal/BUILD.bazel:193
+# absl/random/internal/BUILD.bazel:wide_multiply
 source_set("wide_multiply") {
   visibility = ["$abseil/:*"]
   public = ["wide_multiply.h"]
@@ -122,7 +17,31 @@ source_set("wide_multiply") {
   ]
 }
 
-# absl/random/internal/BUILD.bazel:206
+# absl/random/internal/BUILD.bazel:uniform_helper
+source_set("uniform_helper") {
+  visibility = ["$abseil/:*"]
+  public = ["uniform_helper.h"]
+  deps = [
+    ":traits",
+    "$abseil/absl/base:config",
+    "$abseil/absl/meta:type_traits",
+  ]
+}
+
+# absl/random/internal/BUILD.bazel:pcg_engine
+source_set("pcg_engine") {
+  visibility = ["$abseil/:*"]
+  public = ["pcg_engine.h"]
+  deps = [
+    ":fastmath",
+    ":iostream_state_saver",
+    "$abseil/absl/base:config",
+    "$abseil/absl/meta:type_traits",
+    "$abseil/absl/numeric:int128",
+  ]
+}
+
+# absl/random/internal/BUILD.bazel:nonsecure_base
 source_set("nonsecure_base") {
   visibility = ["$abseil/:*"]
   public = ["nonsecure_base.h"]
@@ -137,20 +56,68 @@ source_set("nonsecure_base") {
   ]
 }
 
-# absl/random/internal/BUILD.bazel:222
-source_set("pcg_engine") {
+# absl/random/internal/BUILD.bazel:salted_seed_seq
+source_set("salted_seed_seq") {
   visibility = ["$abseil/:*"]
-  public = ["pcg_engine.h"]
+  public = ["salted_seed_seq.h"]
   deps = [
-    ":fastmath",
-    ":iostream_state_saver",
-    "$abseil/absl/base:config",
+    ":seed_material",
+    "$abseil/absl/container:inlined_vector",
     "$abseil/absl/meta:type_traits",
-    "$abseil/absl/numeric:int128",
+    "$abseil/absl/types:optional",
+    "$abseil/absl/types:span",
   ]
 }
 
-# absl/random/internal/BUILD.bazel:236
+# absl/random/internal/BUILD.bazel:pool_urbg
+source_set("pool_urbg") {
+  visibility = ["$abseil/:*"]
+  public = ["pool_urbg.h"]
+  sources = ["pool_urbg.cc"]
+  deps = [
+    ":randen",
+    ":seed_material",
+    ":traits",
+    "$abseil/absl/base:base",
+    "$abseil/absl/base:config",
+    "$abseil/absl/base:core_headers",
+    "$abseil/absl/base:endian",
+    "$abseil/absl/base:raw_logging_internal",
+    "$abseil/absl/random:seed_gen_exception",
+    "$abseil/absl/types:span",
+  ]
+  ldflags = ["-pthread"]
+}
+
+# absl/random/internal/BUILD.bazel:seed_material
+source_set("seed_material") {
+  visibility = ["$abseil/:*"]
+  public = ["seed_material.h"]
+  sources = ["seed_material.cc"]
+  deps = [
+    ":fast_uniform_bits",
+    "$abseil/absl/base:core_headers",
+    "$abseil/absl/base:raw_logging_internal",
+    "$abseil/absl/strings:strings",
+    "$abseil/absl/types:optional",
+    "$abseil/absl/types:span",
+  ]
+}
+
+# absl/random/internal/BUILD.bazel:nanobenchmark
+source_set("nanobenchmark") {
+  visibility = ["$abseil/:*"]
+  sources = ["nanobenchmark.cc"]
+  deps = [
+    ":platform",
+    ":randen_engine",
+    "$abseil/absl/base:config",
+    "$abseil/absl/base:core_headers",
+    "$abseil/absl/base:raw_logging_internal",
+  ]
+}
+
+# absl/random/internal/BUILD.bazel:randen_engine
 source_set("randen_engine") {
   visibility = ["$abseil/:*"]
   public = ["randen_engine.h"]
@@ -161,15 +128,7 @@ source_set("randen_engine") {
   ]
 }
 
-# absl/random/internal/BUILD.bazel:248
-source_set("platform") {
-  visibility = ["$abseil/:*"]
-  public = ["randen_traits.h"]
-  sources = ["randen_round_keys.cc"]
-  deps = ["$abseil/absl/base:config"]
-}
-
-# absl/random/internal/BUILD.bazel:264
+# absl/random/internal/BUILD.bazel:randen
 source_set("randen") {
   visibility = ["$abseil/:*"]
   public = ["randen.h"]
@@ -182,7 +141,7 @@ source_set("randen") {
   ]
 }
 
-# absl/random/internal/BUILD.bazel:282
+# absl/random/internal/BUILD.bazel:randen_slow
 source_set("randen_slow") {
   visibility = ["$abseil/:*"]
   public = ["randen_slow.h"]
@@ -194,7 +153,7 @@ source_set("randen_slow") {
   ]
 }
 
-# absl/random/internal/BUILD.bazel:297
+# absl/random/internal/BUILD.bazel:randen_hwaes
 source_set("randen_hwaes") {
   visibility = ["$abseil/:*"]
   public = [
@@ -209,7 +168,7 @@ source_set("randen_hwaes") {
   ]
 }
 
-# absl/random/internal/BUILD.bazel:316
+# absl/random/internal/BUILD.bazel:randen_hwaes_impl
 source_set("randen_hwaes_impl") {
   visibility = ["$abseil/:*"]
   sources = [
@@ -221,14 +180,18 @@ source_set("randen_hwaes_impl") {
     "$abseil/absl/base:config",
     "$abseil/absl/base:core_headers",
   ]
-  cflags = [
-    "-Wno-pass-failed",
-    "-maes",
-    "-msse4.1",
-  ]
+  cflags = ["-Wno-pass-failed"]
 }
 
-# absl/random/internal/BUILD.bazel:487
+# absl/random/internal/BUILD.bazel:platform
+source_set("platform") {
+  visibility = ["$abseil/:*"]
+  public = ["randen_traits.h"]
+  sources = ["randen_round_keys.cc"]
+  deps = ["$abseil/absl/base:config"]
+}
+
+# absl/random/internal/BUILD.bazel:mock_helpers
 source_set("mock_helpers") {
   visibility = ["$abseil/:*"]
   public = ["mock_helpers.h"]
@@ -238,26 +201,59 @@ source_set("mock_helpers") {
   ]
 }
 
-# absl/random/internal/BUILD.bazel:643
-source_set("nanobenchmark") {
+# absl/random/internal/BUILD.bazel:iostream_state_saver
+source_set("iostream_state_saver") {
   visibility = ["$abseil/:*"]
-  sources = ["nanobenchmark.cc"]
+  public = ["iostream_state_saver.h"]
   deps = [
-    ":platform",
-    ":randen_engine",
-    "$abseil/absl/base:config",
-    "$abseil/absl/base:core_headers",
-    "$abseil/absl/base:raw_logging_internal",
+    "$abseil/absl/meta:type_traits",
+    "$abseil/absl/numeric:int128",
   ]
 }
 
-# absl/random/internal/BUILD.bazel:657
-source_set("uniform_helper") {
+# absl/random/internal/BUILD.bazel:generate_real
+source_set("generate_real") {
   visibility = ["$abseil/:*"]
-  public = ["uniform_helper.h"]
+  public = ["generate_real.h"]
   deps = [
+    ":fastmath",
     ":traits",
+    "$abseil/absl/base:bits",
+    "$abseil/absl/meta:type_traits",
+  ]
+}
+
+# absl/random/internal/BUILD.bazel:traits
+source_set("traits") {
+  visibility = ["$abseil/:*"]
+  public = ["traits.h"]
+  deps = ["$abseil/absl/base:config"]
+}
+
+# absl/random/internal/BUILD.bazel:fastmath
+source_set("fastmath") {
+  visibility = ["$abseil/:*"]
+  public = ["fastmath.h"]
+  deps = ["$abseil/absl/base:bits"]
+}
+
+# absl/random/internal/BUILD.bazel:fast_uniform_bits
+source_set("fast_uniform_bits") {
+  visibility = ["$abseil/:*"]
+  public = ["fast_uniform_bits.h"]
+  deps = [
     "$abseil/absl/base:config",
     "$abseil/absl/meta:type_traits",
+  ]
+}
+
+# absl/random/internal/BUILD.bazel:distribution_caller
+source_set("distribution_caller") {
+  visibility = ["$abseil/:*"]
+  public = ["distribution_caller.h"]
+  deps = [
+    "$abseil/absl/base:config",
+    "$abseil/absl/base:fast_type_id",
+    "$abseil/absl/utility:utility",
   ]
 }

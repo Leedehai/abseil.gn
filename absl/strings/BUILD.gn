@@ -5,7 +5,79 @@
 # upstream: 2020-08-14T18:40:01-04:00 d0c433455801e1c1fb6f486f0b447e22f946ab52
 # file: absl/strings/BUILD.bazel
 
-# absl/strings/BUILD.bazel:30
+# absl/strings/BUILD.bazel:cord
+source_set("cord") {
+  public = ["cord.h"]
+  sources = ["cord.cc"]
+  deps = [
+    ":cord_internal",
+    ":internal",
+    ":str_format",
+    ":strings",
+    "$abseil/absl/base:base",
+    "$abseil/absl/base:core_headers",
+    "$abseil/absl/base:endian",
+    "$abseil/absl/base:raw_logging_internal",
+    "$abseil/absl/container:fixed_array",
+    "$abseil/absl/container:inlined_vector",
+    "$abseil/absl/functional:function_ref",
+    "$abseil/absl/meta:type_traits",
+    "$abseil/absl/types:optional",
+  ]
+}
+
+# absl/strings/BUILD.bazel:cord_internal
+source_set("cord_internal") {
+  visibility = ["$abseil/:*"]
+  public = ["internal/cord_internal.h"]
+  deps = [
+    ":strings",
+    "$abseil/absl/base:base_internal",
+    "$abseil/absl/container:compressed_tuple",
+    "$abseil/absl/meta:type_traits",
+  ]
+}
+
+# absl/strings/BUILD.bazel:str_format
+source_set("str_format") {
+  public = ["str_format.h"]
+  deps = [":str_format_internal"]
+}
+
+# absl/strings/BUILD.bazel:str_format_internal
+source_set("str_format_internal") {
+  visibility = ["$abseil/:*"]
+  public = [
+    "internal/str_format/arg.h",
+    "internal/str_format/bind.h",
+    "internal/str_format/checker.h",
+    "internal/str_format/extension.h",
+    "internal/str_format/float_conversion.h",
+    "internal/str_format/output.h",
+    "internal/str_format/parser.h",
+  ]
+  sources = [
+    "internal/str_format/arg.cc",
+    "internal/str_format/bind.cc",
+    "internal/str_format/extension.cc",
+    "internal/str_format/float_conversion.cc",
+    "internal/str_format/output.cc",
+    "internal/str_format/parser.cc",
+  ]
+  deps = [
+    ":strings",
+    "$abseil/absl/base:bits",
+    "$abseil/absl/base:config",
+    "$abseil/absl/base:core_headers",
+    "$abseil/absl/functional:function_ref",
+    "$abseil/absl/meta:type_traits",
+    "$abseil/absl/numeric:int128",
+    "$abseil/absl/types:optional",
+    "$abseil/absl/types:span",
+  ]
+}
+
+# absl/strings/BUILD.bazel:strings
 source_set("strings") {
   public = [
     "ascii.h",
@@ -44,20 +116,20 @@ source_set("strings") {
   ]
   deps = [
     ":internal",
-    "$abseil/absl/base",
+    "$abseil/absl/base:base",
     "$abseil/absl/base:bits",
     "$abseil/absl/base:config",
     "$abseil/absl/base:core_headers",
     "$abseil/absl/base:endian",
     "$abseil/absl/base:raw_logging_internal",
     "$abseil/absl/base:throw_delegate",
-    "$abseil/absl/memory",
+    "$abseil/absl/memory:memory",
     "$abseil/absl/meta:type_traits",
     "$abseil/absl/numeric:int128",
   ]
 }
 
-# absl/strings/BUILD.bazel:83
+# absl/strings/BUILD.bazel:internal
 source_set("internal") {
   visibility = ["$abseil/:*"]
   public = [
@@ -78,77 +150,5 @@ source_set("internal") {
     "$abseil/absl/base:endian",
     "$abseil/absl/base:raw_logging_internal",
     "$abseil/absl/meta:type_traits",
-  ]
-}
-
-# absl/strings/BUILD.bazel:254
-source_set("cord_internal") {
-  visibility = ["$abseil/:*"]
-  public = ["internal/cord_internal.h"]
-  deps = [
-    ":strings",
-    "$abseil/absl/base:base_internal",
-    "$abseil/absl/container:compressed_tuple",
-    "$abseil/absl/meta:type_traits",
-  ]
-}
-
-# absl/strings/BUILD.bazel:267
-source_set("cord") {
-  public = ["cord.h"]
-  sources = ["cord.cc"]
-  deps = [
-    ":cord_internal",
-    ":internal",
-    ":str_format",
-    ":strings",
-    "$abseil/absl/base",
-    "$abseil/absl/base:core_headers",
-    "$abseil/absl/base:endian",
-    "$abseil/absl/base:raw_logging_internal",
-    "$abseil/absl/container:fixed_array",
-    "$abseil/absl/container:inlined_vector",
-    "$abseil/absl/functional:function_ref",
-    "$abseil/absl/meta:type_traits",
-    "$abseil/absl/types:optional",
-  ]
-}
-
-# absl/strings/BUILD.bazel:608
-source_set("str_format") {
-  public = ["str_format.h"]
-  deps = [":str_format_internal"]
-}
-
-# absl/strings/BUILD.bazel:619
-source_set("str_format_internal") {
-  visibility = ["$abseil/:*"]
-  public = [
-    "internal/str_format/arg.h",
-    "internal/str_format/bind.h",
-    "internal/str_format/checker.h",
-    "internal/str_format/extension.h",
-    "internal/str_format/float_conversion.h",
-    "internal/str_format/output.h",
-    "internal/str_format/parser.h",
-  ]
-  sources = [
-    "internal/str_format/arg.cc",
-    "internal/str_format/bind.cc",
-    "internal/str_format/extension.cc",
-    "internal/str_format/float_conversion.cc",
-    "internal/str_format/output.cc",
-    "internal/str_format/parser.cc",
-  ]
-  deps = [
-    ":strings",
-    "$abseil/absl/base:bits",
-    "$abseil/absl/base:config",
-    "$abseil/absl/base:core_headers",
-    "$abseil/absl/functional:function_ref",
-    "$abseil/absl/meta:type_traits",
-    "$abseil/absl/numeric:int128",
-    "$abseil/absl/types:optional",
-    "$abseil/absl/types:span",
   ]
 }

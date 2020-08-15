@@ -26,6 +26,7 @@ if [ "$1" != "-r" ] && [ "$1" != "--reuse" ]; then
   git --no-pager -C $abseil_temp rev-parse HEAD >> $abseil_rev
 
   mv $abseil_temp/absl $dirname/absl # The meat of the library
+  mv $abseil_temp/WORKSPACE $dirname/WORKSPACE # bazel needs it
 
   rm -rf $abseil_temp
 fi

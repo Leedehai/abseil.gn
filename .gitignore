@@ -4,6 +4,8 @@ absl/**/METADATA
 absl/**/OWNERS
 absl/**/testdata
 !absl/**/BUILD.gn
+!absl/**/*.bazel
+!absl/**/*.bzl
 
 ## Build artifacts
 bin

@@ -24,6 +24,7 @@ repository first (see below).
 
 - Python 3.8+,
 - Git 2.21+ and network connection (if updating the build).
+- Bazel 3.4.1+ (we need it to extract target definitions)
 
 ## How to update this repository
 
@@ -115,11 +116,17 @@ values.
 
 ### `gn_omit_if_empty`
 
-Type: `list[str]`
+Type: `list[str]`. Default: empty.
 
 Controls what GN attributes should be left out if their values are empty lists.
 It serves a cosmetic purpose, in that lots of empty attributes like `cflags = []`
 is ugly.
+
+### `remove_gn_list_elements`
+
+Type `Dict[str, List[str]]`. Default: empty.
+
+Remove list elements in the corresponding any target's GN attribute.
 
 ## License
 

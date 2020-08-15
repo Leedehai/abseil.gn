@@ -5,7 +5,7 @@
 # upstream: 2020-08-14T18:40:01-04:00 d0c433455801e1c1fb6f486f0b447e22f946ab52
 # file: absl/memory/BUILD.bazel
 
-# absl/memory/BUILD.bazel:29
+# absl/memory/BUILD.bazel:memory
 source_set("memory") {
   public = ["memory.h"]
   deps = [
