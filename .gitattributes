@@ -1,0 +1,3 @@
+*.bazel linguist-vendored
+*.bzl linguist-vendored
+*.gn linguist-generated
