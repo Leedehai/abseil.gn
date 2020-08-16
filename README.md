@@ -15,18 +15,26 @@ This project generates GN build files so that Abseil can serve as a library
 embedded in another GN-managed project. Therefore, it does not transpile Bazel
 build settings stored in `WORKSPACE` and `*.bzl` files etc.
 
-## Before using
-
-:warning: The Abseil source code was not checked in, so you should update this
-repository first (see below).
-
 ## Prerequisites
 
 - Python 3.8+,
 - Git 2.21+,
-- Bazel 3.4.1+ (we need it to extract target definitions)
+- (optional) Bazel 3.4.1+
 
-## How to update this repository
+## Before using
+
+:warning: The Abseil source code was not checked in, so you have to take one of
+the routes:
+
+- Fetch Abseil source and regenerate this repository using its most recent
+commit. This requires Bazel is available in your terminal as `bazel`.
+  > See "How to regenerate this repository".
+- Fetch Abseil source, checkout the commit that corresponds to this repository,
+and merge the `*.gn` files in this repository to that Abseil source tree. This
+doesn't require a Bazel installation.
+  > See "How to inject into an existing Abseil source tree".
+
+## How to regenerate this repository
 
 Working directory: at root of this repository.
 
@@ -35,11 +43,21 @@ Working directory: at root of this repository.
 $ ./update.sh # add "-r" to skip fetching the Abseil source.
 ```
 
-### What if the program "hangs"?
+> What if the program "hangs"?
 
 On first execution, Bazel may decide to download JDK (yeah, it doesn't do this
 step during installation), which may take a long time and it appears the program
-hangs. This peculiar behavior of Bazel is annoying ([GitHub issue](https://github.com/bazelbuild/bazel/issues/6865)).
+hangs. This peculiar behavior of Bazel is annoying
+([GitHub issue](https://github.com/bazelbuild/bazel/issues/6865)).
+
+## How to inject into an existing Abseil source tree
+
+Working directory: at root of this repository.
+
+```bash
+# This will automatically "git checkout" the corresponding Abseil commit.
+$ ./inject.sh path/to/abseil-cpp
+```
 
 ## Explore alternative actions
 
