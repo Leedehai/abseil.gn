@@ -5,13 +5,13 @@
 # upstream: 2020-08-14T18:40:01-04:00 d0c433455801e1c1fb6f486f0b447e22f946ab52
 # file: absl/algorithm/BUILD.bazel
 
-# absl/algorithm/BUILD.bazel:algorithm
+# absl/algorithm:algorithm
 source_set("algorithm") {
   public = ["algorithm.h"]
   deps = ["$abseil/absl/base:config"]
 }
 
-# absl/algorithm/BUILD.bazel:container
+# absl/algorithm:container
 source_set("container") {
   public = ["container.h"]
   deps = [

@@ -5,7 +5,7 @@
 # upstream: 2020-08-14T18:40:01-04:00 d0c433455801e1c1fb6f486f0b447e22f946ab52
 # file: absl/synchronization/BUILD.bazel
 
-# absl/synchronization/BUILD.bazel:graphcycles_internal
+# absl/synchronization:graphcycles_internal
 source_set("graphcycles_internal") {
   visibility = ["$abseil/:*"]
   public = ["internal/graphcycles.h"]
@@ -20,7 +20,7 @@ source_set("graphcycles_internal") {
   ]
 }
 
-# absl/synchronization/BUILD.bazel:kernel_timeout_internal
+# absl/synchronization:kernel_timeout_internal
 source_set("kernel_timeout_internal") {
   visibility = ["$abseil/:*"]
   public = ["internal/kernel_timeout.h"]
@@ -31,7 +31,7 @@ source_set("kernel_timeout_internal") {
   ]
 }
 
-# absl/synchronization/BUILD.bazel:synchronization
+# absl/synchronization:synchronization
 source_set("synchronization") {
   public = [
     "barrier.h",

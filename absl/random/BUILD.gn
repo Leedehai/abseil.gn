@@ -5,7 +5,7 @@
 # upstream: 2020-08-14T18:40:01-04:00 d0c433455801e1c1fb6f486f0b447e22f946ab52
 # file: absl/random/BUILD.bazel
 
-# absl/random/BUILD.bazel:bit_gen_ref
+# absl/random:bit_gen_ref
 source_set("bit_gen_ref") {
   public = ["bit_gen_ref.h"]
   deps = [
@@ -18,7 +18,7 @@ source_set("bit_gen_ref") {
   ]
 }
 
-# absl/random/BUILD.bazel:distributions
+# absl/random:distributions
 source_set("distributions") {
   public = [
     "bernoulli_distribution.h",
@@ -54,7 +54,7 @@ source_set("distributions") {
   ]
 }
 
-# absl/random/BUILD.bazel:random
+# absl/random:random
 source_set("random") {
   public = ["random.h"]
   deps = [
@@ -67,14 +67,14 @@ source_set("random") {
   ]
 }
 
-# absl/random/BUILD.bazel:seed_gen_exception
+# absl/random:seed_gen_exception
 source_set("seed_gen_exception") {
   public = ["seed_gen_exception.h"]
   sources = ["seed_gen_exception.cc"]
   deps = ["$abseil/absl/base:config"]
 }
 
-# absl/random/BUILD.bazel:seed_sequences
+# absl/random:seed_sequences
 source_set("seed_sequences") {
   public = ["seed_sequences.h"]
   sources = ["seed_sequences.cc"]

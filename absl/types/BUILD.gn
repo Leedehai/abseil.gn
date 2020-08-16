@@ -5,7 +5,7 @@
 # upstream: 2020-08-14T18:40:01-04:00 d0c433455801e1c1fb6f486f0b447e22f946ab52
 # file: absl/types/BUILD.bazel
 
-# absl/types/BUILD.bazel:any
+# absl/types:any
 source_set("any") {
   public = ["any.h"]
   deps = [
@@ -18,7 +18,7 @@ source_set("any") {
   ]
 }
 
-# absl/types/BUILD.bazel:bad_any_cast
+# absl/types:bad_any_cast
 source_set("bad_any_cast") {
   public = ["bad_any_cast.h"]
   deps = [
@@ -27,7 +27,7 @@ source_set("bad_any_cast") {
   ]
 }
 
-# absl/types/BUILD.bazel:bad_any_cast_impl
+# absl/types:bad_any_cast_impl
 source_set("bad_any_cast_impl") {
   sources = [
     "bad_any_cast.cc",
@@ -39,7 +39,7 @@ source_set("bad_any_cast_impl") {
   ]
 }
 
-# absl/types/BUILD.bazel:bad_optional_access
+# absl/types:bad_optional_access
 source_set("bad_optional_access") {
   public = ["bad_optional_access.h"]
   sources = ["bad_optional_access.cc"]
@@ -49,7 +49,7 @@ source_set("bad_optional_access") {
   ]
 }
 
-# absl/types/BUILD.bazel:bad_variant_access
+# absl/types:bad_variant_access
 source_set("bad_variant_access") {
   public = ["bad_variant_access.h"]
   sources = ["bad_variant_access.cc"]
@@ -59,7 +59,7 @@ source_set("bad_variant_access") {
   ]
 }
 
-# absl/types/BUILD.bazel:compare
+# absl/types:compare
 source_set("compare") {
   public = ["compare.h"]
   deps = [
@@ -68,7 +68,7 @@ source_set("compare") {
   ]
 }
 
-# absl/types/BUILD.bazel:optional
+# absl/types:optional
 source_set("optional") {
   public = ["optional.h"]
   sources = ["internal/optional.h"]
@@ -83,7 +83,7 @@ source_set("optional") {
   ]
 }
 
-# absl/types/BUILD.bazel:span
+# absl/types:span
 source_set("span") {
   public = ["span.h"]
   sources = ["internal/span.h"]
@@ -95,7 +95,7 @@ source_set("span") {
   ]
 }
 
-# absl/types/BUILD.bazel:variant
+# absl/types:variant
 source_set("variant") {
   public = ["variant.h"]
   sources = ["internal/variant.h"]

@@ -5,7 +5,7 @@
 # upstream: 2020-08-14T18:40:01-04:00 d0c433455801e1c1fb6f486f0b447e22f946ab52
 # file: absl/meta/BUILD.bazel
 
-# absl/meta/BUILD.bazel:type_traits
+# absl/meta:type_traits
 source_set("type_traits") {
   public = ["type_traits.h"]
   deps = ["$abseil/absl/base:config"]

@@ -5,7 +5,7 @@
 # upstream: 2020-08-14T18:40:01-04:00 d0c433455801e1c1fb6f486f0b447e22f946ab52
 # file: absl/random/internal/BUILD.bazel
 
-# absl/random/internal/BUILD.bazel:distribution_caller
+# absl/random/internal:distribution_caller
 source_set("distribution_caller") {
   visibility = ["$abseil/:*"]
   public = ["distribution_caller.h"]
@@ -16,7 +16,7 @@ source_set("distribution_caller") {
   ]
 }
 
-# absl/random/internal/BUILD.bazel:fast_uniform_bits
+# absl/random/internal:fast_uniform_bits
 source_set("fast_uniform_bits") {
   visibility = ["$abseil/:*"]
   public = ["fast_uniform_bits.h"]
@@ -26,14 +26,14 @@ source_set("fast_uniform_bits") {
   ]
 }
 
-# absl/random/internal/BUILD.bazel:fastmath
+# absl/random/internal:fastmath
 source_set("fastmath") {
   visibility = ["$abseil/:*"]
   public = ["fastmath.h"]
   deps = ["$abseil/absl/base:bits"]
 }
 
-# absl/random/internal/BUILD.bazel:generate_real
+# absl/random/internal:generate_real
 source_set("generate_real") {
   visibility = ["$abseil/:*"]
   public = ["generate_real.h"]
@@ -45,7 +45,7 @@ source_set("generate_real") {
   ]
 }
 
-# absl/random/internal/BUILD.bazel:iostream_state_saver
+# absl/random/internal:iostream_state_saver
 source_set("iostream_state_saver") {
   visibility = ["$abseil/:*"]
   public = ["iostream_state_saver.h"]
@@ -55,7 +55,7 @@ source_set("iostream_state_saver") {
   ]
 }
 
-# absl/random/internal/BUILD.bazel:mock_helpers
+# absl/random/internal:mock_helpers
 source_set("mock_helpers") {
   visibility = ["$abseil/:*"]
   public = ["mock_helpers.h"]
@@ -65,7 +65,7 @@ source_set("mock_helpers") {
   ]
 }
 
-# absl/random/internal/BUILD.bazel:nanobenchmark
+# absl/random/internal:nanobenchmark
 source_set("nanobenchmark") {
   visibility = ["$abseil/:*"]
   sources = ["nanobenchmark.cc"]
@@ -78,7 +78,7 @@ source_set("nanobenchmark") {
   ]
 }
 
-# absl/random/internal/BUILD.bazel:nonsecure_base
+# absl/random/internal:nonsecure_base
 source_set("nonsecure_base") {
   visibility = ["$abseil/:*"]
   public = ["nonsecure_base.h"]
@@ -93,7 +93,7 @@ source_set("nonsecure_base") {
   ]
 }
 
-# absl/random/internal/BUILD.bazel:pcg_engine
+# absl/random/internal:pcg_engine
 source_set("pcg_engine") {
   visibility = ["$abseil/:*"]
   public = ["pcg_engine.h"]
@@ -106,7 +106,7 @@ source_set("pcg_engine") {
   ]
 }
 
-# absl/random/internal/BUILD.bazel:platform
+# absl/random/internal:platform
 source_set("platform") {
   visibility = ["$abseil/:*"]
   public = ["randen_traits.h"]
@@ -114,7 +114,7 @@ source_set("platform") {
   deps = ["$abseil/absl/base:config"]
 }
 
-# absl/random/internal/BUILD.bazel:pool_urbg
+# absl/random/internal:pool_urbg
 source_set("pool_urbg") {
   visibility = ["$abseil/:*"]
   public = ["pool_urbg.h"]
@@ -134,7 +134,7 @@ source_set("pool_urbg") {
   ldflags = ["-pthread"]
 }
 
-# absl/random/internal/BUILD.bazel:randen
+# absl/random/internal:randen
 source_set("randen") {
   visibility = ["$abseil/:*"]
   public = ["randen.h"]
@@ -147,7 +147,7 @@ source_set("randen") {
   ]
 }
 
-# absl/random/internal/BUILD.bazel:randen_engine
+# absl/random/internal:randen_engine
 source_set("randen_engine") {
   visibility = ["$abseil/:*"]
   public = ["randen_engine.h"]
@@ -158,7 +158,7 @@ source_set("randen_engine") {
   ]
 }
 
-# absl/random/internal/BUILD.bazel:randen_hwaes
+# absl/random/internal:randen_hwaes
 source_set("randen_hwaes") {
   visibility = ["$abseil/:*"]
   public = [
@@ -173,7 +173,7 @@ source_set("randen_hwaes") {
   ]
 }
 
-# absl/random/internal/BUILD.bazel:randen_hwaes_impl
+# absl/random/internal:randen_hwaes_impl
 source_set("randen_hwaes_impl") {
   visibility = ["$abseil/:*"]
   sources = [
@@ -192,7 +192,7 @@ source_set("randen_hwaes_impl") {
   ]
 }
 
-# absl/random/internal/BUILD.bazel:randen_slow
+# absl/random/internal:randen_slow
 source_set("randen_slow") {
   visibility = ["$abseil/:*"]
   public = ["randen_slow.h"]
@@ -204,7 +204,7 @@ source_set("randen_slow") {
   ]
 }
 
-# absl/random/internal/BUILD.bazel:salted_seed_seq
+# absl/random/internal:salted_seed_seq
 source_set("salted_seed_seq") {
   visibility = ["$abseil/:*"]
   public = ["salted_seed_seq.h"]
@@ -217,7 +217,7 @@ source_set("salted_seed_seq") {
   ]
 }
 
-# absl/random/internal/BUILD.bazel:seed_material
+# absl/random/internal:seed_material
 source_set("seed_material") {
   visibility = ["$abseil/:*"]
   public = ["seed_material.h"]
@@ -232,14 +232,14 @@ source_set("seed_material") {
   ]
 }
 
-# absl/random/internal/BUILD.bazel:traits
+# absl/random/internal:traits
 source_set("traits") {
   visibility = ["$abseil/:*"]
   public = ["traits.h"]
   deps = ["$abseil/absl/base:config"]
 }
 
-# absl/random/internal/BUILD.bazel:uniform_helper
+# absl/random/internal:uniform_helper
 source_set("uniform_helper") {
   visibility = ["$abseil/:*"]
   public = ["uniform_helper.h"]
@@ -250,7 +250,7 @@ source_set("uniform_helper") {
   ]
 }
 
-# absl/random/internal/BUILD.bazel:wide_multiply
+# absl/random/internal:wide_multiply
 source_set("wide_multiply") {
   visibility = ["$abseil/:*"]
   public = ["wide_multiply.h"]

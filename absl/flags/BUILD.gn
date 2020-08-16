@@ -5,7 +5,7 @@
 # upstream: 2020-08-14T18:40:01-04:00 d0c433455801e1c1fb6f486f0b447e22f946ab52
 # file: absl/flags/BUILD.bazel
 
-# absl/flags/BUILD.bazel:commandlineflag
+# absl/flags:commandlineflag
 source_set("commandlineflag") {
   public = ["commandlineflag.h"]
   sources = ["commandlineflag.cc"]
@@ -18,7 +18,7 @@ source_set("commandlineflag") {
   ]
 }
 
-# absl/flags/BUILD.bazel:commandlineflag_internal
+# absl/flags:commandlineflag_internal
 source_set("commandlineflag_internal") {
   visibility = ["$abseil/:*"]
   public = ["internal/commandlineflag.h"]
@@ -29,7 +29,7 @@ source_set("commandlineflag_internal") {
   ]
 }
 
-# absl/flags/BUILD.bazel:config
+# absl/flags:config
 source_set("config") {
   public = [
     "config.h",
@@ -46,7 +46,7 @@ source_set("config") {
   ]
 }
 
-# absl/flags/BUILD.bazel:flag
+# absl/flags:flag
 source_set("flag") {
   public = [
     "declare.h",
@@ -64,7 +64,7 @@ source_set("flag") {
   ]
 }
 
-# absl/flags/BUILD.bazel:flag_internal
+# absl/flags:flag_internal
 source_set("flag_internal") {
   visibility = ["$abseil/:*"]
   public = ["internal/flag.h"]
@@ -86,7 +86,7 @@ source_set("flag_internal") {
   ]
 }
 
-# absl/flags/BUILD.bazel:marshalling
+# absl/flags:marshalling
 source_set("marshalling") {
   public = ["marshalling.h"]
   sources = ["marshalling.cc"]
@@ -99,7 +99,7 @@ source_set("marshalling") {
   ]
 }
 
-# absl/flags/BUILD.bazel:parse
+# absl/flags:parse
 source_set("parse") {
   public = [
     "internal/parse.h",
@@ -124,7 +124,7 @@ source_set("parse") {
   ]
 }
 
-# absl/flags/BUILD.bazel:path_util
+# absl/flags:path_util
 source_set("path_util") {
   public = ["internal/path_util.h"]
   deps = [
@@ -133,7 +133,7 @@ source_set("path_util") {
   ]
 }
 
-# absl/flags/BUILD.bazel:private_handle_accessor
+# absl/flags:private_handle_accessor
 source_set("private_handle_accessor") {
   public = ["internal/private_handle_accessor.h"]
   sources = ["internal/private_handle_accessor.cc"]
@@ -145,7 +145,7 @@ source_set("private_handle_accessor") {
   ]
 }
 
-# absl/flags/BUILD.bazel:program_name
+# absl/flags:program_name
 source_set("program_name") {
   public = ["internal/program_name.h"]
   sources = ["internal/program_name.cc"]
@@ -158,7 +158,7 @@ source_set("program_name") {
   ]
 }
 
-# absl/flags/BUILD.bazel:reflection
+# absl/flags:reflection
 source_set("reflection") {
   public = [
     "internal/registry.h",
@@ -177,7 +177,7 @@ source_set("reflection") {
   ]
 }
 
-# absl/flags/BUILD.bazel:usage
+# absl/flags:usage
 source_set("usage") {
   public = ["usage.h"]
   sources = ["usage.cc"]
@@ -190,7 +190,7 @@ source_set("usage") {
   ]
 }
 
-# absl/flags/BUILD.bazel:usage_internal
+# absl/flags:usage_internal
 source_set("usage_internal") {
   visibility = ["$abseil/:*"]
   public = ["internal/usage.h"]

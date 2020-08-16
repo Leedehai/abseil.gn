@@ -5,7 +5,7 @@
 # upstream: 2020-08-14T18:40:01-04:00 d0c433455801e1c1fb6f486f0b447e22f946ab52
 # file: absl/debugging/BUILD.bazel
 
-# absl/debugging/BUILD.bazel:debugging_internal
+# absl/debugging:debugging_internal
 source_set("debugging_internal") {
   visibility = ["$abseil/:*"]
   public = [
@@ -27,7 +27,7 @@ source_set("debugging_internal") {
   ]
 }
 
-# absl/debugging/BUILD.bazel:demangle_internal
+# absl/debugging:demangle_internal
 source_set("demangle_internal") {
   visibility = ["$abseil/:*"]
   public = ["internal/demangle.h"]
@@ -39,7 +39,7 @@ source_set("demangle_internal") {
   ]
 }
 
-# absl/debugging/BUILD.bazel:examine_stack
+# absl/debugging:examine_stack
 source_set("examine_stack") {
   public = ["internal/examine_stack.h"]
   sources = ["internal/examine_stack.cc"]
@@ -52,7 +52,7 @@ source_set("examine_stack") {
   ]
 }
 
-# absl/debugging/BUILD.bazel:failure_signal_handler
+# absl/debugging:failure_signal_handler
 source_set("failure_signal_handler") {
   public = ["failure_signal_handler.h"]
   sources = ["failure_signal_handler.cc"]
@@ -67,7 +67,7 @@ source_set("failure_signal_handler") {
   ]
 }
 
-# absl/debugging/BUILD.bazel:leak_check
+# absl/debugging:leak_check
 source_set("leak_check") {
   public = ["leak_check.h"]
   sources = ["leak_check.cc"]
@@ -77,13 +77,13 @@ source_set("leak_check") {
   ]
 }
 
-# absl/debugging/BUILD.bazel:leak_check_disable
+# absl/debugging:leak_check_disable
 source_set("leak_check_disable") {
   sources = ["leak_check_disable.cc"]
   deps = ["$abseil/absl/base:config"]
 }
 
-# absl/debugging/BUILD.bazel:stacktrace
+# absl/debugging:stacktrace
 source_set("stacktrace") {
   public = ["stacktrace.h"]
   sources = [
@@ -104,7 +104,7 @@ source_set("stacktrace") {
   ]
 }
 
-# absl/debugging/BUILD.bazel:symbolize
+# absl/debugging:symbolize
 source_set("symbolize") {
   public = [
     "internal/symbolize.h",

@@ -29,6 +29,7 @@ import io
 import json
 import os
 import re
+import shutil
 import subprocess
 from collections import namedtuple
 from pathlib import Path
@@ -54,12 +55,15 @@ def bazel_cquery(label_pattern: str, build_options: List[str]) -> Optional[str]:
     command = ["bazel", "cquery", label_pattern, "--output", "build"]
     if len(build_options) > 0:
         command += ["--define"] + build_options
-    print(' '.join(command))
     try:
         stdout = subprocess.check_output(command, stderr=subprocess.DEVNULL)
         return stdout.decode()
     except subprocess.CalledProcessError:
         return None
+
+
+def bazel_shutdown_server() -> None:
+    subprocess.call(["bazel", "shutdown"])
 
 
 class cd:
@@ -119,7 +123,8 @@ def rectify_list_str(
         is_path: bool,  # is path string or label string
         source_dir_relative_to_repo: Optional[str],
         replacers: dict) -> str:
-    p = p.replace("//" + source_dir_relative_to_repo + ":", ":")
+    if source_dir_relative_to_repo:
+        p = p.replace("//" + source_dir_relative_to_repo + ":", ":")
     for k, v in replacers.items():
         if p.startswith(k):
             p = p.replace(k, v, 1)
@@ -255,9 +260,8 @@ def eval_bazel_expr(code_text: Optional[str], profile: dict,
 
 
 def parse_bazel_build(
-    source_text: str, profile: dict, source_path: Path,
-    source_relative_to_repo: Optional[Path]
-) -> Tuple[Optional[List[dict]], bool]:
+        source_text: str, profile: dict, source_path: Path,
+        source_relpath: Optional[Path]) -> Tuple[Optional[List[dict]], bool]:
     node = ast.parse(source_text)  # Bazel uses a subset of Python grammar.
     function_calls: List[ast.Call] = [
         n.value for n in node.body
@@ -293,7 +297,6 @@ def parse_bazel_build(
                     has_printout = True
             elif isinstance(
                     rhs, (ast.expr, ast.Call)):  # ast.expr is an abstract class
-                print_err("aaaaaaaaaaaaaaaaaaaa")
                 source_segment = ast.get_source_segment(source_text, rhs)
                 eval_res = eval_bazel_expr(source_segment, profile, source_path)
                 if eval_res == None:
@@ -307,9 +310,10 @@ def parse_bazel_build(
                 continue
             if isinstance(rhs_value, list):
                 rhs_value = [
-                    rectify_list_str(e, attr in ["hdrs", "srcs"],
-                                     str(source_relative_to_repo.parent),
-                                     profile.get(PROFILE_ROOT_REPLACERS, {}))
+                    rectify_list_str(
+                        e, attr in ["hdrs", "srcs"],
+                        str(source_relpath.parent) if source_relpath else None,
+                        profile.get(PROFILE_ROOT_REPLACERS, {}))
                     for e in rhs_value
                 ]
                 for ee in (e for e in rhs_value if DEP_ROOT_SIGIL.match(e)):
@@ -393,10 +397,9 @@ def gen_file(source_path: Path, repo_path: Optional[Path],
         if source_text == None:
             print_err("bazel can't query: %s" % source_path)
             return None, True
-        source_relative_to_repo = Path(os.path.relpath(source_path, repo_path))
+        source_relpath = Path(os.path.relpath(source_path, repo_path))
         data_list, has_printout = parse_bazel_build(source_text, profile,
-                                                    source_path,
-                                                    source_relative_to_repo)
+                                                    source_path, source_relpath)
     else:  # Input was single file
         with open(source_path, 'r') as f:
             data_list, has_printout = parse_bazel_build(f.read(), profile,
@@ -431,6 +434,9 @@ def work(args: argparse.Namespace) -> int:
 
     input_path = Path(args.path)
     if input_path.is_file():
+        if input_path.name not in BAZEL_BASENAMES:
+            print_err("not a bazel file: %s" % input_path)
+            return 1
         gn_content, _ = gen_file(input_path, None, None, profile, args.verbose)
         if gn_content != None:
             print(gn_content)
@@ -474,6 +480,7 @@ def work(args: argparse.Namespace) -> int:
             parsing_error_file_num += 1
         else:
             gn_contents[gn_path] = gn_content
+    bazel_shutdown_server()
     if parsing_error_file_num > 0:
         print_err("error in %s files, nothing written." %
                   parsing_error_file_num)
@@ -526,6 +533,10 @@ def main() -> int:
         return 1
     if args.profile and not os.path.exists(args.profile):
         print_err("profile not found: %s" % args.profile)
+        return 1
+    if shutil.which("bazel") == None:
+        print_err("Command not found: bazel")
+        return 1
 
     return work(args)
 

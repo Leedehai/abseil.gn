@@ -36,6 +36,8 @@ doesn't require a Bazel installation.
 
 ## How to regenerate this repository
 
+> This requires Bazel.
+
 Working directory: at root of this repository.
 
 ```bash
@@ -43,7 +45,7 @@ Working directory: at root of this repository.
 $ ./update.sh # add "-r" to skip fetching the Abseil source.
 ```
 
-> What if the program "hangs"?
+What if the program "hangs"?
 
 On first execution, Bazel may decide to download JDK (yeah, it doesn't do this
 step during installation), which may take a long time and it appears the program
@@ -51,6 +53,8 @@ hangs. This peculiar behavior of Bazel is annoying
 ([GitHub issue](https://github.com/bazelbuild/bazel/issues/6865)).
 
 ## How to inject into an existing Abseil source tree
+
+> This doesn't require Bazel.
 
 Working directory: at root of this repository.
 

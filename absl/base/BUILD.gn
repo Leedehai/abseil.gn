@@ -5,7 +5,7 @@
 # upstream: 2020-08-14T18:40:01-04:00 d0c433455801e1c1fb6f486f0b447e22f946ab52
 # file: absl/base/BUILD.bazel
 
-# absl/base/BUILD.bazel:atomic_hook
+# absl/base:atomic_hook
 source_set("atomic_hook") {
   public = ["internal/atomic_hook.h"]
   deps = [
@@ -14,7 +14,7 @@ source_set("atomic_hook") {
   ]
 }
 
-# absl/base/BUILD.bazel:base
+# absl/base:base
 source_set("base") {
   public = [
     "call_once.h",
@@ -49,7 +49,7 @@ source_set("base") {
   ldflags = ["-pthread"]
 }
 
-# absl/base/BUILD.bazel:base_internal
+# absl/base:base_internal
 source_set("base_internal") {
   visibility = ["$abseil/:*"]
   public = [
@@ -65,7 +65,7 @@ source_set("base_internal") {
   ]
 }
 
-# absl/base/BUILD.bazel:bits
+# absl/base:bits
 source_set("bits") {
   public = ["internal/bits.h"]
   deps = [
@@ -74,7 +74,7 @@ source_set("bits") {
   ]
 }
 
-# absl/base/BUILD.bazel:config
+# absl/base:config
 source_set("config") {
   public = [
     "config.h",
@@ -83,7 +83,7 @@ source_set("config") {
   ]
 }
 
-# absl/base/BUILD.bazel:core_headers
+# absl/base:core_headers
 source_set("core_headers") {
   public = [
     "attributes.h",
@@ -97,7 +97,7 @@ source_set("core_headers") {
   deps = [":config"]
 }
 
-# absl/base/BUILD.bazel:dynamic_annotations
+# absl/base:dynamic_annotations
 source_set("dynamic_annotations") {
   public = ["dynamic_annotations.h"]
   sources = ["internal/dynamic_annotations.h"]
@@ -107,7 +107,7 @@ source_set("dynamic_annotations") {
   ]
 }
 
-# absl/base/BUILD.bazel:endian
+# absl/base:endian
 source_set("endian") {
   public = [
     "internal/endian.h",
@@ -119,13 +119,13 @@ source_set("endian") {
   ]
 }
 
-# absl/base/BUILD.bazel:errno_saver
+# absl/base:errno_saver
 source_set("errno_saver") {
   public = ["internal/errno_saver.h"]
   deps = [":config"]
 }
 
-# absl/base/BUILD.bazel:exponential_biased
+# absl/base:exponential_biased
 source_set("exponential_biased") {
   public = ["internal/exponential_biased.h"]
   sources = ["internal/exponential_biased.cc"]
@@ -135,13 +135,13 @@ source_set("exponential_biased") {
   ]
 }
 
-# absl/base/BUILD.bazel:fast_type_id
+# absl/base:fast_type_id
 source_set("fast_type_id") {
   public = ["internal/fast_type_id.h"]
   deps = [":config"]
 }
 
-# absl/base/BUILD.bazel:log_severity
+# absl/base:log_severity
 source_set("log_severity") {
   public = ["log_severity.h"]
   sources = ["log_severity.cc"]
@@ -151,7 +151,7 @@ source_set("log_severity") {
   ]
 }
 
-# absl/base/BUILD.bazel:malloc_internal
+# absl/base:malloc_internal
 source_set("malloc_internal") {
   visibility = ["$abseil/:*"]
   public = [
@@ -170,7 +170,7 @@ source_set("malloc_internal") {
   ldflags = ["-pthread"]
 }
 
-# absl/base/BUILD.bazel:periodic_sampler
+# absl/base:periodic_sampler
 source_set("periodic_sampler") {
   public = ["internal/periodic_sampler.h"]
   sources = ["internal/periodic_sampler.cc"]
@@ -180,12 +180,12 @@ source_set("periodic_sampler") {
   ]
 }
 
-# absl/base/BUILD.bazel:pretty_function
+# absl/base:pretty_function
 source_set("pretty_function") {
   public = ["internal/pretty_function.h"]
 }
 
-# absl/base/BUILD.bazel:raw_logging_internal
+# absl/base:raw_logging_internal
 source_set("raw_logging_internal") {
   visibility = ["$abseil/:*"]
   public = ["internal/raw_logging.h"]
@@ -198,7 +198,7 @@ source_set("raw_logging_internal") {
   ]
 }
 
-# absl/base/BUILD.bazel:spinlock_wait
+# absl/base:spinlock_wait
 source_set("spinlock_wait") {
   public = ["internal/spinlock_wait.h"]
   sources = [
@@ -215,7 +215,7 @@ source_set("spinlock_wait") {
   ]
 }
 
-# absl/base/BUILD.bazel:strerror
+# absl/base:strerror
 source_set("strerror") {
   public = ["internal/strerror.h"]
   sources = ["internal/strerror.cc"]
@@ -226,7 +226,7 @@ source_set("strerror") {
   ]
 }
 
-# absl/base/BUILD.bazel:throw_delegate
+# absl/base:throw_delegate
 source_set("throw_delegate") {
   public = ["internal/throw_delegate.h"]
   sources = ["internal/throw_delegate.cc"]

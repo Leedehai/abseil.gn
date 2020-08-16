@@ -5,7 +5,7 @@
 # upstream: 2020-08-14T18:40:01-04:00 d0c433455801e1c1fb6f486f0b447e22f946ab52
 # file: absl/strings/BUILD.bazel
 
-# absl/strings/BUILD.bazel:cord
+# absl/strings:cord
 source_set("cord") {
   public = ["cord.h"]
   sources = ["cord.cc"]
@@ -26,7 +26,7 @@ source_set("cord") {
   ]
 }
 
-# absl/strings/BUILD.bazel:cord_internal
+# absl/strings:cord_internal
 source_set("cord_internal") {
   visibility = ["$abseil/:*"]
   public = ["internal/cord_internal.h"]
@@ -38,7 +38,7 @@ source_set("cord_internal") {
   ]
 }
 
-# absl/strings/BUILD.bazel:internal
+# absl/strings:internal
 source_set("internal") {
   visibility = ["$abseil/:*"]
   public = [
@@ -62,13 +62,13 @@ source_set("internal") {
   ]
 }
 
-# absl/strings/BUILD.bazel:str_format
+# absl/strings:str_format
 source_set("str_format") {
   public = ["str_format.h"]
   deps = [":str_format_internal"]
 }
 
-# absl/strings/BUILD.bazel:str_format_internal
+# absl/strings:str_format_internal
 source_set("str_format_internal") {
   visibility = ["$abseil/:*"]
   public = [
@@ -101,7 +101,7 @@ source_set("str_format_internal") {
   ]
 }
 
-# absl/strings/BUILD.bazel:strings
+# absl/strings:strings
 source_set("strings") {
   public = [
     "ascii.h",

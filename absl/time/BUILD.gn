@@ -5,7 +5,7 @@
 # upstream: 2020-08-14T18:40:01-04:00 d0c433455801e1c1fb6f486f0b447e22f946ab52
 # file: absl/time/BUILD.bazel
 
-# absl/time/BUILD.bazel:time
+# absl/time:time
 source_set("time") {
   public = [
     "civil_time.h",
