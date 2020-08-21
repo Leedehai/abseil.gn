@@ -169,14 +169,6 @@ def stringify_list(arr: List[str],
     return ss.getvalue()
 
 
-def maybe_get_repo_info(dir_path: Path) -> Optional[str]:
-    info_txt = dir_path.joinpath("ABSL_REVISION.txt")
-    if not info_txt.is_file():
-        return None
-    with open(info_txt, 'r') as f:
-        return f.read().strip().replace("\n", " ")
-
-
 def is_constant_node(node) -> bool:
     # ast.Num, ast.Str, ast.NameConstant are deprecated since Python 3.8 (though
     # still available for a while), and all constants are classified as
@@ -328,16 +320,14 @@ def parse_bazel_build(
     return decls, has_printout
 
 
-def make_gn_build(source_relpath: Path, repo_info: Optional[str],
-                  data_list: List[dict], profile: dict, verbose: bool) -> str:
+def make_gn_build(source_relpath: Path, data_list: List[dict], profile: dict,
+                  verbose: bool) -> str:
     ss = io.StringIO()
     ss.write("# Copyright (c) %d Leedehai. All rights reserved.\n" % GEN_YEAR)
     ss.write("# Use of this source code is governed under the MIT license.\n")
     ss.write("# -----\n")
     ss.write("# Generated file. Do not modify manually.\n")
-    if repo_info:
-        ss.write("# upstream: %s\n" % repo_info)
-    ss.write("# file: %s\n\n" % source_relpath)
+    ss.write("# Source file: %s\n\n" % source_relpath)
     num_targets = len(data_list)
     if num_targets == 0:
         ss.write("# (empty)\n")
@@ -387,8 +377,7 @@ def make_gn_build(source_relpath: Path, repo_info: Optional[str],
     return gn_content
 
 
-def gen_file(source_path: Path, repo_path: Optional[Path],
-             repo_info: Optional[str], profile: dict,
+def gen_file(source_path: Path, repo_path: Optional[Path], profile: dict,
              verbose: bool) -> Tuple[Optional[str], bool]:
     if repo_path:
         with cd(repo_path):
@@ -417,8 +406,7 @@ def gen_file(source_path: Path, repo_path: Optional[Path],
         source_relpath = Path(os.path.relpath(source_path, repo_path))
     else:
         source_relpath = Path(os.path.relpath(source_path))
-    gn_content = make_gn_build(source_relpath, repo_info, data_list, profile,
-                               verbose)
+    gn_content = make_gn_build(source_relpath, data_list, profile, verbose)
     return gn_content, has_printout
 
 
@@ -437,13 +425,11 @@ def work(args: argparse.Namespace) -> int:
         if input_path.name not in BAZEL_BASENAMES:
             print_err("not a bazel file: %s" % input_path)
             return 1
-        gn_content, _ = gen_file(input_path, None, None, profile, args.verbose)
+        gn_content, _ = gen_file(input_path, None, profile, args.verbose)
         if gn_content != None:
             print(gn_content)
             return 0
         return 1
-
-    repo_info: Optional[str] = maybe_get_repo_info(input_path)
 
     io_paths: List[Tuple[Path, Path]] = []
     for dirpath, _, filenames in os.walk(input_path):
@@ -472,8 +458,8 @@ def work(args: argparse.Namespace) -> int:
             sys.stderr.write(status_str + "\n")
         else:
             sys.stderr.write("\x1b[1A\x1b[2K" + status_str + "\n")
-        gn_content, has_printout = gen_file(bazel_path, input_path, repo_info,
-                                            profile, args.verbose)
+        gn_content, has_printout = gen_file(bazel_path, input_path, profile,
+                                            args.verbose)
         if has_printout and not args.verbose:
             sys.stderr.write("\n")  # So text isn't elided by "\x1b[1A\x1b[2K"
         if gn_content == None:
