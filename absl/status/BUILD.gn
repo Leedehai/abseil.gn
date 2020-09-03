@@ -29,3 +29,21 @@ source_set("status") {
     "$abseil/absl/types:optional",
   ]
 }
+
+# absl/status:statusor
+source_set("statusor") {
+  public = ["statusor.h"]
+  sources = [
+    "internal/statusor_internal.h",
+    "statusor.cc",
+  ]
+  deps = [
+    ":status",
+    "$abseil/absl/base:core_headers",
+    "$abseil/absl/base:raw_logging_internal",
+    "$abseil/absl/meta:type_traits",
+    "$abseil/absl/strings:strings",
+    "$abseil/absl/types:variant",
+    "$abseil/absl/utility:utility",
+  ]
+}
