@@ -1,11 +1,5 @@
-absl/**/*.*
-absl/**/BUILD
-absl/**/METADATA
-absl/**/OWNERS
+absl/**/*_test.*
 absl/**/testdata
-!absl/**/BUILD.gn
-!absl/**/*.bazel
-!absl/**/*.bzl
 
 ## Build artifacts
 bin

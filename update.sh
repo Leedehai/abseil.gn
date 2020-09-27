@@ -49,6 +49,8 @@ fi
 
 $dirname/gen.py . --profile=$dirname/absl.json # Help: use "--help"
 
+echo "Mutated BUILD files:"
+git status | grep BUILD || true
 echo "Rolled to Abseil commit: "
 cat $abseil_rev
 
