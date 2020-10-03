@@ -151,6 +151,7 @@ Remove list elements in the corresponding any target's GN attribute.
 
 ## License
 
-[MIT License](LICENSE.txt).
+[MIT License](LICENSE.txt), except the Abseil source (noted in files) are
+licensed under [this license](LICENSE.abseil).
 
 ■
