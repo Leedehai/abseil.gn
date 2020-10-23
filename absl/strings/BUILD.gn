@@ -106,6 +106,7 @@ source_set("strings") {
     "ascii.h",
     "charconv.h",
     "escaping.h",
+    "internal/string_constant.h",
     "match.h",
     "numbers.h",
     "str_cat.h",
