@@ -30,6 +30,7 @@
       "-Wenum-conversion",
       "-Weverything",
       "-Wextra",
+      "-Wformat-security",
       "-Wint-conversion",
       "-Wliteral-conversion",
       "-Wno-c++98-compat-pedantic",
