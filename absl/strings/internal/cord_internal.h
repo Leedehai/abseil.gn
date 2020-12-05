@@ -108,18 +108,25 @@ class Refcount {
 // functions in the base class.
 
 struct CordRepConcat;
-struct CordRepSubstring;
 struct CordRepExternal;
+struct CordRepFlat;
+struct CordRepSubstring;
 
 // Various representations that we allow
 enum CordRepKind {
   CONCAT        = 0,
   EXTERNAL      = 1,
   SUBSTRING     = 2,
+  RING          = 3,
 
   // We have different tags for different sized flat arrays,
-  // starting with FLAT
-  FLAT          = 3,
+  // starting with FLAT, and limited to MAX_FLAT_TAG. The 224 value is based on
+  // the current 'size to tag' encoding of 8 / 32 bytes. If a new tag is needed
+  // in the future, then 'FLAT' and 'MAX_FLAT_TAG' should be adjusted as well
+  // as the Tag <---> Size logic so that FLAT stil represents the minimum flat
+  // allocation size. (32 bytes as of now).
+  FLAT = 4,
+  MAX_FLAT_TAG = 224,
 };
 
 struct CordRep {
@@ -174,6 +181,10 @@ struct CordRepExternal : public CordRep {
   const char* base;
   // Pointer to function that knows how to call and destroy the releaser.
   ExternalReleaserInvoker releaser_invoker;
+
+  // Deletes (releases) the external rep.
+  // Requires rep != nullptr and rep->tag == EXTERNAL
+  static void Delete(CordRep* rep);
 };
 
 struct Rank1 {};
@@ -213,6 +224,13 @@ struct CordRepExternalImpl
     delete static_cast<CordRepExternalImpl*>(rep);
   }
 };
+
+inline void CordRepExternal::Delete(CordRep* rep) {
+  assert(rep != nullptr && rep->tag == EXTERNAL);
+  auto* rep_external = static_cast<CordRepExternal*>(rep);
+  assert(rep_external->releaser_invoker != nullptr);
+  rep_external->releaser_invoker(rep_external);
+}
 
 template <typename Str>
 struct ConstInitExternalStorage {

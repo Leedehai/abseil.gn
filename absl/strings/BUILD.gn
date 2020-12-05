@@ -28,7 +28,10 @@ source_set("cord") {
 # absl/strings:cord_internal
 source_set("cord_internal") {
   visibility = ["$abseil/:*"]
-  public = ["internal/cord_internal.h"]
+  public = [
+    "internal/cord_internal.h",
+    "internal/cord_rep_flat.h",
+  ]
   deps = [
     ":strings",
     "$abseil/absl/base:base_internal",

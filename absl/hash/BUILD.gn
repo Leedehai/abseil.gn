@@ -24,6 +24,7 @@ source_set("hash") {
   ]
   deps = [
     ":city",
+    ":wyhash",
     "$abseil/absl/base:core_headers",
     "$abseil/absl/base:endian",
     "$abseil/absl/container:fixed_array",
@@ -33,5 +34,16 @@ source_set("hash") {
     "$abseil/absl/types:optional",
     "$abseil/absl/types:variant",
     "$abseil/absl/utility:utility",
+  ]
+}
+
+# absl/hash:wyhash
+source_set("wyhash") {
+  public = ["internal/wyhash.h"]
+  sources = ["internal/wyhash.cc"]
+  deps = [
+    "$abseil/absl/base:config",
+    "$abseil/absl/base:endian",
+    "$abseil/absl/numeric:int128",
   ]
 }
