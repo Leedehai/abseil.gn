@@ -41,6 +41,7 @@ source_set("distributions") {
     "$abseil/absl/base:config",
     "$abseil/absl/base:core_headers",
     "$abseil/absl/meta:type_traits",
+    "$abseil/absl/numeric:bits",
     "$abseil/absl/random/internal:distribution_caller",
     "$abseil/absl/random/internal:fast_uniform_bits",
     "$abseil/absl/random/internal:fastmath",

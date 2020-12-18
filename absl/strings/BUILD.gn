@@ -32,10 +32,13 @@ source_set("cord_internal") {
     "internal/cord_internal.h",
     "internal/cord_rep_flat.h",
   ]
+  sources = ["internal/cord_internal.cc"]
   deps = [
     ":strings",
     "$abseil/absl/base:base_internal",
+    "$abseil/absl/base:core_headers",
     "$abseil/absl/container:compressed_tuple",
+    "$abseil/absl/container:inlined_vector",
     "$abseil/absl/meta:type_traits",
   ]
 }
@@ -92,11 +95,11 @@ source_set("str_format_internal") {
   ]
   deps = [
     ":strings",
-    "$abseil/absl/base:bits",
     "$abseil/absl/base:config",
     "$abseil/absl/base:core_headers",
     "$abseil/absl/functional:function_ref",
     "$abseil/absl/meta:type_traits",
+    "$abseil/absl/numeric:bits",
     "$abseil/absl/numeric:int128",
     "$abseil/absl/types:optional",
     "$abseil/absl/types:span",
@@ -144,7 +147,6 @@ source_set("strings") {
   deps = [
     ":internal",
     "$abseil/absl/base:base",
-    "$abseil/absl/base:bits",
     "$abseil/absl/base:config",
     "$abseil/absl/base:core_headers",
     "$abseil/absl/base:endian",
@@ -152,6 +154,7 @@ source_set("strings") {
     "$abseil/absl/base:throw_delegate",
     "$abseil/absl/memory:memory",
     "$abseil/absl/meta:type_traits",
+    "$abseil/absl/numeric:bits",
     "$abseil/absl/numeric:int128",
   ]
 }

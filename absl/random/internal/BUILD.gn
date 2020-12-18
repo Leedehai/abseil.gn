@@ -29,7 +29,7 @@ source_set("fast_uniform_bits") {
 source_set("fastmath") {
   visibility = ["$abseil/:*"]
   public = ["fastmath.h"]
-  deps = ["$abseil/absl/base:bits"]
+  deps = ["$abseil/absl/numeric:bits"]
 }
 
 # absl/random/internal:generate_real
@@ -39,8 +39,8 @@ source_set("generate_real") {
   deps = [
     ":fastmath",
     ":traits",
-    "$abseil/absl/base:bits",
     "$abseil/absl/meta:type_traits",
+    "$abseil/absl/numeric:bits",
   ]
 }
 
@@ -101,6 +101,7 @@ source_set("pcg_engine") {
     ":iostream_state_saver",
     "$abseil/absl/base:config",
     "$abseil/absl/meta:type_traits",
+    "$abseil/absl/numeric:bits",
     "$abseil/absl/numeric:int128",
   ]
 }
@@ -255,8 +256,8 @@ source_set("wide_multiply") {
   public = ["wide_multiply.h"]
   deps = [
     ":traits",
-    "$abseil/absl/base:bits",
     "$abseil/absl/base:config",
+    "$abseil/absl/numeric:bits",
     "$abseil/absl/numeric:int128",
   ]
 }

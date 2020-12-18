@@ -556,6 +556,7 @@ absl_cc_library(
     "cord.h"
   SRCS
     "cord.cc"
+    "internal/cord_internal.cc"
     "internal/cord_internal.h"
     "internal/cord_rep_flat.h"
   COPTS

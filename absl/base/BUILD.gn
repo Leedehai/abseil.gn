@@ -64,15 +64,6 @@ source_set("base_internal") {
   ]
 }
 
-# absl/base:bits
-source_set("bits") {
-  public = ["internal/bits.h"]
-  deps = [
-    ":config",
-    ":core_headers",
-  ]
-}
-
 # absl/base:config
 source_set("config") {
   public = [

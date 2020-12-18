@@ -4,6 +4,18 @@
 # Generated file. Do not modify manually.
 # Source file: absl/numeric/BUILD.bazel
 
+# absl/numeric:bits
+source_set("bits") {
+  public = [
+    "bits.h",
+    "internal/bits.h",
+  ]
+  deps = [
+    "$abseil/absl/base:config",
+    "$abseil/absl/base:core_headers",
+  ]
+}
+
 # absl/numeric:int128
 source_set("int128") {
   public = ["int128.h"]
@@ -13,7 +25,7 @@ source_set("int128") {
     "int128_no_intrinsic.inc",
   ]
   deps = [
-    "$abseil/absl/base:bits",
+    ":bits",
     "$abseil/absl/base:config",
     "$abseil/absl/base:core_headers",
   ]

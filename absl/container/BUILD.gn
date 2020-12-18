@@ -240,12 +240,12 @@ source_set("raw_hash_set") {
     ":hashtablez_sampler",
     ":have_sse",
     ":layout",
-    "$abseil/absl/base:bits",
     "$abseil/absl/base:config",
     "$abseil/absl/base:core_headers",
     "$abseil/absl/base:endian",
     "$abseil/absl/memory:memory",
     "$abseil/absl/meta:type_traits",
+    "$abseil/absl/numeric:bits",
     "$abseil/absl/utility:utility",
   ]
 }
