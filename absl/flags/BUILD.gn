@@ -1,4 +1,4 @@
-# Copyright (c) 2020 Leedehai. All rights reserved.
+# Copyright (c) 2021 Leedehai. All rights reserved.
 # Use of this source code is governed under the MIT license.
 # -----
 # Generated file. Do not modify manually.
@@ -66,7 +66,10 @@ source_set("flag") {
 # absl/flags:flag_internal
 source_set("flag_internal") {
   visibility = ["$abseil/:*"]
-  public = ["internal/flag.h"]
+  public = [
+    "internal/flag.h",
+    "internal/sequence_lock.h",
+  ]
   sources = ["internal/flag.cc"]
   deps = [
     ":commandlineflag",
