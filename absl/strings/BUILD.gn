@@ -31,14 +31,23 @@ source_set("cord_internal") {
   public = [
     "internal/cord_internal.h",
     "internal/cord_rep_flat.h",
+    "internal/cord_rep_ring.h",
+    "internal/cord_rep_ring_reader.h",
   ]
-  sources = ["internal/cord_internal.cc"]
+  sources = [
+    "internal/cord_internal.cc",
+    "internal/cord_rep_ring.cc",
+  ]
   deps = [
     ":strings",
     "$abseil/absl/base:base_internal",
+    "$abseil/absl/base:config",
     "$abseil/absl/base:core_headers",
+    "$abseil/absl/base:raw_logging_internal",
+    "$abseil/absl/base:throw_delegate",
     "$abseil/absl/container:compressed_tuple",
     "$abseil/absl/container:inlined_vector",
+    "$abseil/absl/container:layout",
     "$abseil/absl/meta:type_traits",
   ]
 }

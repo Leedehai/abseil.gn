@@ -1,0 +1,26 @@
+# Copyright (c) 2021 Leedehai. All rights reserved.
+# Use of this source code is governed under the MIT license.
+# -----
+# Generated file. Do not modify manually.
+# Source file: absl/cleanup/BUILD.bazel
+
+# absl/cleanup:cleanup
+source_set("cleanup") {
+  public = ["cleanup.h"]
+  deps = [
+    ":cleanup_internal",
+    "$abseil/absl/base:config",
+    "$abseil/absl/base:core_headers",
+  ]
+}
+
+# absl/cleanup:cleanup_internal
+source_set("cleanup_internal") {
+  visibility = ["$abseil/:*"]
+  public = ["internal/cleanup.h"]
+  deps = [
+    "$abseil/absl/base:base_internal",
+    "$abseil/absl/base:core_headers",
+    "$abseil/absl/utility:utility",
+  ]
+}
