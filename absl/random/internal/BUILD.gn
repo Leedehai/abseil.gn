@@ -154,6 +154,7 @@ source_set("randen_engine") {
   deps = [
     ":iostream_state_saver",
     ":randen",
+    "$abseil/absl/base:endian",
     "$abseil/absl/meta:type_traits",
   ]
 }

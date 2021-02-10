@@ -104,6 +104,7 @@ source_set("endian") {
     "internal/unaligned_access.h",
   ]
   deps = [
+    ":base",
     ":config",
     ":core_headers",
   ]

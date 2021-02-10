@@ -25,6 +25,7 @@ source_set("hash") {
   deps = [
     ":city",
     ":wyhash",
+    "$abseil/absl/base:config",
     "$abseil/absl/base:core_headers",
     "$abseil/absl/base:endian",
     "$abseil/absl/container:fixed_array",

@@ -43,12 +43,16 @@ constexpr bool ReturnsVoid() {
 template <typename Callback>
 class Storage {
  public:
-  explicit Storage(Callback callback)
-      : engaged_(true), callback_(std::move(callback)) {}
+  Storage() = delete;
+
+  Storage(Callback callback, bool is_callback_engaged)
+      : callback_(std::move(callback)),
+        is_callback_engaged_(is_callback_engaged) {}
 
   Storage(Storage&& other)
-      : engaged_(absl::exchange(other.engaged_, false)),
-        callback_(std::move(other.callback_)) {}
+      : callback_(std::move(other.callback_)),
+        is_callback_engaged_(
+            absl::exchange(other.is_callback_engaged_, false)) {}
 
   Storage(const Storage& other) = delete;
 
@@ -56,17 +60,17 @@ class Storage {
 
   Storage& operator=(const Storage& other) = delete;
 
-  bool IsCallbackEngaged() const { return engaged_; }
+  bool IsCallbackEngaged() const { return is_callback_engaged_; }
 
-  void DisengageCallback() { engaged_ = false; }
+  void DisengageCallback() { is_callback_engaged_ = false; }
 
   void InvokeCallback() ABSL_NO_THREAD_SAFETY_ANALYSIS {
     std::move(callback_)();
   }
 
  private:
-  bool engaged_;
   Callback callback_;
+  bool is_callback_engaged_;
 };
 
 }  // namespace cleanup_internal

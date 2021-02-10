@@ -43,6 +43,7 @@ source_set("cord_internal") {
     "$abseil/absl/base:base_internal",
     "$abseil/absl/base:config",
     "$abseil/absl/base:core_headers",
+    "$abseil/absl/base:endian",
     "$abseil/absl/base:raw_logging_internal",
     "$abseil/absl/base:throw_delegate",
     "$abseil/absl/container:compressed_tuple",
