@@ -30,3 +30,9 @@ source_set("int128") {
     "$abseil/absl/base:core_headers",
   ]
 }
+
+# absl/numeric:representation
+source_set("representation") {
+  public = ["internal/representation.h"]
+  deps = ["$abseil/absl/base:config"]
+}

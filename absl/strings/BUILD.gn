@@ -111,6 +111,7 @@ source_set("str_format_internal") {
     "$abseil/absl/meta:type_traits",
     "$abseil/absl/numeric:bits",
     "$abseil/absl/numeric:int128",
+    "$abseil/absl/numeric:representation",
     "$abseil/absl/types:optional",
     "$abseil/absl/types:span",
   ]
