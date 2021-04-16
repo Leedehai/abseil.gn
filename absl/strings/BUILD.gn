@@ -10,6 +10,7 @@ source_set("cord") {
   sources = ["cord.cc"]
   deps = [
     ":cord_internal",
+    ":cordz_update_tracker",
     ":internal",
     ":str_format",
     ":strings",
@@ -51,6 +52,12 @@ source_set("cord_internal") {
     "$abseil/absl/container:layout",
     "$abseil/absl/meta:type_traits",
   ]
+}
+
+# absl/strings:cordz_update_tracker
+source_set("cordz_update_tracker") {
+  public = ["internal/cordz_update_tracker.h"]
+  deps = ["$abseil/absl/base:config"]
 }
 
 # absl/strings:internal
