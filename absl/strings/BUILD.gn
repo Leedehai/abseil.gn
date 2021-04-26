@@ -10,11 +10,16 @@ source_set("cord") {
   sources = ["cord.cc"]
   deps = [
     ":cord_internal",
+    ":cordz_functions",
+    ":cordz_info",
+    ":cordz_statistics",
+    ":cordz_update_scope",
     ":cordz_update_tracker",
     ":internal",
     ":str_format",
     ":strings",
     "$abseil/absl/base:base",
+    "$abseil/absl/base:config",
     "$abseil/absl/base:core_headers",
     "$abseil/absl/base:endian",
     "$abseil/absl/base:raw_logging_internal",
@@ -51,6 +56,79 @@ source_set("cord_internal") {
     "$abseil/absl/container:inlined_vector",
     "$abseil/absl/container:layout",
     "$abseil/absl/meta:type_traits",
+  ]
+}
+
+# absl/strings:cordz_functions
+source_set("cordz_functions") {
+  public = ["internal/cordz_functions.h"]
+  sources = ["internal/cordz_functions.cc"]
+  deps = [
+    "$abseil/absl/base:config",
+    "$abseil/absl/base:core_headers",
+    "$abseil/absl/base:exponential_biased",
+    "$abseil/absl/base:raw_logging_internal",
+  ]
+}
+
+# absl/strings:cordz_handle
+source_set("cordz_handle") {
+  public = ["internal/cordz_handle.h"]
+  sources = ["internal/cordz_handle.cc"]
+  deps = [
+    "$abseil/absl/base:config",
+    "$abseil/absl/base:raw_logging_internal",
+    "$abseil/absl/synchronization:synchronization",
+  ]
+}
+
+# absl/strings:cordz_info
+source_set("cordz_info") {
+  public = ["internal/cordz_info.h"]
+  sources = ["internal/cordz_info.cc"]
+  deps = [
+    ":cord_internal",
+    ":cordz_functions",
+    ":cordz_handle",
+    ":cordz_statistics",
+    ":cordz_update_tracker",
+    "$abseil/absl/base:config",
+    "$abseil/absl/base:core_headers",
+    "$abseil/absl/debugging:stacktrace",
+    "$abseil/absl/synchronization:synchronization",
+    "$abseil/absl/types:span",
+  ]
+}
+
+# absl/strings:cordz_sample_token
+source_set("cordz_sample_token") {
+  public = ["internal/cordz_sample_token.h"]
+  sources = ["internal/cordz_sample_token.cc"]
+  deps = [
+    ":cordz_handle",
+    ":cordz_info",
+    "$abseil/absl/base:config",
+  ]
+}
+
+# absl/strings:cordz_statistics
+source_set("cordz_statistics") {
+  public = ["internal/cordz_statistics.h"]
+  deps = [
+    ":cordz_update_tracker",
+    "$abseil/absl/base:config",
+  ]
+}
+
+# absl/strings:cordz_update_scope
+source_set("cordz_update_scope") {
+  public = ["internal/cordz_update_scope.h"]
+  deps = [
+    ":cord_internal",
+    ":cordz_info",
+    ":cordz_update_tracker",
+    "$abseil/absl/base:config",
+    "$abseil/absl/base:core_headers",
   ]
 }
 
