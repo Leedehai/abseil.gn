@@ -76,6 +76,7 @@ source_set("cordz_handle") {
   public = ["internal/cordz_handle.h"]
   sources = ["internal/cordz_handle.cc"]
   deps = [
+    "$abseil/absl/base:base",
     "$abseil/absl/base:config",
     "$abseil/absl/base:raw_logging_internal",
     "$abseil/absl/synchronization:synchronization",
@@ -92,8 +93,10 @@ source_set("cordz_info") {
     ":cordz_handle",
     ":cordz_statistics",
     ":cordz_update_tracker",
+    "$abseil/absl/base:base",
     "$abseil/absl/base:config",
     "$abseil/absl/base:core_headers",
+    "$abseil/absl/base:raw_logging_internal",
     "$abseil/absl/debugging:stacktrace",
     "$abseil/absl/synchronization:synchronization",
     "$abseil/absl/types:span",

@@ -20,6 +20,8 @@
 #include <functional>
 
 #include "absl/base/config.h"
+#include "absl/base/internal/raw_logging.h"
+#include "absl/base/internal/spinlock.h"
 #include "absl/base/thread_annotations.h"
 #include "absl/strings/internal/cord_internal.h"
 #include "absl/strings/internal/cordz_functions.h"
@@ -79,17 +81,22 @@ class ABSL_LOCKABLE CordzInfo : public CordzHandle {
   // and before the root cordrep of the sampled cord is unreffed.
   // This function may extend the lifetime of the cordrep in cases where the
   // CordInfo instance is being held by a concurrent collection thread.
-  static void UntrackCord(CordzInfo* cordz_info);
+  void Untrack();
+
+  // Invokes UntrackCord() on `info` if `info` is not null.
+  static void MaybeUntrackCord(CordzInfo* info);
 
   CordzInfo() = delete;
   CordzInfo(const CordzInfo&) = delete;
   CordzInfo& operator=(const CordzInfo&) = delete;
 
   // Retrieves the oldest existing CordzInfo.
-  static CordzInfo* Head(const CordzSnapshot& snapshot);
+  static CordzInfo* Head(const CordzSnapshot& snapshot)
+      ABSL_NO_THREAD_SAFETY_ANALYSIS;
 
   // Retrieves the next oldest existing CordzInfo older than 'this' instance.
-  CordzInfo* Next(const CordzSnapshot& snapshot) const;
+  CordzInfo* Next(const CordzSnapshot& snapshot) const
+      ABSL_NO_THREAD_SAFETY_ANALYSIS;
 
   // Locks this instance for the update identified by `method`.
   // Increases the count for `method` in `update_tracker`.
@@ -103,7 +110,7 @@ class ABSL_LOCKABLE CordzInfo : public CordzHandle {
   // Asserts that this CordzInfo instance is locked.
   void AssertHeld() ABSL_ASSERT_EXCLUSIVE_LOCK(mutex_);
 
-  // Updates the `rep' property of this instance. This methods is invoked by
+  // Updates the `rep` property of this instance. This methods is invoked by
   // Cord logic each time the root node of a sampled Cord changes, and before
   // the old root reference count is deleted. This guarantees that collection
   // code can always safely take a reference on the tracked cord.
@@ -111,6 +118,11 @@ class ABSL_LOCKABLE CordzInfo : public CordzHandle {
   // TODO(b/117940323): annotate with ABSL_EXCLUSIVE_LOCKS_REQUIRED once all
   // Cord code is in a state where this can be proven true by the compiler.
   void SetCordRep(CordRep* rep);
+
+  // Returns the current `rep` property of this instance with a reference
+  // added, or null if this instance represents a cord that has since been
+  // deleted or untracked.
+  CordRep* RefCordRep() const ABSL_LOCKS_EXCLUDED(mutex_);
 
   // Returns the current value of `rep_` for testing purposes only.
   CordRep* GetCordRepForTesting() const ABSL_NO_THREAD_SAFETY_ANALYSIS {
@@ -141,14 +153,30 @@ class ABSL_LOCKABLE CordzInfo : public CordzHandle {
   }
 
  private:
+  using SpinLock = absl::base_internal::SpinLock;
+  using SpinLockHolder = ::absl::base_internal::SpinLockHolder;
+
+  // Global cordz info list. CordzInfo stores a pointer to the global list
+  // instance to harden against ODR violations.
+  struct List {
+    constexpr explicit List(absl::ConstInitType)
+        : mutex(absl::kConstInit,
+                absl::base_internal::SCHEDULE_COOPERATIVE_AND_KERNEL) {}
+
+    SpinLock mutex;
+    std::atomic<CordzInfo*> head ABSL_GUARDED_BY(mutex){nullptr};
+  };
+
   static constexpr int kMaxStackDepth = 64;
 
   explicit CordzInfo(CordRep* rep, const CordzInfo* src,
                      MethodIdentifier method);
   ~CordzInfo() override;
 
+  // Sets `rep_` without holding a lock.
+  void UnsafeSetCordRep(CordRep* rep) ABSL_NO_THREAD_SAFETY_ANALYSIS;
+
   void Track();
-  void Untrack();
 
   // Returns the parent method from `src`, which is either `parent_method_` or
   // `method_` depending on `parent_method_` being kUnknown.
@@ -161,23 +189,20 @@ class ABSL_LOCKABLE CordzInfo : public CordzHandle {
   // Returns 0 if `src` is null.
   static int FillParentStack(const CordzInfo* src, void** stack);
 
-  // 'Unsafe' head/next/prev accessors not requiring the lock being held.
-  // These are used exclusively for iterations (Head / Next) where we enforce
-  // a token being held, so reading an 'old' / deleted pointer is fine.
-  static CordzInfo* ci_head_unsafe() ABSL_NO_THREAD_SAFETY_ANALYSIS {
-    return ci_head_.load(std::memory_order_acquire);
-  }
-  CordzInfo* ci_next_unsafe() const ABSL_NO_THREAD_SAFETY_ANALYSIS {
-    return ci_next_.load(std::memory_order_acquire);
-  }
-  CordzInfo* ci_prev_unsafe() const ABSL_NO_THREAD_SAFETY_ANALYSIS {
-    return ci_prev_.load(std::memory_order_acquire);
+  void ODRCheck() const {
+#ifndef NDEBUG
+    ABSL_RAW_CHECK(list_ == &global_list_, "ODR violation in Cord");
+#endif
   }
 
-  static absl::Mutex ci_mutex_;
-  static std::atomic<CordzInfo*> ci_head_ ABSL_GUARDED_BY(ci_mutex_);
-  std::atomic<CordzInfo*> ci_prev_ ABSL_GUARDED_BY(ci_mutex_){nullptr};
-  std::atomic<CordzInfo*> ci_next_ ABSL_GUARDED_BY(ci_mutex_){nullptr};
+  ABSL_CONST_INIT static List global_list_;
+  List* const list_ = &global_list_;
+
+  // ci_prev_ and ci_next_ require the global list mutex to be held.
+  // Unfortunately we can't use thread annotations such that the thread safety
+  // analysis understands that list_ and global_list_ are one and the same.
+  std::atomic<CordzInfo*> ci_prev_{nullptr};
+  std::atomic<CordzInfo*> ci_next_{nullptr};
 
   mutable absl::Mutex mutex_;
   CordRep* rep_ ABSL_GUARDED_BY(mutex_);
@@ -209,6 +234,13 @@ inline ABSL_ATTRIBUTE_ALWAYS_INLINE void CordzInfo::MaybeTrackCord(
   }
 }
 
+inline ABSL_ATTRIBUTE_ALWAYS_INLINE void CordzInfo::MaybeUntrackCord(
+    CordzInfo* info) {
+  if (ABSL_PREDICT_FALSE(info)) {
+    info->Untrack();
+  }
+}
+
 inline void CordzInfo::AssertHeld() ABSL_ASSERT_EXCLUSIVE_LOCK(mutex_) {
 #ifndef NDEBUG
   mutex_.AssertHeld();
@@ -221,6 +253,13 @@ inline void CordzInfo::SetCordRep(CordRep* rep) {
   if (rep) {
     size_.store(rep->length);
   }
+}
+
+inline void CordzInfo::UnsafeSetCordRep(CordRep* rep) { rep_ = rep; }
+
+inline CordRep* CordzInfo::RefCordRep() const ABSL_LOCKS_EXCLUDED(mutex_) {
+  MutexLock lock(&mutex_);
+  return rep_ ? CordRep::Ref(rep_) : nullptr;
 }
 
 }  // namespace cord_internal

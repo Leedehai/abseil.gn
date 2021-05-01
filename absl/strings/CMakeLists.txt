@@ -655,6 +655,7 @@ absl_cc_library(
   COPTS
     ${ABSL_DEFAULT_COPTS}
   DEPS
+    absl::base
     absl::config
     absl::raw_logging_internal
     absl::synchronization
@@ -687,6 +688,7 @@ absl_cc_library(
   COPTS
     ${ABSL_DEFAULT_COPTS}
   DEPS
+    absl::base
     absl::config
     absl::cord_internal
     absl::cordz_functions
@@ -695,6 +697,7 @@ absl_cc_library(
     absl::cordz_update_tracker
     absl::core_headers
     absl::span
+    absl::raw_logging_internal
     absl::stacktrace
     absl::synchronization
 )
@@ -827,8 +830,10 @@ absl_cc_library(
   COPTS
     ${ABSL_TEST_COPTS}
   DEPS
+    absl::config
     absl::cord
     absl::cord_internal
+    absl::strings
   TESTONLY
 )
 
@@ -848,6 +853,7 @@ absl_cc_library(
     absl::cordz_statistics
     absl::cordz_update_tracker
     absl::core_headers
+    absl::strings
   TESTONLY
 )
 
@@ -914,6 +920,7 @@ absl_cc_test(
     ${ABSL_TEST_COPTS}
   DEPS
     absl::cord
+    absl::cord_test_helpers
     absl::cordz_test_helpers
     absl::cordz_functions
     absl::cordz_info
