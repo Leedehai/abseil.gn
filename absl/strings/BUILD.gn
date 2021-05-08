@@ -97,6 +97,7 @@ source_set("cordz_info") {
     "$abseil/absl/base:config",
     "$abseil/absl/base:core_headers",
     "$abseil/absl/base:raw_logging_internal",
+    "$abseil/absl/container:inlined_vector",
     "$abseil/absl/debugging:stacktrace",
     "$abseil/absl/synchronization:synchronization",
     "$abseil/absl/types:span",
