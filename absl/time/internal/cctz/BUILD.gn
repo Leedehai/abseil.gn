@@ -6,6 +6,7 @@
 
 # absl/time/internal/cctz:civil_time
 source_set("civil_time") {
+  include_dirs = ["$abseil/"]
   visibility = ["$abseil/*"]
   public = ["include/cctz/civil_time.h"]
   sources = ["src/civil_time_detail.cc"]
@@ -14,6 +15,7 @@ source_set("civil_time") {
 
 # absl/time/internal/cctz:time_zone
 source_set("time_zone") {
+  include_dirs = ["$abseil/"]
   visibility = ["$abseil/*"]
   public = [
     "include/cctz/time_zone.h",

@@ -6,15 +6,18 @@
 
 # absl/base:atomic_hook
 source_set("atomic_hook") {
+  include_dirs = ["$abseil/"]
   public = ["internal/atomic_hook.h"]
   deps = [
     ":config",
     ":core_headers",
   ]
+  cflags = ["-Wno-gcc-compat"]
 }
 
 # absl/base:base
 source_set("base") {
+  include_dirs = ["$abseil/"]
   public = [
     "call_once.h",
     "casts.h",
@@ -45,11 +48,13 @@ source_set("base") {
     ":spinlock_wait",
     "$abseil/absl/meta:type_traits",
   ]
+  cflags = ["-Wno-gcc-compat"]
   ldflags = ["-pthread"]
 }
 
 # absl/base:base_internal
 source_set("base_internal") {
+  include_dirs = ["$abseil/"]
   visibility = ["$abseil/*"]
   public = [
     "internal/hide_ptr.h",
@@ -62,19 +67,23 @@ source_set("base_internal") {
     ":config",
     "$abseil/absl/meta:type_traits",
   ]
+  cflags = ["-Wno-gcc-compat"]
 }
 
 # absl/base:config
 source_set("config") {
+  include_dirs = ["$abseil/"]
   public = [
     "config.h",
     "options.h",
     "policy_checks.h",
   ]
+  cflags = ["-Wno-gcc-compat"]
 }
 
 # absl/base:core_headers
 source_set("core_headers") {
+  include_dirs = ["$abseil/"]
   public = [
     "attributes.h",
     "const_init.h",
@@ -85,20 +94,24 @@ source_set("core_headers") {
   ]
   sources = ["internal/thread_annotations.h"]
   deps = [":config"]
+  cflags = ["-Wno-gcc-compat"]
 }
 
 # absl/base:dynamic_annotations
 source_set("dynamic_annotations") {
+  include_dirs = ["$abseil/"]
   public = ["dynamic_annotations.h"]
   sources = ["internal/dynamic_annotations.h"]
   deps = [
     ":config",
     ":core_headers",
   ]
+  cflags = ["-Wno-gcc-compat"]
 }
 
 # absl/base:endian
 source_set("endian") {
+  include_dirs = ["$abseil/"]
   public = [
     "internal/endian.h",
     "internal/unaligned_access.h",
@@ -108,16 +121,20 @@ source_set("endian") {
     ":config",
     ":core_headers",
   ]
+  cflags = ["-Wno-gcc-compat"]
 }
 
 # absl/base:errno_saver
 source_set("errno_saver") {
+  include_dirs = ["$abseil/"]
   public = ["internal/errno_saver.h"]
   deps = [":config"]
+  cflags = ["-Wno-gcc-compat"]
 }
 
 # absl/base:exponential_biased
 source_set("exponential_biased") {
+  include_dirs = ["$abseil/"]
   public = ["internal/exponential_biased.h"]
   sources = ["internal/exponential_biased.cc"]
   deps = [
@@ -128,22 +145,27 @@ source_set("exponential_biased") {
 
 # absl/base:fast_type_id
 source_set("fast_type_id") {
+  include_dirs = ["$abseil/"]
   public = ["internal/fast_type_id.h"]
   deps = [":config"]
+  cflags = ["-Wno-gcc-compat"]
 }
 
 # absl/base:log_severity
 source_set("log_severity") {
+  include_dirs = ["$abseil/"]
   public = ["log_severity.h"]
   sources = ["log_severity.cc"]
   deps = [
     ":config",
     ":core_headers",
   ]
+  cflags = ["-Wno-gcc-compat"]
 }
 
 # absl/base:malloc_internal
 source_set("malloc_internal") {
+  include_dirs = ["$abseil/"]
   visibility = ["$abseil/*"]
   public = [
     "internal/direct_mmap.h",
@@ -158,26 +180,31 @@ source_set("malloc_internal") {
     ":dynamic_annotations",
     ":raw_logging_internal",
   ]
+  cflags = ["-Wno-gcc-compat"]
   ldflags = ["-pthread"]
 }
 
 # absl/base:periodic_sampler
 source_set("periodic_sampler") {
+  include_dirs = ["$abseil/"]
   public = ["internal/periodic_sampler.h"]
   sources = ["internal/periodic_sampler.cc"]
   deps = [
     ":core_headers",
     ":exponential_biased",
   ]
+  cflags = ["-Wno-gcc-compat"]
 }
 
 # absl/base:pretty_function
 source_set("pretty_function") {
+  include_dirs = ["$abseil/"]
   public = ["internal/pretty_function.h"]
 }
 
 # absl/base:raw_logging_internal
 source_set("raw_logging_internal") {
+  include_dirs = ["$abseil/"]
   visibility = ["$abseil/*"]
   public = ["internal/raw_logging.h"]
   sources = ["internal/raw_logging.cc"]
@@ -187,10 +214,12 @@ source_set("raw_logging_internal") {
     ":core_headers",
     ":log_severity",
   ]
+  cflags = ["-Wno-gcc-compat"]
 }
 
 # absl/base:spinlock_wait
 source_set("spinlock_wait") {
+  include_dirs = ["$abseil/"]
   public = ["internal/spinlock_wait.h"]
   sources = [
     "internal/spinlock_akaros.inc",
@@ -204,10 +233,12 @@ source_set("spinlock_wait") {
     ":core_headers",
     ":errno_saver",
   ]
+  cflags = ["-Wno-gcc-compat"]
 }
 
 # absl/base:strerror
 source_set("strerror") {
+  include_dirs = ["$abseil/"]
   public = ["internal/strerror.h"]
   sources = ["internal/strerror.cc"]
   deps = [
@@ -215,14 +246,17 @@ source_set("strerror") {
     ":core_headers",
     ":errno_saver",
   ]
+  cflags = ["-Wno-gcc-compat"]
 }
 
 # absl/base:throw_delegate
 source_set("throw_delegate") {
+  include_dirs = ["$abseil/"]
   public = ["internal/throw_delegate.h"]
   sources = ["internal/throw_delegate.cc"]
   deps = [
     ":config",
     ":raw_logging_internal",
   ]
+  cflags = ["-Wno-gcc-compat"]
 }

@@ -6,6 +6,7 @@
 
 # absl/strings:cord
 source_set("cord") {
+  include_dirs = ["$abseil/"]
   public = ["cord.h"]
   sources = ["cord.cc"]
   deps = [
@@ -29,10 +30,12 @@ source_set("cord") {
     "$abseil/absl/meta:type_traits",
     "$abseil/absl/types:optional",
   ]
+  cflags = ["-Wno-gcc-compat"]
 }
 
 # absl/strings:cord_internal
 source_set("cord_internal") {
+  include_dirs = ["$abseil/"]
   visibility = ["$abseil/*"]
   public = [
     "internal/cord_internal.h",
@@ -57,10 +60,12 @@ source_set("cord_internal") {
     "$abseil/absl/container:layout",
     "$abseil/absl/meta:type_traits",
   ]
+  cflags = ["-Wno-gcc-compat"]
 }
 
 # absl/strings:cordz_functions
 source_set("cordz_functions") {
+  include_dirs = ["$abseil/"]
   public = ["internal/cordz_functions.h"]
   sources = ["internal/cordz_functions.cc"]
   deps = [
@@ -69,10 +74,12 @@ source_set("cordz_functions") {
     "$abseil/absl/base:exponential_biased",
     "$abseil/absl/base:raw_logging_internal",
   ]
+  cflags = ["-Wno-gcc-compat"]
 }
 
 # absl/strings:cordz_handle
 source_set("cordz_handle") {
+  include_dirs = ["$abseil/"]
   public = ["internal/cordz_handle.h"]
   sources = ["internal/cordz_handle.cc"]
   deps = [
@@ -81,10 +88,12 @@ source_set("cordz_handle") {
     "$abseil/absl/base:raw_logging_internal",
     "$abseil/absl/synchronization:synchronization",
   ]
+  cflags = ["-Wno-gcc-compat"]
 }
 
 # absl/strings:cordz_info
 source_set("cordz_info") {
+  include_dirs = ["$abseil/"]
   public = ["internal/cordz_info.h"]
   sources = ["internal/cordz_info.cc"]
   deps = [
@@ -102,10 +111,12 @@ source_set("cordz_info") {
     "$abseil/absl/synchronization:synchronization",
     "$abseil/absl/types:span",
   ]
+  cflags = ["-Wno-gcc-compat"]
 }
 
 # absl/strings:cordz_sample_token
 source_set("cordz_sample_token") {
+  include_dirs = ["$abseil/"]
   public = ["internal/cordz_sample_token.h"]
   sources = ["internal/cordz_sample_token.cc"]
   deps = [
@@ -113,19 +124,23 @@ source_set("cordz_sample_token") {
     ":cordz_info",
     "$abseil/absl/base:config",
   ]
+  cflags = ["-Wno-gcc-compat"]
 }
 
 # absl/strings:cordz_statistics
 source_set("cordz_statistics") {
+  include_dirs = ["$abseil/"]
   public = ["internal/cordz_statistics.h"]
   deps = [
     ":cordz_update_tracker",
     "$abseil/absl/base:config",
   ]
+  cflags = ["-Wno-gcc-compat"]
 }
 
 # absl/strings:cordz_update_scope
 source_set("cordz_update_scope") {
+  include_dirs = ["$abseil/"]
   public = ["internal/cordz_update_scope.h"]
   deps = [
     ":cord_internal",
@@ -134,16 +149,20 @@ source_set("cordz_update_scope") {
     "$abseil/absl/base:config",
     "$abseil/absl/base:core_headers",
   ]
+  cflags = ["-Wno-gcc-compat"]
 }
 
 # absl/strings:cordz_update_tracker
 source_set("cordz_update_tracker") {
+  include_dirs = ["$abseil/"]
   public = ["internal/cordz_update_tracker.h"]
   deps = ["$abseil/absl/base:config"]
+  cflags = ["-Wno-gcc-compat"]
 }
 
 # absl/strings:internal
 source_set("internal") {
+  include_dirs = ["$abseil/"]
   visibility = ["$abseil/*"]
   public = [
     "internal/char_map.h",
@@ -164,16 +183,20 @@ source_set("internal") {
     "$abseil/absl/base:raw_logging_internal",
     "$abseil/absl/meta:type_traits",
   ]
+  cflags = ["-Wno-gcc-compat"]
 }
 
 # absl/strings:str_format
 source_set("str_format") {
+  include_dirs = ["$abseil/"]
   public = ["str_format.h"]
   deps = [":str_format_internal"]
+  cflags = ["-Wno-gcc-compat"]
 }
 
 # absl/strings:str_format_internal
 source_set("str_format_internal") {
+  include_dirs = ["$abseil/"]
   visibility = ["$abseil/*"]
   public = [
     "internal/str_format/arg.h",
@@ -204,10 +227,12 @@ source_set("str_format_internal") {
     "$abseil/absl/types:optional",
     "$abseil/absl/types:span",
   ]
+  cflags = ["-Wno-gcc-compat"]
 }
 
 # absl/strings:strings
 source_set("strings") {
+  include_dirs = ["$abseil/"]
   public = [
     "ascii.h",
     "charconv.h",
@@ -257,4 +282,5 @@ source_set("strings") {
     "$abseil/absl/numeric:bits",
     "$abseil/absl/numeric:int128",
   ]
+  cflags = ["-Wno-gcc-compat"]
 }

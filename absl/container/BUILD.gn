@@ -6,6 +6,7 @@
 
 # absl/container:btree
 source_set("btree") {
+  include_dirs = ["$abseil/"]
   public = [
     "btree_map.h",
     "btree_set.h",
@@ -28,25 +29,31 @@ source_set("btree") {
     "$abseil/absl/types:compare",
     "$abseil/absl/utility:utility",
   ]
+  cflags = ["-Wno-gcc-compat"]
 }
 
 # absl/container:common
 source_set("common") {
+  include_dirs = ["$abseil/"]
   public = ["internal/common.h"]
   deps = [
     "$abseil/absl/meta:type_traits",
     "$abseil/absl/types:optional",
   ]
+  cflags = ["-Wno-gcc-compat"]
 }
 
 # absl/container:compressed_tuple
 source_set("compressed_tuple") {
+  include_dirs = ["$abseil/"]
   public = ["internal/compressed_tuple.h"]
   deps = ["$abseil/absl/utility:utility"]
+  cflags = ["-Wno-gcc-compat"]
 }
 
 # absl/container:container_memory
 source_set("container_memory") {
+  include_dirs = ["$abseil/"]
   public = ["internal/container_memory.h"]
   deps = [
     "$abseil/absl/base:config",
@@ -54,10 +61,12 @@ source_set("container_memory") {
     "$abseil/absl/meta:type_traits",
     "$abseil/absl/utility:utility",
   ]
+  cflags = ["-Wno-gcc-compat"]
 }
 
 # absl/container:fixed_array
 source_set("fixed_array") {
+  include_dirs = ["$abseil/"]
   public = ["fixed_array.h"]
   deps = [
     ":compressed_tuple",
@@ -68,10 +77,12 @@ source_set("fixed_array") {
     "$abseil/absl/base:throw_delegate",
     "$abseil/absl/memory:memory",
   ]
+  cflags = ["-Wno-gcc-compat"]
 }
 
 # absl/container:flat_hash_map
 source_set("flat_hash_map") {
+  include_dirs = ["$abseil/"]
   public = ["flat_hash_map.h"]
   deps = [
     ":container_memory",
@@ -80,10 +91,12 @@ source_set("flat_hash_map") {
     "$abseil/absl/algorithm:container",
     "$abseil/absl/memory:memory",
   ]
+  cflags = ["-Wno-gcc-compat"]
 }
 
 # absl/container:flat_hash_set
 source_set("flat_hash_set") {
+  include_dirs = ["$abseil/"]
   public = ["flat_hash_set.h"]
   deps = [
     ":container_memory",
@@ -93,10 +106,12 @@ source_set("flat_hash_set") {
     "$abseil/absl/base:core_headers",
     "$abseil/absl/memory:memory",
   ]
+  cflags = ["-Wno-gcc-compat"]
 }
 
 # absl/container:hash_function_defaults
 source_set("hash_function_defaults") {
+  include_dirs = ["$abseil/"]
   public = ["internal/hash_function_defaults.h"]
   deps = [
     "$abseil/absl/base:config",
@@ -104,28 +119,36 @@ source_set("hash_function_defaults") {
     "$abseil/absl/strings:cord",
     "$abseil/absl/strings:strings",
   ]
+  cflags = ["-Wno-gcc-compat"]
 }
 
 # absl/container:hash_policy_traits
 source_set("hash_policy_traits") {
+  include_dirs = ["$abseil/"]
   public = ["internal/hash_policy_traits.h"]
   deps = ["$abseil/absl/meta:type_traits"]
+  cflags = ["-Wno-gcc-compat"]
 }
 
 # absl/container:hashtable_debug
 source_set("hashtable_debug") {
+  include_dirs = ["$abseil/"]
   public = ["internal/hashtable_debug.h"]
   deps = [":hashtable_debug_hooks"]
+  cflags = ["-Wno-gcc-compat"]
 }
 
 # absl/container:hashtable_debug_hooks
 source_set("hashtable_debug_hooks") {
+  include_dirs = ["$abseil/"]
   public = ["internal/hashtable_debug_hooks.h"]
   deps = ["$abseil/absl/base:config"]
+  cflags = ["-Wno-gcc-compat"]
 }
 
 # absl/container:hashtablez_sampler
 source_set("hashtablez_sampler") {
+  include_dirs = ["$abseil/"]
   public = ["internal/hashtablez_sampler.h"]
   sources = [
     "internal/hashtablez_sampler.cc",
@@ -141,15 +164,19 @@ source_set("hashtablez_sampler") {
     "$abseil/absl/synchronization:synchronization",
     "$abseil/absl/utility:utility",
   ]
+  cflags = ["-Wno-gcc-compat"]
 }
 
 # absl/container:have_sse
 source_set("have_sse") {
+  include_dirs = ["$abseil/"]
   public = ["internal/have_sse.h"]
+  cflags = ["-Wno-gcc-compat"]
 }
 
 # absl/container:inlined_vector
 source_set("inlined_vector") {
+  include_dirs = ["$abseil/"]
   public = ["inlined_vector.h"]
   deps = [
     ":inlined_vector_internal",
@@ -158,10 +185,12 @@ source_set("inlined_vector") {
     "$abseil/absl/base:throw_delegate",
     "$abseil/absl/memory:memory",
   ]
+  cflags = ["-Wno-gcc-compat"]
 }
 
 # absl/container:inlined_vector_internal
 source_set("inlined_vector_internal") {
+  include_dirs = ["$abseil/"]
   visibility = ["$abseil/*"]
   public = ["internal/inlined_vector.h"]
   deps = [
@@ -171,10 +200,12 @@ source_set("inlined_vector_internal") {
     "$abseil/absl/meta:type_traits",
     "$abseil/absl/types:span",
   ]
+  cflags = ["-Wno-gcc-compat"]
 }
 
 # absl/container:layout
 source_set("layout") {
+  include_dirs = ["$abseil/"]
   public = ["internal/layout.h"]
   deps = [
     "$abseil/absl/base:config",
@@ -184,10 +215,12 @@ source_set("layout") {
     "$abseil/absl/types:span",
     "$abseil/absl/utility:utility",
   ]
+  cflags = ["-Wno-gcc-compat"]
 }
 
 # absl/container:node_hash_map
 source_set("node_hash_map") {
+  include_dirs = ["$abseil/"]
   public = ["node_hash_map.h"]
   deps = [
     ":container_memory",
@@ -197,16 +230,20 @@ source_set("node_hash_map") {
     "$abseil/absl/algorithm:container",
     "$abseil/absl/memory:memory",
   ]
+  cflags = ["-Wno-gcc-compat"]
 }
 
 # absl/container:node_hash_policy
 source_set("node_hash_policy") {
+  include_dirs = ["$abseil/"]
   public = ["internal/node_hash_policy.h"]
   deps = ["$abseil/absl/base:config"]
+  cflags = ["-Wno-gcc-compat"]
 }
 
 # absl/container:node_hash_set
 source_set("node_hash_set") {
+  include_dirs = ["$abseil/"]
   public = ["node_hash_set.h"]
   deps = [
     ":hash_function_defaults",
@@ -215,20 +252,24 @@ source_set("node_hash_set") {
     "$abseil/absl/algorithm:container",
     "$abseil/absl/memory:memory",
   ]
+  cflags = ["-Wno-gcc-compat"]
 }
 
 # absl/container:raw_hash_map
 source_set("raw_hash_map") {
+  include_dirs = ["$abseil/"]
   public = ["internal/raw_hash_map.h"]
   deps = [
     ":container_memory",
     ":raw_hash_set",
     "$abseil/absl/base:throw_delegate",
   ]
+  cflags = ["-Wno-gcc-compat"]
 }
 
 # absl/container:raw_hash_set
 source_set("raw_hash_set") {
+  include_dirs = ["$abseil/"]
   public = ["internal/raw_hash_set.h"]
   sources = ["internal/raw_hash_set.cc"]
   deps = [
@@ -248,4 +289,5 @@ source_set("raw_hash_set") {
     "$abseil/absl/numeric:bits",
     "$abseil/absl/utility:utility",
   ]
+  cflags = ["-Wno-gcc-compat"]
 }

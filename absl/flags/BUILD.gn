@@ -6,6 +6,7 @@
 
 # absl/flags:commandlineflag
 source_set("commandlineflag") {
+  include_dirs = ["$abseil/"]
   public = ["commandlineflag.h"]
   sources = ["commandlineflag.cc"]
   deps = [
@@ -15,10 +16,12 @@ source_set("commandlineflag") {
     "$abseil/absl/strings:strings",
     "$abseil/absl/types:optional",
   ]
+  cflags = ["-Wno-gcc-compat"]
 }
 
 # absl/flags:commandlineflag_internal
 source_set("commandlineflag_internal") {
+  include_dirs = ["$abseil/"]
   visibility = ["$abseil/*"]
   public = ["internal/commandlineflag.h"]
   sources = ["internal/commandlineflag.cc"]
@@ -26,10 +29,12 @@ source_set("commandlineflag_internal") {
     "$abseil/absl/base:config",
     "$abseil/absl/base:fast_type_id",
   ]
+  cflags = ["-Wno-gcc-compat"]
 }
 
 # absl/flags:config
 source_set("config") {
+  include_dirs = ["$abseil/"]
   public = [
     "config.h",
     "usage_config.h",
@@ -43,10 +48,12 @@ source_set("config") {
     "$abseil/absl/strings:strings",
     "$abseil/absl/synchronization:synchronization",
   ]
+  cflags = ["-Wno-gcc-compat"]
 }
 
 # absl/flags:flag
 source_set("flag") {
+  include_dirs = ["$abseil/"]
   public = [
     "declare.h",
     "flag.h",
@@ -61,10 +68,12 @@ source_set("flag") {
     "$abseil/absl/base:core_headers",
     "$abseil/absl/strings:strings",
   ]
+  cflags = ["-Wno-gcc-compat"]
 }
 
 # absl/flags:flag_internal
 source_set("flag_internal") {
+  include_dirs = ["$abseil/"]
   visibility = ["$abseil/*"]
   public = [
     "internal/flag.h",
@@ -86,10 +95,12 @@ source_set("flag_internal") {
     "$abseil/absl/synchronization:synchronization",
     "$abseil/absl/utility:utility",
   ]
+  cflags = ["-Wno-gcc-compat"]
 }
 
 # absl/flags:marshalling
 source_set("marshalling") {
+  include_dirs = ["$abseil/"]
   public = ["marshalling.h"]
   sources = ["marshalling.cc"]
   deps = [
@@ -99,10 +110,12 @@ source_set("marshalling") {
     "$abseil/absl/strings:str_format",
     "$abseil/absl/strings:strings",
   ]
+  cflags = ["-Wno-gcc-compat"]
 }
 
 # absl/flags:parse
 source_set("parse") {
+  include_dirs = ["$abseil/"]
   public = [
     "internal/parse.h",
     "parse.h",
@@ -124,19 +137,23 @@ source_set("parse") {
     "$abseil/absl/strings:strings",
     "$abseil/absl/synchronization:synchronization",
   ]
+  cflags = ["-Wno-gcc-compat"]
 }
 
 # absl/flags:path_util
 source_set("path_util") {
+  include_dirs = ["$abseil/"]
   public = ["internal/path_util.h"]
   deps = [
     "$abseil/absl/base:config",
     "$abseil/absl/strings:strings",
   ]
+  cflags = ["-Wno-gcc-compat"]
 }
 
 # absl/flags:private_handle_accessor
 source_set("private_handle_accessor") {
+  include_dirs = ["$abseil/"]
   public = ["internal/private_handle_accessor.h"]
   sources = ["internal/private_handle_accessor.cc"]
   deps = [
@@ -145,10 +162,12 @@ source_set("private_handle_accessor") {
     "$abseil/absl/base:config",
     "$abseil/absl/strings:strings",
   ]
+  cflags = ["-Wno-gcc-compat"]
 }
 
 # absl/flags:program_name
 source_set("program_name") {
+  include_dirs = ["$abseil/"]
   public = ["internal/program_name.h"]
   sources = ["internal/program_name.cc"]
   deps = [
@@ -158,10 +177,12 @@ source_set("program_name") {
     "$abseil/absl/strings:strings",
     "$abseil/absl/synchronization:synchronization",
   ]
+  cflags = ["-Wno-gcc-compat"]
 }
 
 # absl/flags:reflection
 source_set("reflection") {
+  include_dirs = ["$abseil/"]
   public = [
     "internal/registry.h",
     "reflection.h",
@@ -178,10 +199,12 @@ source_set("reflection") {
     "$abseil/absl/strings:strings",
     "$abseil/absl/synchronization:synchronization",
   ]
+  cflags = ["-Wno-gcc-compat"]
 }
 
 # absl/flags:usage
 source_set("usage") {
+  include_dirs = ["$abseil/"]
   public = ["usage.h"]
   sources = ["usage.cc"]
   deps = [
@@ -191,10 +214,12 @@ source_set("usage") {
     "$abseil/absl/strings:strings",
     "$abseil/absl/synchronization:synchronization",
   ]
+  cflags = ["-Wno-gcc-compat"]
 }
 
 # absl/flags:usage_internal
 source_set("usage_internal") {
+  include_dirs = ["$abseil/"]
   visibility = ["$abseil/*"]
   public = ["internal/usage.h"]
   sources = ["internal/usage.cc"]
@@ -211,4 +236,5 @@ source_set("usage_internal") {
     "$abseil/absl/base:core_headers",
     "$abseil/absl/strings:strings",
   ]
+  cflags = ["-Wno-gcc-compat"]
 }

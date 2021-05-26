@@ -6,6 +6,7 @@
 
 # absl/numeric:bits
 source_set("bits") {
+  include_dirs = ["$abseil/"]
   public = [
     "bits.h",
     "internal/bits.h",
@@ -14,10 +15,12 @@ source_set("bits") {
     "$abseil/absl/base:config",
     "$abseil/absl/base:core_headers",
   ]
+  cflags = ["-Wno-gcc-compat"]
 }
 
 # absl/numeric:int128
 source_set("int128") {
+  include_dirs = ["$abseil/"]
   public = ["int128.h"]
   sources = [
     "int128.cc",
@@ -29,10 +32,13 @@ source_set("int128") {
     "$abseil/absl/base:config",
     "$abseil/absl/base:core_headers",
   ]
+  cflags = ["-Wno-gcc-compat"]
 }
 
 # absl/numeric:representation
 source_set("representation") {
+  include_dirs = ["$abseil/"]
   public = ["internal/representation.h"]
   deps = ["$abseil/absl/base:config"]
+  cflags = ["-Wno-gcc-compat"]
 }

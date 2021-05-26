@@ -6,6 +6,7 @@
 
 # absl/random/internal:distribution_caller
 source_set("distribution_caller") {
+  include_dirs = ["$abseil/"]
   visibility = ["$abseil/*"]
   public = ["distribution_caller.h"]
   deps = [
@@ -13,27 +14,33 @@ source_set("distribution_caller") {
     "$abseil/absl/base:fast_type_id",
     "$abseil/absl/utility:utility",
   ]
+  cflags = ["-Wno-gcc-compat"]
 }
 
 # absl/random/internal:fast_uniform_bits
 source_set("fast_uniform_bits") {
+  include_dirs = ["$abseil/"]
   visibility = ["$abseil/*"]
   public = ["fast_uniform_bits.h"]
   deps = [
     "$abseil/absl/base:config",
     "$abseil/absl/meta:type_traits",
   ]
+  cflags = ["-Wno-gcc-compat"]
 }
 
 # absl/random/internal:fastmath
 source_set("fastmath") {
+  include_dirs = ["$abseil/"]
   visibility = ["$abseil/*"]
   public = ["fastmath.h"]
   deps = ["$abseil/absl/numeric:bits"]
+  cflags = ["-Wno-gcc-compat"]
 }
 
 # absl/random/internal:generate_real
 source_set("generate_real") {
+  include_dirs = ["$abseil/"]
   visibility = ["$abseil/*"]
   public = ["generate_real.h"]
   deps = [
@@ -42,20 +49,24 @@ source_set("generate_real") {
     "$abseil/absl/meta:type_traits",
     "$abseil/absl/numeric:bits",
   ]
+  cflags = ["-Wno-gcc-compat"]
 }
 
 # absl/random/internal:iostream_state_saver
 source_set("iostream_state_saver") {
+  include_dirs = ["$abseil/"]
   visibility = ["$abseil/*"]
   public = ["iostream_state_saver.h"]
   deps = [
     "$abseil/absl/meta:type_traits",
     "$abseil/absl/numeric:int128",
   ]
+  cflags = ["-Wno-gcc-compat"]
 }
 
 # absl/random/internal:mock_helpers
 source_set("mock_helpers") {
+  include_dirs = ["$abseil/"]
   visibility = ["$abseil/*"]
   public = ["mock_helpers.h"]
   deps = [
@@ -66,6 +77,7 @@ source_set("mock_helpers") {
 
 # absl/random/internal:nanobenchmark
 source_set("nanobenchmark") {
+  include_dirs = ["$abseil/"]
   visibility = ["$abseil/*"]
   sources = ["nanobenchmark.cc"]
   deps = [
@@ -79,6 +91,7 @@ source_set("nanobenchmark") {
 
 # absl/random/internal:nonsecure_base
 source_set("nonsecure_base") {
+  include_dirs = ["$abseil/"]
   visibility = ["$abseil/*"]
   public = ["nonsecure_base.h"]
   deps = [
@@ -90,10 +103,12 @@ source_set("nonsecure_base") {
     "$abseil/absl/types:optional",
     "$abseil/absl/types:span",
   ]
+  cflags = ["-Wno-gcc-compat"]
 }
 
 # absl/random/internal:pcg_engine
 source_set("pcg_engine") {
+  include_dirs = ["$abseil/"]
   visibility = ["$abseil/*"]
   public = ["pcg_engine.h"]
   deps = [
@@ -104,18 +119,22 @@ source_set("pcg_engine") {
     "$abseil/absl/numeric:bits",
     "$abseil/absl/numeric:int128",
   ]
+  cflags = ["-Wno-gcc-compat"]
 }
 
 # absl/random/internal:platform
 source_set("platform") {
+  include_dirs = ["$abseil/"]
   visibility = ["$abseil/*"]
   public = ["randen_traits.h"]
   sources = ["randen_round_keys.cc"]
   deps = ["$abseil/absl/base:config"]
+  cflags = ["-Wno-gcc-compat"]
 }
 
 # absl/random/internal:pool_urbg
 source_set("pool_urbg") {
+  include_dirs = ["$abseil/"]
   visibility = ["$abseil/*"]
   public = ["pool_urbg.h"]
   sources = ["pool_urbg.cc"]
@@ -131,11 +150,13 @@ source_set("pool_urbg") {
     "$abseil/absl/random:seed_gen_exception",
     "$abseil/absl/types:span",
   ]
+  cflags = ["-Wno-gcc-compat"]
   ldflags = ["-pthread"]
 }
 
 # absl/random/internal:randen
 source_set("randen") {
+  include_dirs = ["$abseil/"]
   visibility = ["$abseil/*"]
   public = ["randen.h"]
   sources = ["randen.cc"]
@@ -145,10 +166,12 @@ source_set("randen") {
     ":randen_slow",
     "$abseil/absl/base:raw_logging_internal",
   ]
+  cflags = ["-Wno-gcc-compat"]
 }
 
 # absl/random/internal:randen_engine
 source_set("randen_engine") {
+  include_dirs = ["$abseil/"]
   visibility = ["$abseil/*"]
   public = ["randen_engine.h"]
   deps = [
@@ -157,10 +180,12 @@ source_set("randen_engine") {
     "$abseil/absl/base:endian",
     "$abseil/absl/meta:type_traits",
   ]
+  cflags = ["-Wno-gcc-compat"]
 }
 
 # absl/random/internal:randen_hwaes
 source_set("randen_hwaes") {
+  include_dirs = ["$abseil/"]
   visibility = ["$abseil/*"]
   public = [
     "randen_detect.h",
@@ -172,10 +197,12 @@ source_set("randen_hwaes") {
     ":randen_hwaes_impl",
     "$abseil/absl/base:config",
   ]
+  cflags = ["-Wno-gcc-compat"]
 }
 
 # absl/random/internal:randen_hwaes_impl
 source_set("randen_hwaes_impl") {
+  include_dirs = ["$abseil/"]
   visibility = ["$abseil/*"]
   sources = [
     "randen_hwaes.cc",
@@ -187,6 +214,7 @@ source_set("randen_hwaes_impl") {
     "$abseil/absl/base:core_headers",
   ]
   cflags = [
+    "-Wno-gcc-compat",
     "-Wno-pass-failed",
     "-maes",
     "-msse4.1",
@@ -195,6 +223,7 @@ source_set("randen_hwaes_impl") {
 
 # absl/random/internal:randen_slow
 source_set("randen_slow") {
+  include_dirs = ["$abseil/"]
   visibility = ["$abseil/*"]
   public = ["randen_slow.h"]
   sources = ["randen_slow.cc"]
@@ -203,10 +232,12 @@ source_set("randen_slow") {
     "$abseil/absl/base:config",
     "$abseil/absl/base:core_headers",
   ]
+  cflags = ["-Wno-gcc-compat"]
 }
 
 # absl/random/internal:salted_seed_seq
 source_set("salted_seed_seq") {
+  include_dirs = ["$abseil/"]
   visibility = ["$abseil/*"]
   public = ["salted_seed_seq.h"]
   deps = [
@@ -216,10 +247,12 @@ source_set("salted_seed_seq") {
     "$abseil/absl/types:optional",
     "$abseil/absl/types:span",
   ]
+  cflags = ["-Wno-gcc-compat"]
 }
 
 # absl/random/internal:seed_material
 source_set("seed_material") {
+  include_dirs = ["$abseil/"]
   visibility = ["$abseil/*"]
   public = ["seed_material.h"]
   sources = ["seed_material.cc"]
@@ -231,17 +264,21 @@ source_set("seed_material") {
     "$abseil/absl/types:optional",
     "$abseil/absl/types:span",
   ]
+  cflags = ["-Wno-gcc-compat"]
 }
 
 # absl/random/internal:traits
 source_set("traits") {
+  include_dirs = ["$abseil/"]
   visibility = ["$abseil/*"]
   public = ["traits.h"]
   deps = ["$abseil/absl/base:config"]
+  cflags = ["-Wno-gcc-compat"]
 }
 
 # absl/random/internal:uniform_helper
 source_set("uniform_helper") {
+  include_dirs = ["$abseil/"]
   visibility = ["$abseil/*"]
   public = ["uniform_helper.h"]
   deps = [
@@ -249,10 +286,12 @@ source_set("uniform_helper") {
     "$abseil/absl/base:config",
     "$abseil/absl/meta:type_traits",
   ]
+  cflags = ["-Wno-gcc-compat"]
 }
 
 # absl/random/internal:wide_multiply
 source_set("wide_multiply") {
+  include_dirs = ["$abseil/"]
   visibility = ["$abseil/*"]
   public = ["wide_multiply.h"]
   deps = [
@@ -261,4 +300,5 @@ source_set("wide_multiply") {
     "$abseil/absl/numeric:bits",
     "$abseil/absl/numeric:int128",
   ]
+  cflags = ["-Wno-gcc-compat"]
 }

@@ -6,6 +6,7 @@
 
 # absl/synchronization:graphcycles_internal
 source_set("graphcycles_internal") {
+  include_dirs = ["$abseil/"]
   visibility = ["$abseil/*"]
   public = ["internal/graphcycles.h"]
   sources = ["internal/graphcycles.cc"]
@@ -17,10 +18,12 @@ source_set("graphcycles_internal") {
     "$abseil/absl/base:malloc_internal",
     "$abseil/absl/base:raw_logging_internal",
   ]
+  cflags = ["-Wno-gcc-compat"]
 }
 
 # absl/synchronization:kernel_timeout_internal
 source_set("kernel_timeout_internal") {
+  include_dirs = ["$abseil/"]
   visibility = ["$abseil/*"]
   public = ["internal/kernel_timeout.h"]
   deps = [
@@ -28,10 +31,12 @@ source_set("kernel_timeout_internal") {
     "$abseil/absl/base:raw_logging_internal",
     "$abseil/absl/time:time",
   ]
+  cflags = ["-Wno-gcc-compat"]
 }
 
 # absl/synchronization:synchronization
 source_set("synchronization") {
+  include_dirs = ["$abseil/"]
   public = [
     "barrier.h",
     "blocking_counter.h",
@@ -66,5 +71,6 @@ source_set("synchronization") {
     "$abseil/absl/debugging:symbolize",
     "$abseil/absl/time:time",
   ]
+  cflags = ["-Wno-gcc-compat"]
   ldflags = ["-pthread"]
 }

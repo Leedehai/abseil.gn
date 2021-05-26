@@ -6,6 +6,7 @@
 
 # absl/random:bit_gen_ref
 source_set("bit_gen_ref") {
+  include_dirs = ["$abseil/"]
   public = ["bit_gen_ref.h"]
   deps = [
     ":random",
@@ -15,10 +16,12 @@ source_set("bit_gen_ref") {
     "$abseil/absl/random/internal:distribution_caller",
     "$abseil/absl/random/internal:fast_uniform_bits",
   ]
+  cflags = ["-Wno-gcc-compat"]
 }
 
 # absl/random:distributions
 source_set("distributions") {
+  include_dirs = ["$abseil/"]
   public = [
     "bernoulli_distribution.h",
     "beta_distribution.h",
@@ -52,10 +55,12 @@ source_set("distributions") {
     "$abseil/absl/random/internal:wide_multiply",
     "$abseil/absl/strings:strings",
   ]
+  cflags = ["-Wno-gcc-compat"]
 }
 
 # absl/random:random
 source_set("random") {
+  include_dirs = ["$abseil/"]
   public = ["random.h"]
   deps = [
     ":distributions",
@@ -65,17 +70,21 @@ source_set("random") {
     "$abseil/absl/random/internal:pool_urbg",
     "$abseil/absl/random/internal:randen_engine",
   ]
+  cflags = ["-Wno-gcc-compat"]
 }
 
 # absl/random:seed_gen_exception
 source_set("seed_gen_exception") {
+  include_dirs = ["$abseil/"]
   public = ["seed_gen_exception.h"]
   sources = ["seed_gen_exception.cc"]
   deps = ["$abseil/absl/base:config"]
+  cflags = ["-Wno-gcc-compat"]
 }
 
 # absl/random:seed_sequences
 source_set("seed_sequences") {
+  include_dirs = ["$abseil/"]
   public = ["seed_sequences.h"]
   sources = ["seed_sequences.cc"]
   deps = [
@@ -87,4 +96,5 @@ source_set("seed_sequences") {
     "$abseil/absl/random/internal:seed_material",
     "$abseil/absl/types:span",
   ]
+  cflags = ["-Wno-gcc-compat"]
 }

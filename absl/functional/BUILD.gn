@@ -6,6 +6,7 @@
 
 # absl/functional:bind_front
 source_set("bind_front") {
+  include_dirs = ["$abseil/"]
   public = ["bind_front.h"]
   sources = ["internal/front_binder.h"]
   deps = [
@@ -14,14 +15,17 @@ source_set("bind_front") {
     "$abseil/absl/meta:type_traits",
     "$abseil/absl/utility:utility",
   ]
+  cflags = ["-Wno-gcc-compat"]
 }
 
 # absl/functional:function_ref
 source_set("function_ref") {
+  include_dirs = ["$abseil/"]
   public = ["function_ref.h"]
   sources = ["internal/function_ref.h"]
   deps = [
     "$abseil/absl/base:base_internal",
     "$abseil/absl/meta:type_traits",
   ]
+  cflags = ["-Wno-gcc-compat"]
 }

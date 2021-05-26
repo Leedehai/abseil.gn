@@ -6,9 +6,11 @@
 
 # absl/memory:memory
 source_set("memory") {
+  include_dirs = ["$abseil/"]
   public = ["memory.h"]
   deps = [
     "$abseil/absl/base:core_headers",
     "$abseil/absl/meta:type_traits",
   ]
+  cflags = ["-Wno-gcc-compat"]
 }

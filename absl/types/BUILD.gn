@@ -6,6 +6,7 @@
 
 # absl/types:any
 source_set("any") {
+  include_dirs = ["$abseil/"]
   public = ["any.h"]
   deps = [
     ":bad_any_cast",
@@ -15,19 +16,23 @@ source_set("any") {
     "$abseil/absl/meta:type_traits",
     "$abseil/absl/utility:utility",
   ]
+  cflags = ["-Wno-gcc-compat"]
 }
 
 # absl/types:bad_any_cast
 source_set("bad_any_cast") {
+  include_dirs = ["$abseil/"]
   public = ["bad_any_cast.h"]
   deps = [
     ":bad_any_cast_impl",
     "$abseil/absl/base:config",
   ]
+  cflags = ["-Wno-gcc-compat"]
 }
 
 # absl/types:bad_any_cast_impl
 source_set("bad_any_cast_impl") {
+  include_dirs = ["$abseil/"]
   sources = [
     "bad_any_cast.cc",
     "bad_any_cast.h",
@@ -36,39 +41,47 @@ source_set("bad_any_cast_impl") {
     "$abseil/absl/base:config",
     "$abseil/absl/base:raw_logging_internal",
   ]
+  cflags = ["-Wno-gcc-compat"]
 }
 
 # absl/types:bad_optional_access
 source_set("bad_optional_access") {
+  include_dirs = ["$abseil/"]
   public = ["bad_optional_access.h"]
   sources = ["bad_optional_access.cc"]
   deps = [
     "$abseil/absl/base:config",
     "$abseil/absl/base:raw_logging_internal",
   ]
+  cflags = ["-Wno-gcc-compat"]
 }
 
 # absl/types:bad_variant_access
 source_set("bad_variant_access") {
+  include_dirs = ["$abseil/"]
   public = ["bad_variant_access.h"]
   sources = ["bad_variant_access.cc"]
   deps = [
     "$abseil/absl/base:config",
     "$abseil/absl/base:raw_logging_internal",
   ]
+  cflags = ["-Wno-gcc-compat"]
 }
 
 # absl/types:compare
 source_set("compare") {
+  include_dirs = ["$abseil/"]
   public = ["compare.h"]
   deps = [
     "$abseil/absl/base:core_headers",
     "$abseil/absl/meta:type_traits",
   ]
+  cflags = ["-Wno-gcc-compat"]
 }
 
 # absl/types:optional
 source_set("optional") {
+  include_dirs = ["$abseil/"]
   public = ["optional.h"]
   sources = ["internal/optional.h"]
   deps = [
@@ -80,10 +93,12 @@ source_set("optional") {
     "$abseil/absl/meta:type_traits",
     "$abseil/absl/utility:utility",
   ]
+  cflags = ["-Wno-gcc-compat"]
 }
 
 # absl/types:span
 source_set("span") {
+  include_dirs = ["$abseil/"]
   public = ["span.h"]
   sources = ["internal/span.h"]
   deps = [
@@ -92,10 +107,12 @@ source_set("span") {
     "$abseil/absl/base:throw_delegate",
     "$abseil/absl/meta:type_traits",
   ]
+  cflags = ["-Wno-gcc-compat"]
 }
 
 # absl/types:variant
 source_set("variant") {
+  include_dirs = ["$abseil/"]
   public = ["variant.h"]
   sources = ["internal/variant.h"]
   deps = [
@@ -106,4 +123,5 @@ source_set("variant") {
     "$abseil/absl/meta:type_traits",
     "$abseil/absl/utility:utility",
   ]
+  cflags = ["-Wno-gcc-compat"]
 }

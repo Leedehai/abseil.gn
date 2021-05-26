@@ -6,16 +6,19 @@
 
 # absl/cleanup:cleanup
 source_set("cleanup") {
+  include_dirs = ["$abseil/"]
   public = ["cleanup.h"]
   deps = [
     ":cleanup_internal",
     "$abseil/absl/base:config",
     "$abseil/absl/base:core_headers",
   ]
+  cflags = ["-Wno-gcc-compat"]
 }
 
 # absl/cleanup:cleanup_internal
 source_set("cleanup_internal") {
+  include_dirs = ["$abseil/"]
   visibility = ["$abseil/*"]
   public = ["internal/cleanup.h"]
   deps = [
@@ -23,4 +26,5 @@ source_set("cleanup_internal") {
     "$abseil/absl/base:core_headers",
     "$abseil/absl/utility:utility",
   ]
+  cflags = ["-Wno-gcc-compat"]
 }

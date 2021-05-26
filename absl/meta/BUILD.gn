@@ -6,6 +6,8 @@
 
 # absl/meta:type_traits
 source_set("type_traits") {
+  include_dirs = ["$abseil/"]
   public = ["type_traits.h"]
   deps = ["$abseil/absl/base:config"]
+  cflags = ["-Wno-gcc-compat"]
 }

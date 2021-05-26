@@ -6,16 +6,20 @@
 
 # absl/algorithm:algorithm
 source_set("algorithm") {
+  include_dirs = ["$abseil/"]
   public = ["algorithm.h"]
   deps = ["$abseil/absl/base:config"]
+  cflags = ["-Wno-gcc-compat"]
 }
 
 # absl/algorithm:container
 source_set("container") {
+  include_dirs = ["$abseil/"]
   public = ["container.h"]
   deps = [
     ":algorithm",
     "$abseil/absl/base:core_headers",
     "$abseil/absl/meta:type_traits",
   ]
+  cflags = ["-Wno-gcc-compat"]
 }

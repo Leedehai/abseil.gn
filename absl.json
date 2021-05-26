@@ -46,7 +46,6 @@
       "-Wno-float-conversion",
       "-Wno-float-equal",
       "-Wno-format-nonliteral",
-      "-Wno-gcc-compat",
       "-Wno-global-constructors",
       "-Wno-non-modular-include-in-module",
       "-Wno-old-style-cast",

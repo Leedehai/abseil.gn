@@ -348,11 +348,15 @@ def make_gn_build(source_relpath: Path, data_list: List[dict], profile: dict,
                 break
         gn_attrs = {}
         for in_attr, value in item_dict["kwargs"].items():
-            if in_attr == "name" or value == None:
+            if (in_attr == "name" or value == None
+                    or in_attr not in INTERESTED_BAZEL_ATTRS):
                 continue
             gn_attrs[INTERESTED_BAZEL_ATTRS[in_attr].name] = value
+        if "cflags" in gn_attrs:
+            gn_attrs["cflags"].append("-Wno-gcc-compat")
         ss.write("# %s:%s\n" % (source_relpath.parent, gn_target_name))
         ss.write("%s(\"%s\") {\n" % (gn_target_type, gn_target_name))
+        ss.write("  include_dirs = [\"%s\"]\n" % proj_root_replacer)
         if private_visibility_cause:
             temp = (proj_root_replacer[:-1]
                     if proj_root_replacer.endswith('/') else proj_root_replacer)

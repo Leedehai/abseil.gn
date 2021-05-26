@@ -6,6 +6,7 @@
 
 # absl/hash:city
 source_set("city") {
+  include_dirs = ["$abseil/"]
   public = ["internal/city.h"]
   sources = ["internal/city.cc"]
   deps = [
@@ -13,10 +14,12 @@ source_set("city") {
     "$abseil/absl/base:core_headers",
     "$abseil/absl/base:endian",
   ]
+  cflags = ["-Wno-gcc-compat"]
 }
 
 # absl/hash:hash
 source_set("hash") {
+  include_dirs = ["$abseil/"]
   public = ["hash.h"]
   sources = [
     "internal/hash.cc",
@@ -36,10 +39,12 @@ source_set("hash") {
     "$abseil/absl/types:variant",
     "$abseil/absl/utility:utility",
   ]
+  cflags = ["-Wno-gcc-compat"]
 }
 
 # absl/hash:wyhash
 source_set("wyhash") {
+  include_dirs = ["$abseil/"]
   public = ["internal/wyhash.h"]
   sources = ["internal/wyhash.cc"]
   deps = [
@@ -47,4 +52,5 @@ source_set("wyhash") {
     "$abseil/absl/base:endian",
     "$abseil/absl/numeric:int128",
   ]
+  cflags = ["-Wno-gcc-compat"]
 }
