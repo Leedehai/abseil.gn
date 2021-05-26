@@ -33,7 +33,7 @@ source_set("cord") {
 
 # absl/strings:cord_internal
 source_set("cord_internal") {
-  visibility = ["$abseil/:*"]
+  visibility = ["$abseil/*"]
   public = [
     "internal/cord_internal.h",
     "internal/cord_rep_flat.h",
@@ -144,7 +144,7 @@ source_set("cordz_update_tracker") {
 
 # absl/strings:internal
 source_set("internal") {
-  visibility = ["$abseil/:*"]
+  visibility = ["$abseil/*"]
   public = [
     "internal/char_map.h",
     "internal/escaping.h",
@@ -174,7 +174,7 @@ source_set("str_format") {
 
 # absl/strings:str_format_internal
 source_set("str_format_internal") {
-  visibility = ["$abseil/:*"]
+  visibility = ["$abseil/*"]
   public = [
     "internal/str_format/arg.h",
     "internal/str_format/bind.h",

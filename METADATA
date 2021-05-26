@@ -1,0 +1,6 @@
+{
+  "buildconfig": {
+    "tree_name": "abseil",
+    "tree_path": "."
+  }
+}

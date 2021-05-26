@@ -6,7 +6,7 @@
 
 # absl/debugging:debugging_internal
 source_set("debugging_internal") {
-  visibility = ["$abseil/:*"]
+  visibility = ["$abseil/*"]
   public = [
     "internal/address_is_readable.h",
     "internal/elf_mem_image.h",
@@ -28,7 +28,7 @@ source_set("debugging_internal") {
 
 # absl/debugging:demangle_internal
 source_set("demangle_internal") {
-  visibility = ["$abseil/:*"]
+  visibility = ["$abseil/*"]
   public = ["internal/demangle.h"]
   sources = ["internal/demangle.cc"]
   deps = [

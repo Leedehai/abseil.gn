@@ -50,7 +50,7 @@ source_set("base") {
 
 # absl/base:base_internal
 source_set("base_internal") {
-  visibility = ["$abseil/:*"]
+  visibility = ["$abseil/*"]
   public = [
     "internal/hide_ptr.h",
     "internal/identity.h",
@@ -144,7 +144,7 @@ source_set("log_severity") {
 
 # absl/base:malloc_internal
 source_set("malloc_internal") {
-  visibility = ["$abseil/:*"]
+  visibility = ["$abseil/*"]
   public = [
     "internal/direct_mmap.h",
     "internal/low_level_alloc.h",
@@ -178,7 +178,7 @@ source_set("pretty_function") {
 
 # absl/base:raw_logging_internal
 source_set("raw_logging_internal") {
-  visibility = ["$abseil/:*"]
+  visibility = ["$abseil/*"]
   public = ["internal/raw_logging.h"]
   sources = ["internal/raw_logging.cc"]
   deps = [

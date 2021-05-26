@@ -354,7 +354,9 @@ def make_gn_build(source_relpath: Path, data_list: List[dict], profile: dict,
         ss.write("# %s:%s\n" % (source_relpath.parent, gn_target_name))
         ss.write("%s(\"%s\") {\n" % (gn_target_type, gn_target_name))
         if private_visibility_cause:
-            ss.write("  visibility = [\"%s:*\"]\n" % (proj_root_replacer))
+            temp = (proj_root_replacer[:-1]
+                    if proj_root_replacer.endswith('/') else proj_root_replacer)
+            ss.write("  visibility = [\"%s/*\"]\n" % temp)
         for k, v in gn_attr_sorted(gn_attrs.items()):
             if isinstance(v, list):
                 if k in remove_gn_list_elements:

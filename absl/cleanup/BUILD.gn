@@ -16,7 +16,7 @@ source_set("cleanup") {
 
 # absl/cleanup:cleanup_internal
 source_set("cleanup_internal") {
-  visibility = ["$abseil/:*"]
+  visibility = ["$abseil/*"]
   public = ["internal/cleanup.h"]
   deps = [
     "$abseil/absl/base:base_internal",

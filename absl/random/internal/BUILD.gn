@@ -6,7 +6,7 @@
 
 # absl/random/internal:distribution_caller
 source_set("distribution_caller") {
-  visibility = ["$abseil/:*"]
+  visibility = ["$abseil/*"]
   public = ["distribution_caller.h"]
   deps = [
     "$abseil/absl/base:config",
@@ -17,7 +17,7 @@ source_set("distribution_caller") {
 
 # absl/random/internal:fast_uniform_bits
 source_set("fast_uniform_bits") {
-  visibility = ["$abseil/:*"]
+  visibility = ["$abseil/*"]
   public = ["fast_uniform_bits.h"]
   deps = [
     "$abseil/absl/base:config",
@@ -27,14 +27,14 @@ source_set("fast_uniform_bits") {
 
 # absl/random/internal:fastmath
 source_set("fastmath") {
-  visibility = ["$abseil/:*"]
+  visibility = ["$abseil/*"]
   public = ["fastmath.h"]
   deps = ["$abseil/absl/numeric:bits"]
 }
 
 # absl/random/internal:generate_real
 source_set("generate_real") {
-  visibility = ["$abseil/:*"]
+  visibility = ["$abseil/*"]
   public = ["generate_real.h"]
   deps = [
     ":fastmath",
@@ -46,7 +46,7 @@ source_set("generate_real") {
 
 # absl/random/internal:iostream_state_saver
 source_set("iostream_state_saver") {
-  visibility = ["$abseil/:*"]
+  visibility = ["$abseil/*"]
   public = ["iostream_state_saver.h"]
   deps = [
     "$abseil/absl/meta:type_traits",
@@ -56,7 +56,7 @@ source_set("iostream_state_saver") {
 
 # absl/random/internal:mock_helpers
 source_set("mock_helpers") {
-  visibility = ["$abseil/:*"]
+  visibility = ["$abseil/*"]
   public = ["mock_helpers.h"]
   deps = [
     "$abseil/absl/base:fast_type_id",
@@ -66,7 +66,7 @@ source_set("mock_helpers") {
 
 # absl/random/internal:nanobenchmark
 source_set("nanobenchmark") {
-  visibility = ["$abseil/:*"]
+  visibility = ["$abseil/*"]
   sources = ["nanobenchmark.cc"]
   deps = [
     ":platform",
@@ -79,7 +79,7 @@ source_set("nanobenchmark") {
 
 # absl/random/internal:nonsecure_base
 source_set("nonsecure_base") {
-  visibility = ["$abseil/:*"]
+  visibility = ["$abseil/*"]
   public = ["nonsecure_base.h"]
   deps = [
     ":pool_urbg",
@@ -94,7 +94,7 @@ source_set("nonsecure_base") {
 
 # absl/random/internal:pcg_engine
 source_set("pcg_engine") {
-  visibility = ["$abseil/:*"]
+  visibility = ["$abseil/*"]
   public = ["pcg_engine.h"]
   deps = [
     ":fastmath",
@@ -108,7 +108,7 @@ source_set("pcg_engine") {
 
 # absl/random/internal:platform
 source_set("platform") {
-  visibility = ["$abseil/:*"]
+  visibility = ["$abseil/*"]
   public = ["randen_traits.h"]
   sources = ["randen_round_keys.cc"]
   deps = ["$abseil/absl/base:config"]
@@ -116,7 +116,7 @@ source_set("platform") {
 
 # absl/random/internal:pool_urbg
 source_set("pool_urbg") {
-  visibility = ["$abseil/:*"]
+  visibility = ["$abseil/*"]
   public = ["pool_urbg.h"]
   sources = ["pool_urbg.cc"]
   deps = [
@@ -136,7 +136,7 @@ source_set("pool_urbg") {
 
 # absl/random/internal:randen
 source_set("randen") {
-  visibility = ["$abseil/:*"]
+  visibility = ["$abseil/*"]
   public = ["randen.h"]
   sources = ["randen.cc"]
   deps = [
@@ -149,7 +149,7 @@ source_set("randen") {
 
 # absl/random/internal:randen_engine
 source_set("randen_engine") {
-  visibility = ["$abseil/:*"]
+  visibility = ["$abseil/*"]
   public = ["randen_engine.h"]
   deps = [
     ":iostream_state_saver",
@@ -161,7 +161,7 @@ source_set("randen_engine") {
 
 # absl/random/internal:randen_hwaes
 source_set("randen_hwaes") {
-  visibility = ["$abseil/:*"]
+  visibility = ["$abseil/*"]
   public = [
     "randen_detect.h",
     "randen_hwaes.h",
@@ -176,7 +176,7 @@ source_set("randen_hwaes") {
 
 # absl/random/internal:randen_hwaes_impl
 source_set("randen_hwaes_impl") {
-  visibility = ["$abseil/:*"]
+  visibility = ["$abseil/*"]
   sources = [
     "randen_hwaes.cc",
     "randen_hwaes.h",
@@ -195,7 +195,7 @@ source_set("randen_hwaes_impl") {
 
 # absl/random/internal:randen_slow
 source_set("randen_slow") {
-  visibility = ["$abseil/:*"]
+  visibility = ["$abseil/*"]
   public = ["randen_slow.h"]
   sources = ["randen_slow.cc"]
   deps = [
@@ -207,7 +207,7 @@ source_set("randen_slow") {
 
 # absl/random/internal:salted_seed_seq
 source_set("salted_seed_seq") {
-  visibility = ["$abseil/:*"]
+  visibility = ["$abseil/*"]
   public = ["salted_seed_seq.h"]
   deps = [
     ":seed_material",
@@ -220,7 +220,7 @@ source_set("salted_seed_seq") {
 
 # absl/random/internal:seed_material
 source_set("seed_material") {
-  visibility = ["$abseil/:*"]
+  visibility = ["$abseil/*"]
   public = ["seed_material.h"]
   sources = ["seed_material.cc"]
   deps = [
@@ -235,14 +235,14 @@ source_set("seed_material") {
 
 # absl/random/internal:traits
 source_set("traits") {
-  visibility = ["$abseil/:*"]
+  visibility = ["$abseil/*"]
   public = ["traits.h"]
   deps = ["$abseil/absl/base:config"]
 }
 
 # absl/random/internal:uniform_helper
 source_set("uniform_helper") {
-  visibility = ["$abseil/:*"]
+  visibility = ["$abseil/*"]
   public = ["uniform_helper.h"]
   deps = [
     ":traits",
@@ -253,7 +253,7 @@ source_set("uniform_helper") {
 
 # absl/random/internal:wide_multiply
 source_set("wide_multiply") {
-  visibility = ["$abseil/:*"]
+  visibility = ["$abseil/*"]
   public = ["wide_multiply.h"]
   deps = [
     ":traits",

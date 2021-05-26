@@ -19,7 +19,7 @@ source_set("commandlineflag") {
 
 # absl/flags:commandlineflag_internal
 source_set("commandlineflag_internal") {
-  visibility = ["$abseil/:*"]
+  visibility = ["$abseil/*"]
   public = ["internal/commandlineflag.h"]
   sources = ["internal/commandlineflag.cc"]
   deps = [
@@ -65,7 +65,7 @@ source_set("flag") {
 
 # absl/flags:flag_internal
 source_set("flag_internal") {
-  visibility = ["$abseil/:*"]
+  visibility = ["$abseil/*"]
   public = [
     "internal/flag.h",
     "internal/sequence_lock.h",
@@ -195,7 +195,7 @@ source_set("usage") {
 
 # absl/flags:usage_internal
 source_set("usage_internal") {
-  visibility = ["$abseil/:*"]
+  visibility = ["$abseil/*"]
   public = ["internal/usage.h"]
   sources = ["internal/usage.cc"]
   deps = [
