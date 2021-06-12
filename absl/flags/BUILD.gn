@@ -234,6 +234,7 @@ source_set("usage_internal") {
     ":reflection",
     "$abseil/absl/base:config",
     "$abseil/absl/base:core_headers",
+    "$abseil/absl/container:flat_hash_map",
     "$abseil/absl/strings:strings",
   ]
   cflags = ["-Wno-gcc-compat"]

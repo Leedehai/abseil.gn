@@ -259,6 +259,7 @@ source_set("seed_material") {
   deps = [
     ":fast_uniform_bits",
     "$abseil/absl/base:core_headers",
+    "$abseil/absl/base:dynamic_annotations",
     "$abseil/absl/base:raw_logging_internal",
     "$abseil/absl/strings:strings",
     "$abseil/absl/types:optional",
