@@ -21,19 +21,6 @@ build settings stored in `WORKSPACE` and `*.bzl` files etc.
 - Git 2.21+,
 - (optional) Bazel 3.4.1+
 
-## Before using
-
-:warning: The Abseil source code was not checked in, so you have to take one of
-the routes:
-
-- Fetch Abseil source and regenerate this repository using its most recent
-commit. This requires Bazel is available in your terminal as `bazel`.
-  > See "How to regenerate this repository".
-- Fetch Abseil source, checkout the commit that corresponds to this repository,
-and merge the `*.gn` files in this repository to that Abseil source tree. This
-doesn't require a Bazel installation.
-  > See "How to inject into an existing Abseil source tree".
-
 ## How to regenerate this repository
 
 > This requires Bazel.
