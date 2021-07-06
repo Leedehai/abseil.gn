@@ -39,12 +39,14 @@ source_set("cord_internal") {
   visibility = ["$abseil/*"]
   public = [
     "internal/cord_internal.h",
+    "internal/cord_rep_consume.h",
     "internal/cord_rep_flat.h",
     "internal/cord_rep_ring.h",
     "internal/cord_rep_ring_reader.h",
   ]
   sources = [
     "internal/cord_internal.cc",
+    "internal/cord_rep_consume.cc",
     "internal/cord_rep_ring.cc",
   ]
   deps = [
@@ -58,6 +60,7 @@ source_set("cord_internal") {
     "$abseil/absl/container:compressed_tuple",
     "$abseil/absl/container:inlined_vector",
     "$abseil/absl/container:layout",
+    "$abseil/absl/functional:function_ref",
     "$abseil/absl/meta:type_traits",
   ]
   cflags = ["-Wno-gcc-compat"]
