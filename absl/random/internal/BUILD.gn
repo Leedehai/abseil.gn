@@ -212,6 +212,7 @@ source_set("randen_hwaes_impl") {
     ":platform",
     "$abseil/absl/base:config",
     "$abseil/absl/base:core_headers",
+    "$abseil/absl/numeric:int128",
   ]
   cflags = [
     "-Wno-gcc-compat",
@@ -231,6 +232,7 @@ source_set("randen_slow") {
     ":platform",
     "$abseil/absl/base:config",
     "$abseil/absl/base:core_headers",
+    "$abseil/absl/numeric:int128",
   ]
   cflags = ["-Wno-gcc-compat"]
 }
