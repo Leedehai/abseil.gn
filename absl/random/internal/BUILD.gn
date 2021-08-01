@@ -232,6 +232,7 @@ source_set("randen_slow") {
     ":platform",
     "$abseil/absl/base:config",
     "$abseil/absl/base:core_headers",
+    "$abseil/absl/base:endian",
     "$abseil/absl/numeric:int128",
   ]
   cflags = ["-Wno-gcc-compat"]

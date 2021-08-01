@@ -42,6 +42,7 @@ source_set("statusor") {
   ]
   deps = [
     ":status",
+    "$abseil/absl/base:base",
     "$abseil/absl/base:core_headers",
     "$abseil/absl/base:raw_logging_internal",
     "$abseil/absl/meta:type_traits",
