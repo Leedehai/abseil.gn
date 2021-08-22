@@ -23,6 +23,12 @@ namespace absl {
 ABSL_NAMESPACE_BEGIN
 namespace container_internal {
 
+alignas(16) ABSL_CONST_INIT ABSL_DLL const ctrl_t kEmptyGroup[16] = {
+    ctrl_t::kSentinel, ctrl_t::kEmpty, ctrl_t::kEmpty, ctrl_t::kEmpty,
+    ctrl_t::kEmpty,    ctrl_t::kEmpty, ctrl_t::kEmpty, ctrl_t::kEmpty,
+    ctrl_t::kEmpty,    ctrl_t::kEmpty, ctrl_t::kEmpty, ctrl_t::kEmpty,
+    ctrl_t::kEmpty,    ctrl_t::kEmpty, ctrl_t::kEmpty, ctrl_t::kEmpty};
+
 constexpr size_t Group::kWidth;
 
 // Returns "random" seed.
@@ -53,6 +59,8 @@ void ConvertDeletedToEmptyAndFullToDeleted(ctrl_t* ctrl, size_t capacity) {
   std::memcpy(ctrl + capacity + 1, ctrl, NumClonedBytes());
   ctrl[capacity] = ctrl_t::kSentinel;
 }
+// Extern template instantiotion for inline function.
+template FindInfo find_first_non_full(const ctrl_t*, size_t, size_t);
 
 }  // namespace container_internal
 ABSL_NAMESPACE_END

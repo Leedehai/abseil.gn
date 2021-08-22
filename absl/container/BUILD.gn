@@ -280,7 +280,6 @@ source_set("raw_hash_set") {
     ":hashtable_debug_hooks",
     ":hashtablez_sampler",
     ":have_sse",
-    ":layout",
     "$abseil/absl/base:config",
     "$abseil/absl/base:core_headers",
     "$abseil/absl/base:endian",

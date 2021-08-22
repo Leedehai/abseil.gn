@@ -27,7 +27,7 @@ source_set("hash") {
   ]
   deps = [
     ":city",
-    ":wyhash",
+    ":low_level_hash",
     "$abseil/absl/base:config",
     "$abseil/absl/base:core_headers",
     "$abseil/absl/base:endian",
@@ -42,14 +42,15 @@ source_set("hash") {
   cflags = ["-Wno-gcc-compat"]
 }
 
-# absl/hash:wyhash
-source_set("wyhash") {
+# absl/hash:low_level_hash
+source_set("low_level_hash") {
   include_dirs = ["$abseil/"]
-  public = ["internal/wyhash.h"]
-  sources = ["internal/wyhash.cc"]
+  public = ["internal/low_level_hash.h"]
+  sources = ["internal/low_level_hash.cc"]
   deps = [
     "$abseil/absl/base:config",
     "$abseil/absl/base:endian",
+    "$abseil/absl/numeric:bits",
     "$abseil/absl/numeric:int128",
   ]
   cflags = ["-Wno-gcc-compat"]
