@@ -58,7 +58,10 @@ source_set("flag") {
     "declare.h",
     "flag.h",
   ]
-  sources = ["flag.cc"]
+  sources = [
+    "flag.cc",
+    "internal/flag_msvc.inc",
+  ]
   deps = [
     ":config",
     ":flag_internal",

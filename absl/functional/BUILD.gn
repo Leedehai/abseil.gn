@@ -25,6 +25,7 @@ source_set("function_ref") {
   sources = ["internal/function_ref.h"]
   deps = [
     "$abseil/absl/base:base_internal",
+    "$abseil/absl/base:core_headers",
     "$abseil/absl/meta:type_traits",
   ]
   cflags = ["-Wno-gcc-compat"]

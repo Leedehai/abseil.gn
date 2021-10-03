@@ -1,0 +1,18 @@
+# Copyright (c) 2021 Leedehai. All rights reserved.
+# Use of this source code is governed under the MIT license.
+# -----
+# Generated file. Do not modify manually.
+# Source file: absl/profiling/BUILD.bazel
+
+# absl/profiling:sample_recorder
+source_set("sample_recorder") {
+  include_dirs = ["$abseil/"]
+  public = ["internal/sample_recorder.h"]
+  deps = [
+    "$abseil/absl/base:config",
+    "$abseil/absl/base:core_headers",
+    "$abseil/absl/synchronization:synchronization",
+    "$abseil/absl/time:time",
+  ]
+  cflags = ["-Wno-gcc-compat"]
+}

@@ -161,6 +161,7 @@ source_set("hashtablez_sampler") {
     "$abseil/absl/base:exponential_biased",
     "$abseil/absl/debugging:stacktrace",
     "$abseil/absl/memory:memory",
+    "$abseil/absl/profiling:sample_recorder",
     "$abseil/absl/synchronization:synchronization",
     "$abseil/absl/utility:utility",
   ]
